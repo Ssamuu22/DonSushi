@@ -1401,6 +1401,7 @@ footer .wrap {
         <li><a href="#locales">Locales & Mapa</a></li>
         <li><a href="#chef">El Maestro</a></li>
         <li><a href="#reserva">Reservas</a></li>
+        <li><a href="/admin" target="_blank" style="color:var(--salmon);font-weight:700">📊 Panel BD</a></li>
       </ul>
     </nav>
     <div class="nav-right">
@@ -1885,6 +1886,25 @@ footer .wrap {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </form>
+
+        <!-- Consultar estado en Base de Datos -->
+        <div style="margin-top:20px;text-align:center">
+          <span style="color:#cbd5e1;font-size:0.92rem">¿Ya tienes una reserva?</span>
+          <button type="button" id="btnConsultarReserva" style="background:none;border:0;color:var(--salmon);font-weight:700;text-decoration:underline;cursor:pointer;margin-left:6px;font-size:0.92rem">🔍 Consultar estado en la Base de Datos</button>
+        </div>
+
+        <!-- Modal de consulta en BD -->
+        <div id="boxConsultaBD" style="display:none;background:#fff;color:var(--tinta);border-radius:18px;padding:24px;margin-top:20px;border:2px solid var(--salmon);box-shadow:0 10px 25px rgba(0,0,0,0.3)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <strong style="font-size:1.1rem">🔎 Consulta tu Reserva en la Base de Datos</strong>
+            <button type="button" onclick="document.getElementById('boxConsultaBD').style.display='none'" style="border:0;background:none;font-size:1.2rem;cursor:pointer">✕</button>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:14px">
+            <input type="text" id="inputCodConsulta" placeholder="Ej. #DS-123456" style="flex:1;padding:10px 14px;border-radius:8px;border:1.5px solid #cbd5e1">
+            <button type="button" id="btnBuscarEnBD" class="btn" style="padding:10px 18px">Buscar</button>
+          </div>
+          <div id="resultadoConsultaBD" style="font-size:0.95rem;line-height:1.5"></div>
+        </div>
 
         <!-- Comprobante Digital Oficial (Voucher) que aparece tras enviar -->
         <div class="voucher-card" id="voucherBox">
@@ -2494,6 +2514,28 @@ Atentamente,
 ${nombre}`);
 
   const mailtoUrl = `mailto:${localInfo.email}?cc=${encodeURIComponent(email)}&subject=${mailtoSubject}&body=${mailtoBody}`;
+
+  // Guardar en la Base de Datos SQLite
+  try {
+    fetch('/api/reservas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        codigo,
+        restaurante: localInfo.nombre,
+        nombre,
+        telefono: tel,
+        email,
+        fecha,
+        hora,
+        personas: parseInt(personas, 10)
+      })
+    }).then(r => r.json()).then(data => {
+      console.log('✅ Reserva guardada con éxito en SQLite:', data);
+    }).catch(err => {
+      console.log('Servidor en modo local/archivo:', err);
+    });
+  } catch(e) {}
 
   setTimeout(() => {
     // Rellenar comprobante digital
