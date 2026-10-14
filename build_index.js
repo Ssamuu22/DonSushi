@@ -1,0 +1,2717 @@
+const fs = require('fs');
+
+const dishes = JSON.parse(fs.readFileSync('dishes.json', 'utf8'));
+
+// Group dishes by simplified category
+const categoriesMap = {
+  'NIGIRI': 'Nigiri',
+  'MAKI': 'Maki & Slim',
+  'MAKISLIM': 'Maki & Slim',
+  'CALIFORNIA': 'California Rolls',
+  'ROLLO GRANDE': 'Rollos Grandes',
+  'SASHIMI': 'Sashimi',
+  'TEMAKI': 'Temaki',
+  'COMBINADAS': 'Combinadas',
+  'ENTRANTES': 'Entrantes',
+  'PINCHITAS': 'Pinchitas',
+  'COCINA': 'Cocina Caliente',
+  'TEPPANYAKI': 'Teppanyaki',
+  'POSTRES': 'Postres',
+  'BEBIDAS JAPONÉS': 'Bebidas & Vinos',
+  'BEBIDA Y REFRESCOS': 'Bebidas & Vinos',
+  'VINOS BLANCO': 'Bebidas & Vinos',
+  'VINOS TINTO': 'Bebidas & Vinos',
+  'VINO ROSADO': 'Bebidas & Vinos'
+};
+
+const processedDishes = dishes.map(d => {
+  return {
+    id: d.id,
+    catKey: categoriesMap[d.category] || d.category,
+    origCat: d.category,
+    title: d.title,
+    img: d.img
+  };
+});
+
+const dishesJsonStr = JSON.stringify(processedDishes);
+
+const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Don Sushi · Buffet Libre Japonés a la Carta en Madrid</title>
+<meta name="description" content="Auténtico buffet libre de sushi y cocina japonesa a la carta en Madrid (Fuenlabrada, Móstoles, Boadilla, Aranjuez). Más de 180 platos preparados al momento.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --arroz: #f9f8f5;
+  --arroz-puro: #ffffff;
+  --tinta: #14161a;
+  --tinta-suave: #22262e;
+  --nori: #15221b;
+  --nori2: #1e3328;
+  --nori3: #284436;
+  --atun: #d33d32;
+  --atun-glow: rgba(211, 61, 50, 0.35);
+  --salmon: #f08a5d;
+  --salmon-suave: rgba(240, 138, 93, 0.15);
+  --oro: #d4af37;
+  --oro-suave: rgba(212, 175, 55, 0.18);
+  --wasabi: #7ea321;
+  --whatsapp: #25d366;
+  --whatsapp-dark: #128c7e;
+  --jengibre: #ece2d0;
+  --gris: #676d75;
+  --gris-claro: #e8e4dc;
+  --borde-suave: rgba(20, 22, 26, 0.08);
+  --serif: 'Shippori Mincho', Georgia, serif;
+  --sans: 'Figtree', system-ui, -apple-system, sans-serif;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--arroz);
+  color: var(--tinta);
+  line-height: 1.6;
+  font-size: 17px;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 3px solid var(--salmon); outline-offset: 3px; }
+.wrap { max-width: 1220px; margin: 0 auto; padding: 0 24px; position: relative; }
+
+/* Barra de progreso de lectura */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--atun), var(--salmon), var(--oro));
+  width: 0%;
+  z-index: 100;
+  transition: width 0.08s linear;
+}
+
+/* Cursor personalizado */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: default; }
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--atun);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s, transform 0.1s;
+    will-change: transform;
+  }
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid rgba(211, 61, 50, 0.45);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s;
+    will-change: transform;
+  }
+  .cursor-hover .cursor-ring {
+    width: 58px;
+    height: 58px;
+    background: rgba(211, 61, 50, 0.08);
+    border-color: var(--atun);
+  }
+  .cursor-hover .cursor-dot {
+    transform: translate(-50%, -50%) scale(1.6);
+  }
+}
+
+/* Cabecera */
+header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  color: var(--arroz);
+}
+header.sc {
+  background: rgba(20, 22, 26, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 82px;
+  transition: height 0.35s var(--ease);
+}
+header.sc .nav { height: 68px; }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.logo img {
+  height: 44px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  transition: transform 0.3s var(--ease-spring);
+}
+.logo:hover img { transform: scale(1.04); }
+.logo-fallback {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sello {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--atun);
+  display: grid;
+  place-items: center;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+nav ul { display: flex; gap: 28px; list-style: none; padding: 0; }
+nav a {
+  font-weight: 500;
+  font-size: 0.95rem;
+  position: relative;
+  padding: 6px 0;
+  color: #d8dde2;
+  transition: color 0.3s;
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--salmon), var(--atun));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s var(--ease);
+  border-radius: 2px;
+}
+nav a:hover { color: #fff; }
+nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: var(--atun);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  border: 2px solid var(--atun);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s, background 0.25s, border-color 0.25s;
+  will-change: transform;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: transform 0.6s var(--ease);
+  pointer-events: none;
+}
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px var(--atun-glow);
+}
+.btn:hover::before { transform: translateX(200%); }
+.btn:active { transform: translateY(-1px) scale(0.98); }
+
+.btn.sec {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border-color: rgba(247, 245, 240, 0.35);
+  color: var(--arroz);
+}
+.btn.sec:hover {
+  background: var(--arroz);
+  color: var(--tinta);
+  border-color: var(--arroz);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.btn-maps {
+  background: #1a73e8;
+  border-color: #1a73e8;
+  color: #fff;
+}
+.btn-maps:hover {
+  background: #1557b0;
+  border-color: #1557b0;
+  box-shadow: 0 8px 22px rgba(26, 115, 232, 0.4);
+}
+
+.btn-whatsapp {
+  background: #25d366;
+  border-color: #25d366;
+  color: #fff;
+  font-weight: 700;
+}
+.btn-whatsapp:hover {
+  background: #1eb956;
+  border-color: #1eb956;
+  box-shadow: 0 8px 22px rgba(37, 211, 102, 0.4);
+}
+
+.burger {
+  display: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  position: relative;
+  z-index: 70;
+}
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: currentColor;
+  margin: 6px auto;
+  border-radius: 2px;
+  transition: transform 0.35s var(--ease), opacity 0.3s;
+}
+.burger[aria-expanded=true] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.burger[aria-expanded=true] span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded=true] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Portada Hero con fondo real */
+.hero {
+  min-height: 100svh;
+  background: 
+    linear-gradient(135deg, rgba(17, 27, 22, 0.94) 0%, rgba(13, 22, 18, 0.88) 50%, rgba(10, 16, 13, 0.95) 100%),
+    url('https://www.donsushi.net/public/upbanner/20241003113417566039.jpg') center/cover no-repeat;
+  color: var(--arroz);
+  display: flex;
+  align-items: center;
+  padding: 130px 0 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sakura-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.kanji {
+  position: absolute;
+  right: -2%;
+  bottom: -10%;
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: min(58vw, 620px);
+  line-height: 1;
+  color: rgba(247, 245, 240, 0.035);
+  pointer-events: none;
+  user-select: none;
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+.hero .wrap {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+.badge-fresco {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(240, 138, 93, 0.14);
+  border: 1px solid rgba(240, 138, 93, 0.4);
+  color: var(--salmon);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 22px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--salmon);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(240, 138, 93, 0.7);
+  animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(240, 138, 93, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(240, 138, 93, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(240, 138, 93, 0); }
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: clamp(2.7rem, 6.2vw, 4.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+h1 span.destaque {
+  color: var(--salmon);
+  display: inline-block;
+  position: relative;
+}
+
+.hero p {
+  margin: 24px 0 34px;
+  max-width: 48ch;
+  color: #cdd6cf;
+  font-size: 1.15rem;
+  line-height: 1.65;
+}
+.acciones {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.in {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: in 0.9s var(--ease-out) forwards;
+}
+.in:nth-child(1) { animation-delay: 0.05s; }
+.in:nth-child(2) { animation-delay: 0.2s; }
+.in:nth-child(3) { animation-delay: 0.35s; }
+.in:nth-child(4) { animation-delay: 0.5s; }
+@keyframes in { to { opacity: 1; transform: translateY(0); } }
+
+/* Plato 3D */
+.plato-container {
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.plato {
+  position: relative;
+  max-width: 460px;
+  width: 100%;
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  animation: popPlato 1.3s var(--ease-out) both;
+}
+@keyframes popPlato {
+  0% { opacity: 0; transform: scale(0.7) rotate(-14deg) translateY(40px); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+}
+.plato-inner {
+  width: 100%;
+  height: 100%;
+  animation: floatZen 6s ease-in-out infinite;
+}
+@keyframes floatZen {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.plato svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 34px 50px rgba(0, 0, 0, 0.6));
+}
+
+/* Ticker */
+.banda {
+  background: linear-gradient(90deg, #b83329, var(--atun), #e04b40);
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 18px 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(211, 61, 50, 0.25);
+  position: relative;
+  z-index: 10;
+}
+.banda-track {
+  display: inline-flex;
+  align-items: center;
+  animation: ticker 34s linear infinite;
+}
+.banda:hover .banda-track { animation-play-state: paused; }
+.banda span {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0 16px;
+}
+.banda-icon { font-size: 0.8rem; opacity: 0.65; }
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Secciones */
+section { padding: 100px 0; position: relative; }
+h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 4.4vw, 3.2rem);
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.intro {
+  max-width: 60ch;
+  color: var(--gris);
+  margin-bottom: 46px;
+  font-size: 1.05rem;
+}
+
+.rv {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  will-change: opacity, transform;
+}
+.rv.v { opacity: 1; transform: translateY(0); }
+.rv-delay-1 { transition-delay: 0.12s; }
+.rv-delay-2 { transition-delay: 0.24s; }
+
+/* Sección Tarifas del Buffet Libre */
+.buffet-section {
+  background: #fff;
+  border-bottom: 1px solid var(--borde-suave);
+}
+.tarjetas-buffet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+.tarjeta-buffet {
+  background: var(--arroz);
+  border: 1.5px solid var(--borde-suave);
+  border-radius: 24px;
+  padding: 38px 34px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s, border-color 0.35s;
+}
+.tarjeta-buffet:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border-color: rgba(211, 61, 50, 0.3);
+}
+.tarjeta-buffet.destacada {
+  border-color: var(--atun);
+  background: linear-gradient(145deg, #fffdfb, #fef4f0);
+}
+.tarjeta-buffet .tag-tarjeta {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--atun);
+  color: #fff;
+}
+.tarjeta-buffet h3 {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+}
+.precio-buffet {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 18px 0 20px;
+}
+.precio-buffet .monto {
+  font-family: var(--serif);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--atun);
+  line-height: 1;
+}
+.precio-buffet .sub {
+  color: var(--gris);
+  font-size: 1rem;
+}
+.lista-ventajas {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  margin-bottom: 26px;
+  font-size: 0.98rem;
+}
+.lista-ventajas li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lista-ventajas svg {
+  color: var(--salmon);
+  flex-shrink: 0;
+}
+.buffet-rules {
+  background: rgba(240, 138, 93, 0.08);
+  border-radius: 16px;
+  padding: 24px 28px;
+  border: 1px dashed rgba(240, 138, 93, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.buffet-rules-icon { font-size: 2.2rem; }
+
+/* Galería con Fotos Reales */
+.galeria {
+  background: var(--nori);
+  color: var(--arroz);
+}
+.galeria .intro { color: #b7c4bc; }
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.galeria-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+}
+.galeria-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+  display: block;
+}
+.galeria-item:hover img { transform: scale(1.08); }
+.galeria-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 24px 16px 14px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Carta Completa */
+.carta { background: var(--jengibre); }
+.carta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.search-box {
+  position: relative;
+  max-width: 340px;
+  width: 100%;
+}
+.search-box input {
+  width: 100%;
+  padding: 12px 18px 12px 42px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(20, 22, 26, 0.18);
+  background: rgba(255, 255, 255, 0.85);
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--tinta);
+  transition: all 0.25s;
+}
+.search-box input:focus {
+  outline: 0;
+  background: #fff;
+  border-color: var(--atun);
+  box-shadow: 0 0 0 4px rgba(211, 61, 50, 0.15);
+}
+.search-box svg {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--gris);
+  pointer-events: none;
+}
+
+.cats-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+}
+.cat-btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--tinta);
+  background: transparent;
+  cursor: pointer;
+  color: var(--tinta);
+  transition: all 0.25s var(--ease);
+}
+.cat-btn:hover {
+  background: rgba(20, 22, 26, 0.08);
+  transform: translateY(-2px);
+}
+.cat-btn[aria-pressed=true] {
+  background: var(--tinta);
+  color: var(--arroz);
+  box-shadow: 0 4px 14px rgba(20, 22, 26, 0.2);
+}
+
+.platos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+.dish-card {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(185, 169, 141, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s, border-color 0.35s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: itemEntrance 0.4s var(--ease-out) both;
+}
+.dish-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  border-color: rgba(211, 61, 50, 0.3);
+}
+@keyframes itemEntrance {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.dish-img-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f0ece3;
+  position: relative;
+  overflow: hidden;
+}
+.dish-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease);
+  display: block;
+}
+.dish-card:hover .dish-img-wrap img { transform: scale(1.08); }
+.dish-cat-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(20, 22, 26, 0.85);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.dish-fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 0;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: #a09788;
+  transition: all 0.25s var(--ease-spring);
+}
+.dish-fav-btn:hover {
+  color: var(--atun);
+  transform: scale(1.15);
+  background: #fff;
+}
+.dish-fav-btn.active {
+  color: var(--atun);
+  animation: heartPop 0.4s var(--ease-spring);
+}
+@keyframes heartPop { 50% { transform: scale(1.35); } }
+.dish-body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+.dish-title {
+  font-family: var(--serif);
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--tinta);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.dish-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #f2ede4;
+}
+.dish-badge-buffet {
+  font-size: 0.82rem;
+  color: var(--wasabi);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.dish-add-btn {
+  background: rgba(211, 61, 50, 0.08);
+  color: var(--atun);
+  border: 1px solid rgba(211, 61, 50, 0.2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dish-add-btn:hover { background: var(--atun); color: #fff; }
+
+/* Locales y Mapa */
+.locales-section { background: #fff; }
+.locales-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.local-tab-btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde-suave);
+  background: var(--arroz);
+  color: var(--tinta);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s var(--ease);
+}
+.local-tab-btn:hover {
+  border-color: var(--atun);
+  background: #fff;
+}
+.local-tab-btn.active {
+  background: var(--tinta);
+  color: #fff;
+  border-color: var(--tinta);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.map-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 40px;
+  align-items: stretch;
+}
+.local-info-card {
+  background: var(--arroz);
+  border: 1.5px solid var(--borde-suave);
+  border-radius: 24px;
+  padding: 38px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.local-info-card h3 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+.local-detail-list {
+  list-style: none;
+  display: grid;
+  gap: 20px;
+  margin: 26px 0 32px;
+}
+.local-detail-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.local-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--borde-suave);
+  display: grid;
+  place-items: center;
+  color: var(--atun);
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+.local-map-frame {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--borde-suave);
+  min-height: 420px;
+  position: relative;
+}
+.local-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: 0;
+  display: block;
+}
+
+/* El Maestro */
+.chef {
+  background: var(--tinta);
+  color: var(--arroz);
+  position: relative;
+  overflow: hidden;
+}
+.chef .wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+.quote-box {
+  padding: 36px;
+  border-left: 5px solid var(--atun);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent);
+  border-radius: 0 18px 18px 0;
+}
+blockquote {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  line-height: 1.35;
+  color: #f7f5f0;
+}
+cite {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 22px;
+  font: 500 1rem var(--sans);
+  color: #a4abb5;
+}
+.hanko-stamp {
+  width: 44px;
+  height: 44px;
+  border: 2.5px solid #d33d32;
+  border-radius: 8px;
+  color: #d33d32;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: rgba(211, 61, 50, 0.08);
+  display: grid;
+  place-items: center;
+  transform: rotate(-4deg);
+}
+
+/* Reservas */
+.reserva {
+  background: linear-gradient(145deg, var(--nori), #0e1612);
+  color: var(--arroz);
+  position: relative;
+  overflow: hidden;
+}
+.reserva .wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 56px;
+  align-items: flex-start;
+}
+.personas-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.chip-persona {
+  flex: 1;
+  min-width: 38px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  color: var(--arroz);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s;
+}
+.chip-persona:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--salmon);
+}
+.chip-persona.active {
+  background: var(--salmon);
+  border-color: var(--salmon);
+  color: var(--tinta);
+  box-shadow: 0 4px 14px rgba(240, 138, 93, 0.4);
+}
+form { display: grid; gap: 16px; }
+label { display: grid; gap: 6px; font-weight: 500; font-size: 0.95rem; color: #d6ded8; }
+input, select {
+  font: inherit;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: var(--arroz);
+  color: var(--tinta);
+  transition: all 0.25s;
+}
+input:focus, select:focus {
+  outline: 0;
+  border-color: var(--salmon);
+  box-shadow: 0 0 0 4px rgba(240, 138, 93, 0.35);
+}
+.fila { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.confetti-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Comprobante de Reserva Oficial (Voucher) */
+.voucher-card {
+  display: none;
+  background: #ffffff;
+  color: var(--tinta);
+  border-radius: 22px;
+  padding: 32px 28px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+  border: 2px solid var(--salmon);
+  animation: in 0.5s var(--ease-spring) forwards;
+  position: relative;
+}
+.voucher-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed #e5dfd5;
+  padding-bottom: 18px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.voucher-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.14);
+  color: #166534;
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+.voucher-code-badge {
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  color: var(--atun);
+  background: #fdf2f0;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(211, 61, 50, 0.2);
+}
+.voucher-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+.voucher-grid div strong {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--gris);
+  margin-bottom: 2px;
+}
+.voucher-grid div span {
+  font-weight: 600;
+  color: var(--tinta);
+}
+.voucher-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 2px dashed #e5dfd5;
+  padding-top: 20px;
+}
+.voucher-actions .btn {
+  width: 100%;
+}
+.voucher-note {
+  font-size: 0.86rem;
+  color: #64748b;
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
+/* Chatbot Don Bot */
+.chat-widget-btn {
+  position: fixed;
+  bottom: 26px;
+  left: 26px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px 12px 14px;
+  border-radius: 999px;
+  background: var(--tinta);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s;
+}
+.chat-widget-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 14px 36px rgba(211, 61, 50, 0.4);
+}
+.chat-avatar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--atun);
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  position: relative;
+}
+.chat-avatar-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid var(--tinta);
+}
+.chat-btn-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Ventana emergente del Chat */
+.chat-window {
+  position: fixed;
+  bottom: 90px;
+  left: 26px;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  height: 540px;
+  max-height: calc(100vh - 120px);
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--borde-suave);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease-spring);
+}
+.chat-window.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.chat-header {
+  background: var(--tinta);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-header-info b { display: block; font-size: 1rem; }
+.chat-header-info span { font-size: 0.78rem; color: #9ca3af; display: flex; align-items: center; gap: 5px; }
+.chat-header-actions button {
+  background: none;
+  border: 0;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: color 0.2s;
+}
+.chat-header-actions button:hover { color: #fff; }
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #fdfbf7;
+}
+.chat-bubble {
+  max-width: 82%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 0.94rem;
+  line-height: 1.45;
+  animation: in 0.3s var(--ease-out);
+}
+.chat-bubble.bot {
+  align-self: flex-start;
+  background: #fff;
+  color: var(--tinta);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #eee8df;
+}
+.chat-bubble.user {
+  align-self: flex-end;
+  background: var(--atun);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.chat-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 10px 18px;
+  background: #fff;
+  border-top: 1px solid #f0ebe2;
+}
+.chat-chip {
+  background: #f4ede4;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--tinta);
+  transition: background 0.2s;
+}
+.chat-chip:hover {
+  background: var(--salmon);
+  color: var(--tinta);
+}
+.chat-input-row {
+  display: flex;
+  padding: 12px 16px;
+  background: #fff;
+  border-top: 1px solid #e8e2d8;
+  gap: 10px;
+}
+.chat-input-row input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1.5px solid #d9d2c5;
+  font: inherit;
+  font-size: 0.92rem;
+}
+.chat-input-row input:focus {
+  outline: 0;
+  border-color: var(--atun);
+}
+.chat-send-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--atun);
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s;
+}
+.chat-send-btn:hover { transform: scale(1.08); }
+
+/* Botón Volver arriba */
+.back-to-top {
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--tinta);
+  color: var(--arroz);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 55;
+  opacity: 0;
+  transform: translateY(20px) scale(0.85);
+  pointer-events: none;
+  transition: all 0.35s var(--ease);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.back-to-top:hover {
+  background: var(--atun);
+  transform: translateY(-3px) scale(1.05);
+}
+.back-to-top svg { width: 20px; height: 20px; }
+
+/* Pie de página */
+footer {
+  padding: 56px 0 36px;
+  background: #0b0d10;
+  color: #92979e;
+  font-size: 0.94rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .burger { display: block; }
+  nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    top: 0;
+    background: rgba(20, 22, 26, 0.98);
+    backdrop-filter: blur(18px);
+    padding: 100px 24px 36px;
+    transform: translateY(-100%);
+    transition: transform 0.45s var(--ease);
+    z-index: -1;
+  }
+  nav.open { transform: translateY(0); }
+  nav ul { flex-direction: column; gap: 20px; font-size: 1.3rem; }
+  .head-btn { display: none; }
+  .hero .wrap, .chef .wrap, .reserva .wrap, .tarjetas-buffet, .map-layout { grid-template-columns: 1fr; }
+  .galeria-grid { grid-template-columns: repeat(2, 1fr); }
+  .chat-window { left: 16px; bottom: 84px; width: calc(100vw - 32px); }
+  .chat-widget-btn { left: 16px; }
+  section { padding: 70px 0; }
+}
+@media (max-width: 540px) {
+  .galeria-grid { grid-template-columns: 1fr; }
+  .fila, .voucher-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- Cabecera -->
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#inicio" aria-label="Don Sushi Inicio">
+      <img src="https://www.donsushi.net/public/img/logo.png" alt="Don Sushi" onerror="this.style.display='none';document.getElementById('fallbackLogo').style.display='flex'">
+      <div class="logo-fallback" id="fallbackLogo" style="display:none"><span class="sello">鮨</span> Don Sushi</div>
+    </a>
+    <nav id="menu" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#buffet">Buffet & Precios</a></li>
+        <li><a href="#galeria">Fotos</a></li>
+        <li><a href="#carta">Toda la Carta (180+)</a></li>
+        <li><a href="#locales">Locales & Mapa</a></li>
+        <li><a href="#chef">El Maestro</a></li>
+        <li><a href="#reserva">Reservas</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a class="btn head-btn" href="#reserva">
+        Reservar mesa
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- Hero Section -->
+  <div class="hero">
+    <canvas id="sakuraCanvas" class="sakura-canvas" aria-hidden="true"></canvas>
+    <div class="kanji" id="heroKanji" aria-hidden="true">鮨</div>
+
+    <div class="wrap">
+      <div>
+        <div class="badge-fresco in">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          Buffet libre a la carta · 4 locales en Madrid
+        </div>
+        <h1 class="in">
+          El mejor sushi buffet, <br>
+          <span class="destaque">más de 10 años</span> de maestría.
+        </h1>
+        <p class="in">
+          Ingredientes frescos traídos cada mañana, cortes de sashimi, nigiris templados y más de 180 especialidades servidas en mesa recién elaboradas.
+        </p>
+        <div class="acciones in">
+          <a class="btn" href="#carta">
+            Explorar todo el menú (183 platos)
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn sec" href="#locales">Ver mapa y cómo llegar</a>
+        </div>
+      </div>
+
+      <!-- Plato 3D Gastronómico -->
+      <div class="plato-container" id="platoZone">
+        <div class="plato" id="platoInteractive" role="img" aria-label="Plato japonés artesanal de Don Sushi">
+          <div class="plato-inner">
+            <svg viewBox="0 0 260 260" aria-hidden="true">
+              <defs>
+                <radialGradient id="platoSombra" cx="50%" cy="50%" r="50%">
+                  <stop offset="60%" stop-color="rgba(0,0,0,0.5)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+                </radialGradient>
+                <radialGradient id="cerámicaGlaze" cx="35%" cy="30%" r="65%">
+                  <stop offset="0%" stop-color="#283931"/>
+                  <stop offset="65%" stop-color="#18241f"/>
+                  <stop offset="100%" stop-color="#0e1713"/>
+                </radialGradient>
+                <linearGradient id="salmonGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ff9970"/>
+                  <stop offset="50%" stop-color="#f08053"/>
+                  <stop offset="100%" stop-color="#d65e31"/>
+                </linearGradient>
+                <linearGradient id="atunGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#e84a3f"/>
+                  <stop offset="50%" stop-color="#c92a20"/>
+                  <stop offset="100%" stop-color="#8a1811"/>
+                </linearGradient>
+              </defs>
+              <ellipse cx="130" cy="225" rx="100" ry="24" fill="url(#platoSombra)"/>
+              <circle cx="130" cy="130" r="118" fill="url(#cerámicaGlaze)"/>
+              <circle cx="130" cy="130" r="116" fill="none" stroke="#3b5247" stroke-width="1.5"/>
+              <circle cx="130" cy="130" r="106" fill="none" stroke="rgba(212,175,55,0.4)" stroke-width="1.2" stroke-dasharray="4 6"/>
+              
+              <!-- Nigiri Salmón -->
+              <g transform="translate(48, 64) rotate(-8)">
+                <rect x="0" y="8" width="68" height="34" rx="17" fill="#fdfbf7"/>
+                <path d="M-4 12 C10 -4, 58 -4, 72 12 C74 24, 66 32, 54 34 C30 38, 12 36, -2 30 Z" fill="url(#salmonGrad)"/>
+                <path d="M8 8 Q24 20 32 32" stroke="rgba(255,255,255,0.6)" stroke-width="1.8" fill="none"/>
+                <path d="M22 6 Q38 18 46 30" stroke="rgba(255,255,255,0.6)" stroke-width="1.8" fill="none"/>
+              </g>
+
+              <!-- Nigiri Atún -->
+              <g transform="translate(136, 68) rotate(10)">
+                <rect x="0" y="8" width="68" height="34" rx="17" fill="#fdfbf7"/>
+                <path d="M-4 12 C10 -4, 58 -4, 72 12 C74 24, 66 32, 54 34 C30 38, 12 36, -2 30 Z" fill="url(#atunGrad)"/>
+                <circle cx="28" cy="18" r="1.5" fill="#ffd79a"/>
+                <circle cx="38" cy="16" r="1.5" fill="#ffd79a"/>
+              </g>
+
+              <!-- Makis con nori -->
+              <g transform="translate(62, 142)">
+                <circle cx="24" cy="24" r="26" fill="#121d17"/>
+                <circle cx="24" cy="24" r="20" fill="#fcfbfa"/>
+                <circle cx="20" cy="22" r="9" fill="url(#salmonGrad)"/>
+                <circle cx="28" cy="26" r="6" fill="#8cb33e"/>
+              </g>
+
+              <g transform="translate(126, 148)">
+                <circle cx="24" cy="24" r="26" fill="#121d17"/>
+                <circle cx="24" cy="24" r="20" fill="#fcfbfa"/>
+                <circle cx="24" cy="24" r="10" fill="url(#atunGrad)"/>
+              </g>
+
+              <!-- Wasabi & Gari -->
+              <g transform="translate(182, 134)">
+                <path d="M12 24 C4 20, 4 8, 14 4 C24 8, 24 20, 16 24 Z" fill="#8cb33e"/>
+              </g>
+              <g transform="translate(178, 172)">
+                <ellipse cx="14" cy="12" rx="12" ry="8" fill="#f5cbd0"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="banda" aria-hidden="true">
+    <div class="banda-track">
+      <span>183 Platos en Carta <span class="banda-icon">✦</span></span>
+      <span>Buffet Libre a la Carta <span class="banda-icon">✦</span></span>
+      <span>Fuenlabrada · Móstoles · Boadilla · Aranjuez <span class="banda-icon">✦</span></span>
+      <span>Pescado Fresco del Día <span class="banda-icon">✦</span></span>
+      <span>Nigiris · Makis · Sashimi · Gyozas · Ramen <span class="banda-icon">✦</span></span>
+      <span>183 Platos en Carta <span class="banda-icon">✦</span></span>
+      <span>Buffet Libre a la Carta <span class="banda-icon">✦</span></span>
+      <span>Fuenlabrada · Móstoles · Boadilla · Aranjuez <span class="banda-icon">✦</span></span>
+      <span>Pescado Fresco del Día <span class="banda-icon">✦</span></span>
+      <span>Nigiris · Makis · Sashimi · Gyozas · Ramen <span class="banda-icon">✦</span></span>
+    </div>
+  </div>
+
+  <!-- Sección Tarifas del Buffet Libre -->
+  <section class="buffet-section" id="buffet">
+    <div class="wrap">
+      <div class="rv">
+        <h2>Tarifas del Buffet Libre a la Carta</h2>
+        <p class="intro">Disfruta de toda la carta tantas veces como quieras. Pide cómodamente desde tu mesa y nuestros cocineros prepararán cada plato al instante.</p>
+      </div>
+
+      <div class="tarjetas-buffet">
+        <div class="tarjeta-buffet rv">
+          <span class="tag-tarjeta" style="background:#4b5563">Mediodía</span>
+          <h3>Lunes a Viernes Mediodía</h3>
+          <p style="color:var(--gris)">De 12:30 a 16:30 h (excepto festivos)</p>
+          <div class="precio-buffet">
+            <span class="monto">12,95 €</span>
+            <span class="sub">/ persona</span>
+          </div>
+          <ul class="lista-ventajas">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Más de 180 platos a elegir sin límite</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Servicio servido directamente en tu mesa</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Menores de 4 años: <b>GRATIS</b></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Niños menores de 10 años: <b>50% dto.</b></li>
+          </ul>
+          <a href="#reserva" class="btn" style="width:100%">Reservar mesa mediodía</a>
+        </div>
+
+        <div class="tarjeta-buffet destacada rv rv-delay-1">
+          <span class="tag-tarjeta">Noches & Festivos</span>
+          <h3>Noches, Fines de Semana y Festivos</h3>
+          <p style="color:var(--gris)">Noches de 20:30 a 23:50 h · Sábados, domingos y festivos todo el día</p>
+          <div class="precio-buffet">
+            <span class="monto">15,95 €</span>
+            <span class="sub">/ persona</span>
+          </div>
+          <ul class="lista-ventajas">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Carta completa incluyendo cortes premium</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Teppanyaki a la plancha y sashimis especiales</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Menores de 4 años: <b>GRATIS</b></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Niños menores de 10 años: <b>50% dto.</b></li>
+          </ul>
+          <a href="#reserva" class="btn" style="width:100%">Reservar mesa cena / finde</a>
+        </div>
+      </div>
+
+      <div class="buffet-rules rv">
+        <div class="buffet-rules-icon">🥢</div>
+        <div>
+          <strong style="display:block;margin-bottom:4px">Política de Consumo Responsable Don Sushi:</strong>
+          <span style="font-size:0.95rem;color:var(--gris)">Pide en rondas (máximo 5 platos por persona por turno) para comer siempre recién hecho. Los platos no consumidos generarán un recargo de 2 € para evitar el desperdicio alimentario. Bebidas y postres no incluidos en el precio del buffet.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galería de Fotos Reales de la Web Original -->
+  <section class="galeria" id="galeria">
+    <div class="wrap">
+      <div class="rv">
+        <h2>Fotografías de Nuestra Cocina</h2>
+        <p class="intro">Imágenes reales de nuestros restaurantes y platos tomadas directamente en nuestros locales de Madrid.</p>
+      </div>
+
+      <div class="galeria-grid rv">
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/upbanner/20241003113417566039.jpg" alt="Bandeja de sushi variado Don Sushi">
+          <div class="galeria-caption"><span>🍣</span> Bandeja Selección Don Sushi</div>
+        </div>
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/upbanner/20241003122536690123.jpg" alt="Makis japoneses variados">
+          <div class="galeria-caption"><span>🍱</span> Makis & California Rolls</div>
+        </div>
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/upbanner/20241003122548812821.jpg" alt="Sashimi japonés fresco">
+          <div class="galeria-caption"><span>🐟</span> Sashimi fresco de lonja</div>
+        </div>
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/upbanner/20241002155633737345.jpg" alt="Cocina japonesa en directo">
+          <div class="galeria-caption"><span>🔥</span> Cocina japonesa al momento</div>
+        </div>
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/img/home-1/about_home_1_img_3.jpg" alt="Nigiri de atún">
+          <div class="galeria-caption"><span>🥢</span> Nigiri Maguro de atún</div>
+        </div>
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/img/home-1/about_home_1_img_4.jpg" alt="Nigiri de salmón">
+          <div class="galeria-caption"><span>🥢</span> Nigiri Sake de salmón tostado</div>
+        </div>
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/img/home-1/about_home_1_img_5.jpg" alt="Nigiri de gamba">
+          <div class="galeria-caption"><span>🥢</span> Nigiri Ebi de gamba fresca</div>
+        </div>
+        <div class="galeria-item">
+          <img src="https://www.donsushi.net/public/img/home-1/menu_item_1.jpg" alt="Especialidad pulpo">
+          <div class="galeria-caption"><span>🐙</span> Pulpo estilo Edo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carta Completa (183 Platos) -->
+  <section class="carta" id="carta">
+    <div class="wrap">
+      <div class="carta-header rv">
+        <div>
+          <h2>Toda la Carta Oficial Don Sushi</h2>
+          <p class="intro" style="margin-bottom:0">Consulta los 183 platos de nuestro menú buffet libre con sus fotos y códigos para pedir por ronda.</p>
+        </div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="menuSearch" placeholder="Buscar por número o nombre (ej. 1, salmón, gyoza)..." aria-label="Buscar plato">
+        </div>
+      </div>
+
+      <!-- Barra de Filtros por Categoría -->
+      <div class="cats-bar rv" id="catsBar" role="tablist">
+        <button class="cat-btn" data-cat="ALL" aria-pressed="true">Todos (183)</button>
+        <button class="cat-btn" data-cat="Nigiri" aria-pressed="false">Nigiri (12)</button>
+        <button class="cat-btn" data-cat="Maki & Slim" aria-pressed="false">Maki & Slim (15)</button>
+        <button class="cat-btn" data-cat="California Rolls" aria-pressed="false">California Rolls (32)</button>
+        <button class="cat-btn" data-cat="Rollos Grandes" aria-pressed="false">Rollos Grandes (4)</button>
+        <button class="cat-btn" data-cat="Sashimi" aria-pressed="false">Sashimi (6)</button>
+        <button class="cat-btn" data-cat="Temaki" aria-pressed="false">Temaki (6)</button>
+        <button class="cat-btn" data-cat="Combinadas" aria-pressed="false">Combinadas (6)</button>
+        <button class="cat-btn" data-cat="Entrantes" aria-pressed="false">Entrantes & Gyozas (12)</button>
+        <button class="cat-btn" data-cat="Pinchitas" aria-pressed="false">Pinchitas (14)</button>
+        <button class="cat-btn" data-cat="Cocina Caliente" aria-pressed="false">Cocina Caliente (12)</button>
+        <button class="cat-btn" data-cat="Teppanyaki" aria-pressed="false">Teppanyaki (6)</button>
+        <button class="cat-btn" data-cat="Postres" aria-pressed="false">Postres (10)</button>
+        <button class="cat-btn" data-cat="Bebidas & Vinos" aria-pressed="false">Bebidas & Vinos (48)</button>
+      </div>
+
+      <div style="margin-bottom:20px;color:var(--gris);font-size:0.95rem" id="resultCount">
+        Mostrando <b id="dishesShowingCount">183</b> platos disponibles en el buffet libre
+      </div>
+
+      <div class="platos-grid" id="dishesGrid">
+        <!-- Renderizado dinámicamente con JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Locales, Mapa Interactivo & Botón Google Maps -->
+  <section class="locales-section" id="locales">
+    <div class="wrap">
+      <div class="rv">
+        <h2>Nuestros 4 Restaurantes en Madrid</h2>
+        <p class="intro">Selecciona tu restaurante más cercano para ver la dirección exacta en el mapa y abrir la ruta directa en Google Maps.</p>
+      </div>
+
+      <!-- Selector de local -->
+      <div class="locales-tabs rv" id="localesTabs">
+        <button class="local-tab-btn active" data-local="fuenlabrada">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          1. Fuenlabrada (Central)
+        </button>
+        <button class="local-tab-btn" data-local="mostoles">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          2. Móstoles
+        </button>
+        <button class="local-tab-btn" data-local="boadilla">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          3. Boadilla del Monte
+        </button>
+        <button class="local-tab-btn" data-local="aranjuez">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          4. Aranjuez
+        </button>
+      </div>
+
+      <!-- Layout Mapa al lado de botón e información -->
+      <div class="map-layout rv">
+        <!-- Tarjeta de información del local -->
+        <div class="local-info-card" id="localInfoCard">
+          <div>
+            <h3 id="locTitle">Don Sushi Fuenlabrada</h3>
+            <p style="color:var(--gris)" id="locSub">Restaurante y Buffet Libre Japonés</p>
+
+            <ul class="local-detail-list">
+              <li>
+                <div class="local-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <strong>Dirección exacta:</strong>
+                  <p id="locAddr">Calle Luis Sauquillo, 84, 28944 Fuenlabrada (Madrid)</p>
+                </div>
+              </li>
+              <li>
+                <div class="local-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <strong>Teléfono directo:</strong>
+                  <p><a href="tel:916906952" id="locTel" style="color:var(--atun);font-weight:700">91 690 69 52</a></p>
+                </div>
+              </li>
+              <li>
+                <div class="local-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                  <strong>Horario de apertura:</strong>
+                  <p>Lunes a Domingo:<br>12:30 – 16:30 & 20:30 – 23:50</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Botón de Google Maps al lado del mapa -->
+          <div>
+            <a href="https://www.google.com/maps/search/?api=1&query=Don+Sushi+Calle+Luis+Sauquillo+84+Fuenlabrada" target="_blank" rel="noopener" id="btnGoogleMaps" class="btn btn-maps" style="width:100%;margin-bottom:12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              Abrir en Google Maps y cómo llegar
+            </a>
+            <a href="#reserva" class="btn sec" style="width:100%;background:rgba(20,22,26,0.06);color:var(--tinta);border-color:transparent">
+              Reservar mesa en este local
+            </a>
+          </div>
+        </div>
+
+        <!-- Mapa de Google Maps Interactivo -->
+        <div class="local-map-frame">
+          <iframe id="mapIframe" title="Mapa Don Sushi" src="https://maps.google.com/maps?q=Calle%20Luis%20Sauquillo%2084,%2028944%20Fuenlabrada,%20Madrid&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- El Maestro Sushiman -->
+  <section class="chef" id="chef">
+    <div class="wrap">
+      <div class="quote-box rv">
+        <blockquote>
+          «Más de 10 años cocinando la auténtica tradición japonesa en Madrid: arroz seleccionado, alga nori crujiente y pescado recién llegado de lonja.»
+        </blockquote>
+        <cite>
+          <span class="hanko-stamp">鮨</span>
+          <span>Don Sushi · Maestros de cocina japonesa tradicional</span>
+        </cite>
+      </div>
+
+      <div class="rv rv-delay-1">
+        <h2>La experiencia gastronómica definitiva</h2>
+        <p class="intro" style="color:#b2b8c2">
+          En Don Sushi unimos la abundancia del buffet con la máxima calidad de un restaurante a la carta. No hay bandejas frías expuestas: cada plato se prepara bajo pedido para que disfrutes de la tempura crujiente, el arroz templado y el pescado en su punto exacto.
+        </p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <a class="btn" href="#reserva">Hacer mi reserva</a>
+          <a class="btn sec" href="#carta">Ver carta completa</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservas con comprobante y confirmación multicanal -->
+  <section class="reserva" id="reserva">
+    <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="rv">
+        <h2>Reserva tu mesa</h2>
+        <p class="intro">Asegura tu mesa en Don Sushi. Al enviar tu solicitud se generará tu comprobante digital oficial y podrás confirmar inmediatamente por WhatsApp, por correo o guardar la cita en tu calendario.</p>
+        <div style="margin-top:24px;display:flex;gap:16px;flex-direction:column;color:#d1ded4;font-size:0.95rem">
+          <div style="display:flex;align-items:center;gap:10px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--salmon)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Confirmación instantánea vía WhatsApp y Correo</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--salmon)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Cancelación gratuita sin costes hasta 2 horas antes</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--salmon)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Comprobante con código de reserva único descargable</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <form id="form" class="rv rv-delay-1" novalidate>
+          <label>
+            Restaurante Don Sushi
+            <select name="restaurante" id="reservaLocal">
+              <option value="fuenlabrada" selected>Fuenlabrada (C/ Luis Sauquillo 84)</option>
+              <option value="mostoles">Móstoles (Av. Portugal 46)</option>
+              <option value="boadilla">Boadilla del Monte (Av. Siglo XXI 8)</option>
+              <option value="aranjuez">Aranjuez (C/ Verderón 1)</option>
+            </select>
+          </label>
+
+          <label>
+            Nombre y apellidos
+            <input name="nombre" id="nombreInput" required autocomplete="name" placeholder="Ej. Carlos Mendoza">
+          </label>
+
+          <div class="fila">
+            <label>
+              Teléfono de contacto
+              <input name="tel" id="telInput" type="tel" required autocomplete="tel" placeholder="Ej. 612 345 678">
+            </label>
+            <label>
+              Correo electrónico (para la confirmación)
+              <input name="email" id="emailInput" type="email" required autocomplete="email" placeholder="tu.email@ejemplo.com">
+            </label>
+          </div>
+
+          <div class="fila">
+            <label>
+              Fecha deseada
+              <input name="fecha" type="date" required id="fechaInput">
+            </label>
+            <label>
+              Turno / Hora
+              <select name="hora" id="horaInput">
+                <optgroup label="Comidas (12,95 € L-V / 15,95 € Finde)">
+                  <option>13:00</option>
+                  <option>13:30</option>
+                  <option>14:00</option>
+                  <option>14:30</option>
+                  <option>15:00</option>
+                </optgroup>
+                <optgroup label="Cenas (15,95 €)">
+                  <option selected>20:30</option>
+                  <option>21:00</option>
+                  <option>21:30</option>
+                  <option>22:00</option>
+                  <option>22:30</option>
+                </optgroup>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Número de comensales
+            <div class="personas-selector" id="personasSelector" role="radiogroup">
+              <button type="button" class="chip-persona" data-val="1">1</button>
+              <button type="button" class="chip-persona active" data-val="2">2</button>
+              <button type="button" class="chip-persona" data-val="3">3</button>
+              <button type="button" class="chip-persona" data-val="4">4</button>
+              <button type="button" class="chip-persona" data-val="5">5</button>
+              <button type="button" class="chip-persona" data-val="6">6</button>
+              <button type="button" class="chip-persona" data-val="7">7</button>
+              <button type="button" class="chip-persona" data-val="8">8+</button>
+            </div>
+            <input type="hidden" name="personas" id="personasHidden" value="2">
+          </label>
+
+          <button class="btn" type="submit" id="btnSubmit">
+            <span id="btnSubmitText">Solicitar reserva inmediata</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <!-- Comprobante Digital Oficial (Voucher) que aparece tras enviar -->
+        <div class="voucher-card" id="voucherBox">
+          <div class="voucher-header">
+            <div>
+              <span class="voucher-status-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                Reserva Registrada
+              </span>
+              <h3 style="font-family:var(--serif);font-size:1.45rem;margin-top:6px;">Comprobante Oficial Don Sushi</h3>
+            </div>
+            <span class="voucher-code-badge" id="vCodigo">#DS-000000</span>
+          </div>
+
+          <div class="voucher-grid">
+            <div>
+              <strong>Restaurante:</strong>
+              <span id="vLocal">Don Sushi Fuenlabrada</span>
+            </div>
+            <div>
+              <strong>Titular:</strong>
+              <span id="vNombre">Carlos Mendoza</span>
+            </div>
+            <div>
+              <strong>Fecha:</strong>
+              <span id="vFecha">15/10/2026</span>
+            </div>
+            <div>
+              <strong>Hora:</strong>
+              <span id="vHora">20:30 h</span>
+            </div>
+            <div>
+              <strong>Comensales:</strong>
+              <span id="vPersonas">2 personas</span>
+            </div>
+            <div>
+              <strong>Teléfono y Correo:</strong>
+              <span id="vContacto" style="word-break:break-all">612 345 678</span>
+            </div>
+          </div>
+
+          <div class="voucher-actions">
+            <!-- 1. Enviar / Confirmar por WhatsApp directamente con el restaurante -->
+            <a href="#" target="_blank" rel="noopener" id="btnWhatsappRestaurante" class="btn btn-whatsapp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.159.57 4.184 1.564 5.938l-1.636 5.978 6.141-1.611c1.701.928 3.649 1.455 5.72 1.455 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z"/></svg>
+              Enviar confirmación al WhatsApp del restaurante
+            </a>
+
+            <!-- 2. Enviar comprobante al WhatsApp personal del cliente -->
+            <a href="#" target="_blank" rel="noopener" id="btnWhatsappCliente" class="btn" style="background:#128c7e;border-color:#128c7e">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+              Guardar comprobante en mi WhatsApp personal
+            </a>
+
+            <!-- 3. Enviar copia a mi correo electrónico -->
+            <a href="#" id="btnEmailCliente" class="btn" style="background:#4b5563;border-color:#4b5563">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Enviar copia completa a mi correo
+            </a>
+
+            <!-- 4. Descargar cita para Google / Apple Calendar -->
+            <button type="button" id="btnCalendar" class="btn sec" style="color:var(--tinta);border-color:#d1d5db;background:#f8fafc">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Añadir a mi Calendario (Google / Apple)
+            </button>
+
+            <!-- 5. Nueva reserva -->
+            <button type="button" id="btnNuevaReserva" class="btn sec" style="color:var(--gris);border:none;background:none;padding:6px;font-size:0.9rem">
+              Hacer otra reserva
+            </button>
+          </div>
+
+          <p class="voucher-note">
+            💡 <b>Nota:</b> Para garantizar tu mesa sin demoras, pulsa en <b>«Enviar confirmación al WhatsApp del restaurante»</b>. El encargado del local te responderá con el OK definitivo al instante.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Chatbot Don Bot / Hiroshi Virtual -->
+<button class="chat-widget-btn" id="chatWidgetBtn" aria-label="Abrir asistente virtual Don Sushi">
+  <div class="chat-avatar-icon">
+    <span>👨‍🍳</span>
+    <span class="chat-avatar-dot"></span>
+  </div>
+  <span class="chat-btn-text">¿Dudas? Pregunta a Hiroshi</span>
+</button>
+
+<div class="chat-window" id="chatWindow" role="dialog" aria-label="Chatbot Don Sushi">
+  <div class="chat-header">
+    <div class="chat-header-user">
+      <div class="chat-avatar-icon" style="width:34px;height:34px;font-size:1.1rem">
+        <span>👨‍🍳</span>
+        <span class="chat-avatar-dot"></span>
+      </div>
+      <div class="chat-header-info">
+        <b>Hiroshi · Don Sushi</b>
+        <span><span style="color:#22c55e">●</span> En línea ahora</span>
+      </div>
+    </div>
+    <div class="chat-header-actions">
+      <button id="chatCloseBtn" aria-label="Cerrar chat">✕</button>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-bubble bot">
+      ¡Konnichiwa! 🍣 Soy <b>Hiroshi</b>, el asistente inteligente de <b>Don Sushi</b>. ¿En qué puedo ayudarte? Puedes preguntarme sobre el buffet, precios, alérgenos, cómo llegar o pedirme que te recomiende un plato.
+    </div>
+  </div>
+
+  <div class="chat-chips" id="chatChips">
+    <button class="chat-chip" data-q="precios">💰 ¿Cuánto cuesta el buffet?</button>
+    <button class="chat-chip" data-q="locales">📍 ¿Dónde están los locales?</button>
+    <button class="chat-chip" data-q="horario">⏰ ¿Cuál es el horario?</button>
+    <button class="chat-chip" data-q="recomendar">⭐ Recomiéndame platos</button>
+    <button class="chat-chip" data-q="reservar">📅 ¿Cómo reservar?</button>
+  </div>
+
+  <form class="chat-input-row" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Escribe tu pregunta aquí..." autocomplete="off">
+    <button type="submit" class="chat-send-btn" aria-label="Enviar mensaje">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </form>
+</div>
+
+<!-- Botón Volver Arriba -->
+<button class="back-to-top" id="backToTop" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <b style="color:#fff;font-family:var(--serif);font-size:1.3rem">Don Sushi Madrid</b><br>
+      Fuenlabrada · Móstoles · Boadilla del Monte · Aranjuez
+    </div>
+    <div>
+      Central Fuenlabrada: 91 690 69 52 · Móstoles: 91 053 17 01<br>
+      Boadilla: 91 057 52 65 · Aranjuez: 91 935 58 84
+    </div>
+    <div>
+      &copy; 2026 Don Sushi. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Platos extraídos directamente de la web oficial de Don Sushi (183 platos) */
+const allDishes = ${dishesJsonStr};
+
+/* 1. CURSOR MAGNÉTICO */
+const cursorDot = document.getElementById('cursorDot');
+const cursorRing = document.getElementById('cursorRing');
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let ringX = mouseX, ringY = mouseY;
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.transform = \`translate(\${mouseX}px, \${mouseY}px)\`;
+  });
+  const renderCursor = () => {
+    ringX += (mouseX - ringX) * 0.18; ringY += (mouseY - ringY) * 0.18;
+    cursorRing.style.transform = \`translate(\${ringX}px, \${ringY}px)\`;
+    requestAnimationFrame(renderCursor);
+  };
+  requestAnimationFrame(renderCursor);
+  document.querySelectorAll('a, button, .dish-card, .local-tab-btn, input, select').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+}
+
+/* 2. SAKURA CANVAS HERO */
+const sakuraCanvas = document.getElementById('sakuraCanvas');
+const sCtx = sakuraCanvas.getContext('2d');
+let sWidth = sakuraCanvas.width = sakuraCanvas.offsetWidth;
+let sHeight = sakuraCanvas.height = sakuraCanvas.offsetHeight;
+let sakuraActive = true;
+window.addEventListener('resize', () => {
+  sWidth = sakuraCanvas.width = sakuraCanvas.offsetWidth;
+  sHeight = sakuraCanvas.height = sakuraCanvas.offsetHeight;
+});
+class Petal {
+  constructor() { this.reset(true); }
+  reset(init = false) {
+    this.x = Math.random() * sWidth;
+    this.y = init ? Math.random() * sHeight : -20;
+    this.size = 8 + Math.random() * 9;
+    this.speedY = 0.8 + Math.random() * 1.3;
+    this.speedX = -0.5 + Math.random() * 1;
+    this.angle = Math.random() * Math.PI * 2;
+    this.spin = (Math.random() - 0.5) * 0.03;
+    this.opacity = 0.35 + Math.random() * 0.45;
+  }
+  update() {
+    this.y += this.speedY;
+    this.x += this.speedX + Math.sin(this.angle) * 0.5;
+    this.angle += this.spin;
+    if (this.y > sHeight + 20 || this.x < -30 || this.x > sWidth + 30) this.reset();
+  }
+  draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.beginPath();
+    ctx.fillStyle = \`rgba(255, 205, 215, \${this.opacity})\`;
+    ctx.moveTo(0, -this.size / 2);
+    ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size, 0, 0, this.size);
+    ctx.bezierCurveTo(-this.size, 0, -this.size / 2, -this.size / 2, 0, -this.size / 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+const petals = Array.from({ length: 26 }, () => new Petal());
+function animSakura() {
+  if (sakuraActive) {
+    sCtx.clearRect(0, 0, sWidth, sHeight);
+    petals.forEach(p => { p.update(); p.draw(sCtx); });
+  }
+  requestAnimationFrame(animSakura);
+}
+requestAnimationFrame(animSakura);
+const heroObserver = new IntersectionObserver(es => { sakuraActive = es[0].isIntersecting; }, { threshold: 0.1 });
+heroObserver.observe(document.querySelector('.hero'));
+
+/* 3. PARALLAX PLATO HERO */
+const heroZone = document.querySelector('.hero');
+const plato = document.getElementById('platoInteractive');
+const heroKanji = document.getElementById('heroKanji');
+if (window.matchMedia('(hover: hover)').matches) {
+  heroZone.addEventListener('mousemove', e => {
+    const rect = heroZone.getBoundingClientRect();
+    const nx = (e.clientX - rect.left) / rect.width - 0.5;
+    const ny = (e.clientY - rect.top) / rect.height - 0.5;
+    if (plato) plato.style.transform = \`rotateX(\${-ny * 16}deg) rotateY(\${nx * 16}deg)\`;
+    if (heroKanji) heroKanji.style.transform = \`translate(\${nx * -30}px, \${ny * -30}px)\`;
+  });
+  heroZone.addEventListener('mouseleave', () => {
+    if (plato) plato.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    if (heroKanji) heroKanji.style.transform = 'translate(0, 0)';
+  });
+}
+
+/* 4. CABECERA & PROGRESO */
+const head = document.getElementById('top');
+const scrollProgress = document.getElementById('scrollProgress');
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  const st = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  scrollProgress.style.width = (max > 0 ? (st / max) * 100 : 0) + '%';
+  head.classList.toggle('sc', st > 40);
+  backToTop.classList.toggle('visible', st > 450);
+}, { passive: true });
+backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// Menú móvil
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+burger.addEventListener('click', () => {
+  const abierto = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', abierto);
+});
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  menu.classList.remove('open');
+  burger.setAttribute('aria-expanded', 'false');
+}));
+
+/* 5. RENDERIZADO Y FILTRO DE LOS 183 PLATOS */
+const dishesGrid = document.getElementById('dishesGrid');
+const menuSearch = document.getElementById('menuSearch');
+const catButtons = document.querySelectorAll('.cat-btn');
+const dishesShowingCount = document.getElementById('dishesShowingCount');
+
+let activeCat = 'ALL';
+let activeSearch = '';
+
+function renderDishes() {
+  const filtered = allDishes.filter(d => {
+    const matchCat = activeCat === 'ALL' || d.catKey === activeCat;
+    const matchSearch = !activeSearch || d.title.toLowerCase().includes(activeSearch);
+    return matchCat && matchSearch;
+  });
+
+  dishesShowingCount.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    dishesGrid.innerHTML = \`<div style="grid-column:1/-1;text-align:center;padding:40px;background:#fff;border-radius:18px;">
+      <p style="font-size:1.2rem;margin-bottom:8px">No encontramos platos con "\${activeSearch}"</p>
+      <button class="btn" onclick="menuSearch.value='';activeSearch='';renderDishes();">Limpiar búsqueda</button>
+    </div>\`;
+    return;
+  }
+
+  dishesGrid.innerHTML = filtered.map(d => {
+    return \`<div class="dish-card" data-cat="\${d.catKey}">
+      <div class="dish-img-wrap">
+        <img src="\${d.img}" alt="\${d.title}" loading="lazy" onerror="this.onerror=null;this.src='https://www.donsushi.net/public/upbanner/20241003113417566039.jpg'">
+        <span class="dish-cat-tag">\${d.catKey}</span>
+        <button class="dish-fav-btn" onclick="this.classList.toggle('active')" aria-label="Guardar favorito">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+      </div>
+      <div class="dish-body">
+        <h4 class="dish-title">\${d.title}</h4>
+        <div class="dish-card-actions">
+          <span class="dish-badge-buffet">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Incluido en buffet
+          </span>
+          <button class="dish-add-btn" onclick="alert('Plato \${d.title} añadido a tu lista de ronda.');">Pedir en ronda</button>
+        </div>
+      </div>
+    </div>\`;
+  }).join('');
+}
+
+catButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    catButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+    btn.setAttribute('aria-pressed', 'true');
+    activeCat = btn.dataset.cat;
+    renderDishes();
+  });
+});
+
+menuSearch.addEventListener('input', e => {
+  activeSearch = e.target.value.trim().toLowerCase();
+  renderDishes();
+});
+
+renderDishes();
+
+/* 6. LOCALES Y MAPA GOOGLE MAPS */
+const localesData = {
+  fuenlabrada: {
+    nombre: 'Don Sushi Fuenlabrada (Central)',
+    title: 'Don Sushi Fuenlabrada (Central)',
+    sub: 'Restaurante y Buffet Libre Japonés',
+    addr: 'Calle Luis Sauquillo, 84, 28944 Fuenlabrada (Madrid)',
+    tel: '91 690 69 52',
+    telRaw: '34916906952',
+    telHref: 'tel:916906952',
+    email: 'donsushi.mostoles@gmail.com',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Don+Sushi+Calle+Luis+Sauquillo+84+Fuenlabrada',
+    embedUrl: 'https://maps.google.com/maps?q=Calle%20Luis%20Sauquillo%2084,%2028944%20Fuenlabrada,%20Madrid&t=&z=15&ie=UTF8&iwloc=&output=embed'
+  },
+  mostoles: {
+    nombre: 'Don Sushi Móstoles',
+    title: 'Don Sushi Móstoles',
+    sub: 'Restaurante y Buffet Libre Japonés',
+    addr: 'Avenida de Portugal, 46, 28933 Móstoles (Madrid)',
+    tel: '91 053 17 01',
+    telRaw: '34910531701',
+    telHref: 'tel:910531701',
+    email: 'donsushi.mostoles@gmail.com',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Don+Sushi+Avenida+de+Portugal+46+Mostoles',
+    embedUrl: 'https://maps.google.com/maps?q=Avenida%20de%20Portugal%2046,%2028933%20M%C3%B3stoles,%20Madrid&t=&z=15&ie=UTF8&iwloc=&output=embed'
+  },
+  boadilla: {
+    nombre: 'Don Sushi Boadilla del Monte',
+    title: 'Don Sushi Boadilla del Monte',
+    sub: 'Restaurante y Buffet Libre Japonés',
+    addr: 'Avenida Siglo XXI, 8, 28660 Boadilla del Monte (Madrid)',
+    tel: '91 057 52 65',
+    telRaw: '34910575265',
+    telHref: 'tel:910575265',
+    email: 'donsushi.mostoles@gmail.com',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Don+Sushi+Avenida+Siglo+XXI+8+Boadilla+del+Monte',
+    embedUrl: 'https://maps.google.com/maps?q=Avenida%20Siglo%20XXI%208,%2028660%20Boadilla%20del%20Monte,%20Madrid&t=&z=15&ie=UTF8&iwloc=&output=embed'
+  },
+  aranjuez: {
+    nombre: 'Don Sushi Aranjuez',
+    title: 'Don Sushi Aranjuez',
+    sub: 'Restaurante y Buffet Libre Japonés',
+    addr: 'Calle Verderón, 1, 28300 Aranjuez (Madrid)',
+    tel: '91 935 58 84',
+    telRaw: '34919355884',
+    telHref: 'tel:919355884',
+    email: 'donsushi.mostoles@gmail.com',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Don+Sushi+Calle+Verderon+1+Aranjuez',
+    embedUrl: 'https://maps.google.com/maps?q=Calle%20Verder%C3%B3n%201,%2028300%20Aranjuez,%20Madrid&t=&z=15&ie=UTF8&iwloc=&output=embed'
+  }
+};
+
+const localTabBtns = document.querySelectorAll('.local-tab-btn');
+const locTitle = document.getElementById('locTitle');
+const locSub = document.getElementById('locSub');
+const locAddr = document.getElementById('locAddr');
+const locTel = document.getElementById('locTel');
+const btnGoogleMaps = document.getElementById('btnGoogleMaps');
+const mapIframe = document.getElementById('mapIframe');
+const reservaLocal = document.getElementById('reservaLocal');
+
+localTabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    localTabBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const key = btn.dataset.local;
+    const data = localesData[key];
+    locTitle.textContent = data.title;
+    locSub.textContent = data.sub;
+    locAddr.textContent = data.addr;
+    locTel.textContent = data.tel;
+    locTel.href = data.telHref;
+    btnGoogleMaps.href = data.mapsUrl;
+    mapIframe.src = data.embedUrl;
+    if (reservaLocal) reservaLocal.value = key;
+  });
+});
+
+/* 7. REVELACIÓN AL SCROLL */
+const io = new IntersectionObserver(entries => entries.forEach(e => {
+  if (e.isIntersecting) {
+    e.target.classList.add('v');
+    io.unobserve(e.target);
+  }
+}), { threshold: 0.12 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+/* 8. SISTEMA REAL DE RESERVAS CON COMPROBANTE MULTICANAL */
+const chipPersonas = document.querySelectorAll('.chip-persona');
+const personasHidden = document.getElementById('personasHidden');
+chipPersonas.forEach(chip => {
+  chip.addEventListener('click', () => {
+    chipPersonas.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    personasHidden.value = chip.dataset.val;
+  });
+});
+
+const f = document.getElementById('form');
+const fechaInput = document.getElementById('fechaInput');
+fechaInput.min = new Date().toISOString().split('T')[0];
+fechaInput.value = new Date().toISOString().split('T')[0];
+
+const voucherBox = document.getElementById('voucherBox');
+const btnSubmit = document.getElementById('btnSubmit');
+const btnSubmitText = document.getElementById('btnSubmitText');
+const btnNuevaReserva = document.getElementById('btnNuevaReserva');
+
+// Confeti
+const confettiCanvas = document.getElementById('confettiCanvas');
+const cCtx = confettiCanvas.getContext('2d');
+let confettiPieces = [], confettiRunning = false;
+
+class ConfettiParticle {
+  constructor() {
+    this.x = confettiCanvas.width / 2;
+    this.y = confettiCanvas.height / 2;
+    this.size = 6 + Math.random() * 8;
+    this.color = ['#d33d32', '#f08a5d', '#d4af37', '#809c2a', '#25d366', '#ffffff'][Math.floor(Math.random() * 6)];
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 4 + Math.random() * 12;
+    this.vx = Math.cos(angle) * speed;
+    this.vy = Math.sin(angle) * speed - 3;
+    this.gravity = 0.25;
+    this.life = 1;
+    this.decay = 0.012 + Math.random() * 0.015;
+  }
+  update() { this.x += this.vx; this.y += this.vy; this.vy += this.gravity; this.life -= this.decay; }
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = Math.max(this.life, 0);
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.size, this.size * 0.6);
+    ctx.restore();
+  }
+}
+
+function launchConfetti() {
+  confettiCanvas.width = confettiCanvas.offsetWidth;
+  confettiCanvas.height = confettiCanvas.offsetHeight;
+  confettiPieces = Array.from({ length: 90 }, () => new ConfettiParticle());
+  confettiRunning = true;
+  function run() {
+    if (!confettiRunning) return;
+    cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettiPieces.forEach(p => { p.update(); p.draw(cCtx); });
+    confettiPieces = confettiPieces.filter(p => p.life > 0);
+    if (confettiPieces.length > 0) requestAnimationFrame(run);
+    else confettiRunning = false;
+  }
+  requestAnimationFrame(run);
+}
+
+// Descargar archivo de calendario .ics para Google Calendar y iPhone
+function downloadICS(resData) {
+  const [year, month, day] = resData.fecha.split('-');
+  const [hour, min] = resData.hora.split(':');
+  
+  // Formato YYYYMMDDTHHMMSS
+  const startStr = \`\${year}\${month}\${day}T\${hour}\${min}00\`;
+  const endHour = String(Number(hour) + 2).padStart(2, '0');
+  const endStr = \`\${year}\${month}\${day}T\${endHour}\${min}00\`;
+
+  const icsContent = 
+\`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Don Sushi Madrid//Reservas//ES
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:Reserva en \${resData.localData.nombre} (\${resData.codigo})
+DESCRIPTION:Reserva de mesa para \${resData.personas} comensales a nombre de \${resData.nombre}.\\\\nTeléfono local: \${resData.localData.tel}\\\\nCódigo: \${resData.codigo}
+LOCATION:\${resData.localData.addr}
+DTSTART:\${startStr}
+DTEND:\${endStr}
+STATUS:CONFIRMED
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:Recordatorio de tu reserva en Don Sushi hoy a las \${resData.hora}
+END:VALARM
+END:VEVENT
+END:VCALENDAR\`;
+
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = \`Reserva-Don-Sushi-\${resData.codigo}.ics\`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+let ultimaReserva = null;
+
+f.addEventListener('submit', e => {
+  e.preventDefault();
+  
+  const nombre = document.getElementById('nombreInput').value.trim();
+  const tel = document.getElementById('telInput').value.trim();
+  const email = document.getElementById('emailInput').value.trim();
+  const fecha = document.getElementById('fechaInput').value;
+  const hora = document.getElementById('horaInput').value;
+  const personas = personasHidden.value;
+  const localKey = reservaLocal.value;
+  const localInfo = localesData[localKey] || localesData.fuenlabrada;
+
+  if (!nombre || !tel || !email || !fecha) {
+    f.reportValidity();
+    return;
+  }
+
+  // Generar código único de reserva (ej. #DS-491023)
+  const codigo = '#DS-' + Math.floor(100000 + Math.random() * 900000);
+
+  ultimaReserva = {
+    codigo,
+    nombre,
+    tel,
+    email,
+    fecha,
+    hora,
+    personas,
+    localData: localInfo
+  };
+
+  btnSubmitText.textContent = 'Generando tu comprobante...';
+  btnSubmit.disabled = true;
+
+  // Redactar mensaje oficial para WhatsApp
+  const mensajeWA = 
+\`🍣 *SOLICITUD DE RESERVA - DON SUSHI*
+🔖 *Código de Reserva:* \${codigo}
+📍 *Restaurante:* \${localInfo.nombre} (\${localInfo.addr})
+👤 *Titular:* \${nombre}
+📅 *Fecha:* \${fecha}
+⏰ *Hora:* \${hora} h
+👥 *Comensales:* \${personas} personas
+📞 *Teléfono:* \${tel}
+✉️ *Email:* \${email}
+------------------------------------
+Hola Don Sushi, tengo esta solicitud de mesa. ¿Me confirmáis disponibilidad? ¡Muchas gracias!\`;
+
+  const waUrlRestaurante = \`https://api.whatsapp.com/send?phone=\${localInfo.telRaw}&text=\${encodeURIComponent(mensajeWA)}\`;
+  
+  // Limpiar teléfono del usuario para enlace personal
+  const cleanUserTel = tel.replace(/[^0-9]/g, '');
+  const userTelWithPrefix = cleanUserTel.startsWith('34') ? cleanUserTel : ('34' + cleanUserTel);
+  const waUrlCliente = \`https://api.whatsapp.com/send?phone=\${userTelWithPrefix}&text=\${encodeURIComponent(mensajeWA)}\`;
+
+  // Redactar enlace de correo mailto:
+  const mailtoSubject = encodeURIComponent(\`Reserva de Mesa en Don Sushi (\${codigo}) - \${nombre}\`);
+  const mailtoBody = encodeURIComponent(
+\`Estimado equipo de \${localInfo.nombre},
+
+He registrado una reserva de mesa a través de vuestra web con los siguientes datos:
+
+- Código de reserva: \${codigo}
+- Restaurante: \${localInfo.nombre}
+- Dirección: \${localInfo.addr}
+- Titular: \${nombre}
+- Fecha: \${fecha}
+- Hora: \${hora}
+- Comensales: \${personas} personas
+- Teléfono de contacto: \${tel}
+- Mi correo: \${email}
+
+Por favor, enviadme la confirmación a este mismo correo o por WhatsApp.
+
+Atentamente,
+\${nombre}\`);
+
+  const mailtoUrl = \`mailto:\${localInfo.email}?cc=\${encodeURIComponent(email)}&subject=\${mailtoSubject}&body=\${mailtoBody}\`;
+
+  setTimeout(() => {
+    // Rellenar comprobante digital
+    document.getElementById('vCodigo').textContent = codigo;
+    document.getElementById('vLocal').textContent = localInfo.nombre;
+    document.getElementById('vNombre').textContent = nombre;
+    document.getElementById('vFecha').textContent = fecha;
+    document.getElementById('vHora').textContent = hora + ' h';
+    document.getElementById('vPersonas').textContent = personas + ' personas';
+    document.getElementById('vContacto').textContent = \`\${tel} · \${email}\`;
+
+    // Asignar enlaces
+    const btnWARest = document.getElementById('btnWhatsappRestaurante');
+    btnWARest.href = waUrlRestaurante;
+
+    const btnWAUser = document.getElementById('btnWhatsappCliente');
+    btnWAUser.href = waUrlCliente;
+
+    const btnMail = document.getElementById('btnEmailCliente');
+    btnMail.href = mailtoUrl;
+
+    // Mostrar comprobante y ocultar formulario
+    f.style.display = 'none';
+    voucherBox.style.display = 'block';
+    launchConfetti();
+
+    // Intentar abrir WhatsApp con el restaurante en nueva pestaña
+    window.open(waUrlRestaurante, '_blank');
+  }, 600);
+});
+
+// Botón de descargar calendario .ics
+document.getElementById('btnCalendar').addEventListener('click', () => {
+  if (ultimaReserva) downloadICS(ultimaReserva);
+});
+
+// Botón de hacer otra reserva
+btnNuevaReserva.addEventListener('click', () => {
+  voucherBox.style.display = 'none';
+  f.style.display = 'grid';
+  f.reset();
+  btnSubmit.disabled = false;
+  btnSubmitText.textContent = 'Solicitar reserva inmediata';
+  fechaInput.value = new Date().toISOString().split('T')[0];
+});
+
+/* 9. CHATBOT COMPLETAMENTE FUNCIONAL (HIROSHI VIRTUAL) */
+const chatWidgetBtn = document.getElementById('chatWidgetBtn');
+const chatWindow = document.getElementById('chatWindow');
+const chatCloseBtn = document.getElementById('chatCloseBtn');
+const chatMessages = document.getElementById('chatMessages');
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+const chatChips = document.getElementById('chatChips');
+
+chatWidgetBtn.addEventListener('click', () => {
+  chatWindow.classList.toggle('open');
+  if (chatWindow.classList.contains('open')) chatInput.focus();
+});
+chatCloseBtn.addEventListener('click', () => chatWindow.classList.remove('open'));
+
+function addMessage(sender, text) {
+  const b = document.createElement('div');
+  b.className = \`chat-bubble \${sender}\`;
+  b.innerHTML = text;
+  chatMessages.appendChild(b);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function botReply(text, delay = 400) {
+  const typing = document.createElement('div');
+  typing.className = 'chat-bubble bot';
+  typing.innerHTML = '<i>Escribiendo...</i>';
+  chatMessages.appendChild(typing);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  setTimeout(() => {
+    typing.remove();
+    addMessage('bot', text);
+  }, delay);
+}
+
+function processQuery(query) {
+  const q = query.toLowerCase();
+
+  if (q.includes('precio') || q.includes('cuesta') || q.includes('buffet') || q.includes('cuanto') || q.includes('tarifa')) {
+    return '🍣 <b>Precios del Buffet Libre a la Carta:</b><br>' +
+           '• <b>Mediodía (L-V):</b> 12,95 € / persona.<br>' +
+           '• <b>Noches, Fines de semana y Festivos:</b> 15,95 € / persona.<br>' +
+           '• <b>Niños menores de 4 años:</b> ¡GRATIS!<br>' +
+           '• <b>Niños menores de 10 años:</b> 50% de descuento.<br>' +
+           '<i>*Bebidas y postres no incluidos. Puedes pedir todos los platos que desees en rondas.</i>';
+  }
+
+  if (q.includes('donde') || q.includes('local') || q.includes('ubicacion') || q.includes('direccion') || q.includes('mapa') || q.includes('llegar')) {
+    return '📍 <b>Tenemos 4 restaurantes en Madrid:</b><br>' +
+           '1. <b>Fuenlabrada:</b> C/ Luis Sauquillo 84 (Tel: 91 690 69 52)<br>' +
+           '2. <b>Móstoles:</b> Av. de Portugal 46 (Tel: 91 053 17 01)<br>' +
+           '3. <b>Boadilla del Monte:</b> Av. Siglo XXI 8 (Tel: 91 057 52 65)<br>' +
+           '4. <b>Aranjuez:</b> C/ Verderón 1 (Tel: 91 935 58 84)<br>' +
+           '<a href="#locales" onclick="chatWindow.classList.remove(\\'open\\')" style="color:#d33d32;font-weight:700;text-decoration:underline">Ver mapa interactivo y botón de Google Maps</a>';
+  }
+
+  if (q.includes('horario') || q.includes('abre') || q.includes('cierra') || q.includes('hora')) {
+    return '⏰ <b>Horario Don Sushi:</b><br>' +
+           'Abrimos <b>de Lunes a Domingo</b> en dos turnos:<br>' +
+           '• <b>Comidas:</b> 12:30 a 16:30 h<br>' +
+           '• <b>Cenas:</b> 20:30 a 23:50 h';
+  }
+
+  if (q.includes('recomiend') || q.includes('plato') || q.includes('rico') || q.includes('sushi') || q.includes('especial')) {
+    return '⭐ <b>Los favoritos más pedidos por nuestros clientes:</b><br>' +
+           '• <b>1. Salmón Nigiri</b> y <b>6. Salmón Tostado</b><br>' +
+           '• <b>40. Salmón California Roll</b> con aguacate y sésamo<br>' +
+           '• <b>124. Guiozas fritas</b> artesanas con salsa especial<br>' +
+           '• <b>154. Pollo crujiente al limón</b><br>' +
+           '• <b>170. Teppanyaki de Gambas a la plancha</b><br>' +
+           '<a href="#carta" onclick="chatWindow.classList.remove(\\'open\\')" style="color:#d33d32;font-weight:700">Ver toda la carta de 183 platos</a>';
+  }
+
+  if (q.includes('reserva') || q.includes('mesa') || q.includes('correo') || q.includes('whatsapp') || q.includes('telefono')) {
+    return '📅 <b>Confirmación de Reserva Inmediata:</b><br>' +
+           'Al rellenar el formulario de reserva en la web, el sistema te genera un <b>comprobante oficial con código #DS-XXXXXX</b> y te permite con 1 solo clic:<br>' +
+           '1. Enviar el comprobante directo al <b>WhatsApp del restaurante</b>.<br>' +
+           '2. Recibirlo en tu <b>propio WhatsApp</b>.<br>' +
+           '3. Enviarte una copia completa a tu <b>correo electrónico</b>.<br>' +
+           '4. Guardar la cita en tu <b>calendario (Google / Apple)</b>.<br>' +
+           '<a href="#reserva" onclick="chatWindow.classList.remove(\\'open\\')" style="color:#d33d32;font-weight:700;text-decoration:underline">👉 Ir a reservar mesa ahora</a>';
+  }
+
+  if (q.includes('alerg') || q.includes('gluten') || q.includes('celiac') || q.includes('vegano')) {
+    return '🌾 Disponemos de tabla completa de alérgenos identificada en cada plato. Si eres celíaco o tienes alergia a mariscos, soja o frutos secos, indícalo al camarero y el sushiman adaptará las piezas para ti.';
+  }
+
+  if (q.includes('hola') || q.includes('buenas') || q.includes('konnichiwa')) {
+    return '¡Hola! Qué alegría saludarte. 🍣 ¿Buscas mesa para hoy o te gustaría saber qué incluye nuestro buffet libre?';
+  }
+
+  if (q.includes('gracias')) {
+    return '¡Arigatō gozaimasu! 🙏 ¡Es un placer! Si necesitas algo más, aquí estaré. ¡Te esperamos pronto en Don Sushi!';
+  }
+
+  // Búsqueda inteligente en los 183 platos
+  const found = allDishes.filter(d => d.title.toLowerCase().includes(q));
+  if (found.length > 0) {
+    const list = found.slice(0, 4).map(d => \`• <b>\${d.title}</b> (\${d.catKey})\`).join('<br>');
+    return \`🍣 Encontré estos platos en nuestro buffet libre:<br>\${list}<br><a href="#carta" onclick="chatWindow.classList.remove('open')" style="color:#d33d32;font-weight:700">Verlos en la carta</a>\`;
+  }
+
+  return 'Entiendo. En Don Sushi disponemos de buffet libre a la carta con más de 180 platos por 12,95 € (mediodía) y 15,95 € (noche). ¿Deseas consultar nuestros locales, ver el mapa o hacer una reserva?';
+}
+
+chatForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const val = chatInput.value.trim();
+  if (!val) return;
+  addMessage('user', val);
+  chatInput.value = '';
+  const reply = processQuery(val);
+  botReply(reply);
+});
+
+chatChips.addEventListener('click', e => {
+  const btn = e.target.closest('.chat-chip');
+  if (!btn) return;
+  const qType = btn.dataset.q;
+  let text = btn.textContent;
+  addMessage('user', text);
+  let reply = '';
+  if (qType === 'precios') reply = processQuery('precio');
+  else if (qType === 'locales') reply = processQuery('donde');
+  else if (qType === 'horario') reply = processQuery('horario');
+  else if (qType === 'recomendar') reply = processQuery('recomienda');
+  else if (qType === 'reservar') reply = processQuery('reserva');
+  botReply(reply);
+});
+</script>
+</body>
+</html>
+`;
+
+fs.writeFileSync('index.html', html, 'utf8');
+console.log('index.html successfully updated! Size:', html.length, 'bytes');
