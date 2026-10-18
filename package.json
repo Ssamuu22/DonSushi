@@ -14,5 +14,8 @@
     "don-sushi"
   ],
   "author": "Don Sushi",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0"
+  }
 }

@@ -1,174 +1,167 @@
-const { DatabaseSync } = require('node:sqlite');
-const path = require('path');
+const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
+const path = require('path');
 
-const DB_PATH = path.join(__dirname, 'donsushi.db');
-const db = new DatabaseSync(DB_PATH);
-
-// Inicializar tablas
-db.exec(`
-  CREATE TABLE IF NOT EXISTS reservas (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    codigo TEXT UNIQUE NOT NULL,
-    restaurante TEXT NOT NULL,
-    nombre TEXT NOT NULL,
-    telefono TEXT NOT NULL,
-    email TEXT NOT NULL,
-    fecha TEXT NOT NULL,
-    hora TEXT NOT NULL,
-    personas INTEGER NOT NULL,
-    estado TEXT DEFAULT 'pendiente',
-    notas TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE IF NOT EXISTS platos (
-    id INTEGER PRIMARY KEY,
-    codigo_plato TEXT,
-    categoria TEXT NOT NULL,
-    titulo TEXT NOT NULL,
-    imagen TEXT,
-    activo INTEGER DEFAULT 1
-  );
-
-  CREATE TABLE IF NOT EXISTS log_chat (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    pregunta TEXT,
-    respuesta TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-`);
-
-// Cargar platos iniciales si la tabla está vacía
-const countPlatos = db.prepare('SELECT COUNT(*) as total FROM platos').get().total;
-
-if (countPlatos === 0 && fs.existsSync(path.join(__dirname, 'dishes.json'))) {
-  const dishes = JSON.parse(fs.readFileSync(path.join(__dirname, 'dishes.json'), 'utf8'));
-  const insertPlato = db.prepare(`
-    INSERT INTO platos (id, codigo_plato, categoria, titulo, imagen, activo)
-    VALUES (?, ?, ?, ?, ?, 1)
-  `);
-
-  const categoriesMap = {
-    'NIGIRI': 'Nigiri',
-    'MAKI': 'Maki & Slim',
-    'MAKISLIM': 'Maki & Slim',
-    'CALIFORNIA': 'California Rolls',
-    'ROLLO GRANDE': 'Rollos Grandes',
-    'SASHIMI': 'Sashimi',
-    'TEMAKI': 'Temaki',
-    'COMBINADAS': 'Combinadas',
-    'ENTRANTES': 'Entrantes',
-    'PINCHITAS': 'Pinchitas',
-    'COCINA': 'Cocina Caliente',
-    'TEPPANYAKI': 'Teppanyaki',
-    'POSTRES': 'Postres',
-    'BEBIDAS JAPONÉS': 'Bebidas & Vinos',
-    'BEBIDA Y REFRESCOS': 'Bebidas & Vinos',
-    'VINOS BLANCO': 'Bebidas & Vinos',
-    'VINOS TINTO': 'Bebidas & Vinos',
-    'VINO ROSADO': 'Bebidas & Vinos'
-  };
-
-  db.exec('BEGIN TRANSACTION');
-  dishes.forEach((d, idx) => {
-    const id = parseInt(d.id, 10) || (idx + 1);
-    const cat = categoriesMap[d.category] || d.category;
-    insertPlato.run(id, d.id, cat, d.title, d.img);
+// Cargar variables de entorno locales si existe .env
+if (fs.existsSync(path.join(__dirname, '.env'))) {
+  const envConfig = fs.readFileSync(path.join(__dirname, '.env'), 'utf8');
+  envConfig.split('\n').forEach(line => {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#')) {
+      const idx = trimmed.indexOf('=');
+      if (idx !== -1) {
+        const key = trimmed.substring(0, idx).trim();
+        const val = trimmed.substring(idx + 1).trim();
+        process.env[key] = val;
+      }
+    }
   });
-  db.exec('COMMIT');
-  console.log(`[BD] Se importaron ${dishes.length} platos en la base de datos.`);
 }
 
-// Métodos de acceso
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+
+let supabase = null;
+if (supabaseUrl && supabaseKey && !supabaseUrl.includes('TU_PROYECTO')) {
+  supabase = createClient(supabaseUrl, supabaseKey);
+} else {
+  console.warn('⚠️ [DB] SUPABASE_URL o SUPABASE_SERVICE_KEY no configurados. Las operaciones fallarán si no se configuran.');
+}
+
 module.exports = {
-  db,
-  
-  // Reservas
-  crearReserva: (data) => {
-    const stmt = db.prepare(`
-      INSERT INTO reservas (codigo, restaurante, nombre, telefono, email, fecha, hora, personas, estado, notas)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pendiente', ?)
-    `);
-    const result = stmt.run(
-      data.codigo,
-      data.restaurante,
-      data.nombre,
-      data.telefono,
-      data.email,
-      data.fecha,
-      data.hora,
-      data.personas,
-      data.notas || ''
-    );
-    return db.prepare('SELECT * FROM reservas WHERE id = ?').get(result.lastInsertRowid);
+  get client() {
+    return supabase;
   },
 
-  obtenerReservas: (filtros = {}) => {
-    let sql = 'SELECT * FROM reservas WHERE 1=1';
-    const params = [];
+  // 1. Crear Reserva
+  async crearReserva(data) {
+    if (!supabase) throw new Error('Cliente Supabase no configurado.');
+    const insertPayload = {
+      codigo: data.codigo,
+      restaurante: data.restaurante,
+      nombre: data.nombre,
+      telefono: data.telefono,
+      email: data.email,
+      fecha: data.fecha,
+      hora: data.hora,
+      personas: parseInt(data.personas, 10),
+      estado: data.estado || 'pendiente',
+      notas: data.notas || ''
+    };
+
+    const { data: nuevaReserva, error } = await supabase
+      .from('reservas')
+      .insert(insertPayload)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return nuevaReserva;
+  },
+
+  // 2. Obtener Reservas con filtros
+  async obtenerReservas(filtros = {}) {
+    if (!supabase) throw new Error('Cliente Supabase no configurado.');
+    let query = supabase.from('reservas').select('*');
+
     if (filtros.restaurante) {
-      sql += ' AND restaurante = ?';
-      params.push(filtros.restaurante);
+      query = query.ilike('restaurante', `%${filtros.restaurante}%`);
     }
     if (filtros.fecha) {
-      sql += ' AND fecha = ?';
-      params.push(filtros.fecha);
+      query = query.eq('fecha', filtros.fecha);
     }
     if (filtros.estado) {
-      sql += ' AND estado = ?';
-      params.push(filtros.estado);
+      query = query.eq('estado', filtros.estado);
     }
-    sql += ' ORDER BY fecha DESC, hora DESC';
-    return db.prepare(sql).all(...params);
+
+    query = query.order('fecha', { ascending: false }).order('hora', { ascending: false });
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    return data || [];
   },
 
-  obtenerReservaPorCodigo: (codigo) => {
+  // 3. Obtener Reserva por Código
+  async obtenerReservaPorCodigo(codigo) {
+    if (!supabase) throw new Error('Cliente Supabase no configurado.');
     const clean = codigo.trim().toUpperCase().replace('#', '');
-    return db.prepare('SELECT * FROM reservas WHERE codigo = ? OR codigo = ?').get(clean, '#' + clean);
+    const { data, error } = await supabase
+      .from('reservas')
+      .select('*')
+      .or(`codigo.eq.${clean},codigo.eq.#${clean}`)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    return data;
   },
 
-  actualizarEstadoReserva: (codigo, nuevoEstado) => {
+  // 4. Actualizar Estado
+  async actualizarEstadoReserva(codigo, nuevoEstado) {
+    if (!supabase) throw new Error('Cliente Supabase no configurado.');
     const clean = codigo.trim().toUpperCase().replace('#', '');
-    db.prepare('UPDATE reservas SET estado = ? WHERE codigo = ? OR codigo = ?').run(nuevoEstado, clean, '#' + clean);
-    return db.prepare('SELECT * FROM reservas WHERE codigo = ? OR codigo = ?').get(clean, '#' + clean);
+    const { data, error } = await supabase
+      .from('reservas')
+      .update({ estado: nuevoEstado })
+      .or(`codigo.eq.${clean},codigo.eq.#${clean}`)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return data;
   },
 
-  eliminarReserva: (codigo) => {
+  // 5. Eliminar Reserva
+  async eliminarReserva(codigo) {
+    if (!supabase) throw new Error('Cliente Supabase no configurado.');
     const clean = codigo.trim().toUpperCase().replace('#', '');
-    return db.prepare('DELETE FROM reservas WHERE codigo = ? OR codigo = ?').run(clean, '#' + clean);
+    const { error } = await supabase
+      .from('reservas')
+      .delete()
+      .or(`codigo.eq.${clean},codigo.eq.#${clean}`);
+
+    if (error) throw new Error(error.message);
+    return true;
   },
 
-  // Platos
-  obtenerPlatos: (categoria, busqueda) => {
-    let sql = 'SELECT * FROM platos WHERE activo = 1';
-    const params = [];
+  // 6. Platos
+  async obtenerPlatos(categoria, busqueda) {
+    if (!supabase) throw new Error('Cliente Supabase no configurado.');
+    let query = supabase.from('platos').select('*').eq('activo', true);
+
     if (categoria && categoria !== 'ALL') {
-      sql += ' AND categoria = ?';
-      params.push(categoria);
+      query = query.eq('categoria', categoria);
     }
     if (busqueda) {
-      sql += ' AND (titulo LIKE ? OR categoria LIKE ?)';
-      params.push(`%${busqueda}%`, `%${busqueda}%`);
+      query = query.or(`titulo.ilike.%${busqueda}%,categoria.ilike.%${busqueda}%`);
     }
-    sql += ' ORDER BY id ASC';
-    return db.prepare(sql).all(...params);
+
+    query = query.order('id', { ascending: true });
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    return data || [];
   },
 
-  // Estadísticas del restaurante
-  obtenerEstadisticas: () => {
-    const totalReservas = db.prepare('SELECT COUNT(*) as c FROM reservas').get().c;
-    const confirmadas = db.prepare("SELECT COUNT(*) as c FROM reservas WHERE estado = 'confirmada'").get().c;
-    const pendientes = db.prepare("SELECT COUNT(*) as c FROM reservas WHERE estado = 'pendiente'").get().c;
-    const totalComensales = db.prepare('SELECT COALESCE(SUM(personas), 0) as s FROM reservas').get().s;
-    const totalPlatos = db.prepare('SELECT COUNT(*) as c FROM platos').get().c;
-    
+  // 7. Estadísticas
+  async obtenerEstadisticas() {
+    if (!supabase) throw new Error('Cliente Supabase no configurado.');
+
+    const [resTotal, resConf, resPend, resPlatos, resPersonas] = await Promise.all([
+      supabase.from('reservas').select('*', { count: 'exact', head: true }),
+      supabase.from('reservas').select('*', { count: 'exact', head: true }).eq('estado', 'confirmada'),
+      supabase.from('reservas').select('*', { count: 'exact', head: true }).eq('estado', 'pendiente'),
+      supabase.from('platos').select('*', { count: 'exact', head: true }),
+      supabase.from('reservas').select('personas')
+    ]);
+
+    const totalComensales = (resPersonas.data || []).reduce((acc, r) => acc + (r.personas || 0), 0);
+
     return {
-      totalReservas,
-      confirmadas,
-      pendientes,
+      totalReservas: resTotal.count || 0,
+      confirmadas: resConf.count || 0,
+      pendientes: resPend.count || 0,
       totalComensales,
-      totalPlatos
+      totalPlatos: resPlatos.count || 0
     };
   }
 };
