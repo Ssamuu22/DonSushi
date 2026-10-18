@@ -1401,7 +1401,6 @@ footer .wrap {
         <li><a href="#locales">Locales & Mapa</a></li>
         <li><a href="#chef">El Maestro</a></li>
         <li><a href="#reserva">Reservas</a></li>
-        <li><a href="/admin" target="_blank" style="color:var(--salmon);font-weight:700">📊 Panel BD</a></li>
       </ul>
     </nav>
     <div class="nav-right">
@@ -1887,16 +1886,16 @@ footer .wrap {
           </button>
         </form>
 
-        <!-- Consultar estado en Base de Datos -->
+        <!-- Consultar estado de reserva -->
         <div style="margin-top:20px;text-align:center">
           <span style="color:#cbd5e1;font-size:0.92rem">¿Ya tienes una reserva?</span>
-          <button type="button" id="btnConsultarReserva" style="background:none;border:0;color:var(--salmon);font-weight:700;text-decoration:underline;cursor:pointer;margin-left:6px;font-size:0.92rem">🔍 Consultar estado en la Base de Datos</button>
+          <button type="button" id="btnConsultarReserva" style="background:none;border:0;color:var(--salmon);font-weight:700;text-decoration:underline;cursor:pointer;margin-left:6px;font-size:0.92rem">🔍 Consultar estado de mi reserva</button>
         </div>
 
-        <!-- Modal de consulta en BD -->
+        <!-- Modal de consulta -->
         <div id="boxConsultaBD" style="display:none;background:#fff;color:var(--tinta);border-radius:18px;padding:24px;margin-top:20px;border:2px solid var(--salmon);box-shadow:0 10px 25px rgba(0,0,0,0.3)">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-            <strong style="font-size:1.1rem">🔎 Consulta tu Reserva en la Base de Datos</strong>
+            <strong style="font-size:1.1rem">🔎 Consulta el estado de tu Reserva</strong>
             <button type="button" onclick="document.getElementById('boxConsultaBD').style.display='none'" style="border:0;background:none;font-size:1.2rem;cursor:pointer">✕</button>
           </div>
           <div style="display:flex;gap:10px;margin-bottom:14px">
