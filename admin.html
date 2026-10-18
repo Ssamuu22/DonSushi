@@ -367,7 +367,7 @@ function renderizarTabla() {
 
 async function cambiarEstado(codigo, nuevoEstado) {
   try {
-    const res = await fetch(\`/api/reservas/\${encodeURIComponent(codigo)}/estado\`, {
+    const res = await fetch(`/api/reservas/${encodeURIComponent(codigo)}/estado`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ estado: nuevoEstado })
@@ -381,9 +381,9 @@ async function cambiarEstado(codigo, nuevoEstado) {
 }
 
 async function eliminar(codigo) {
-  if (!confirm(\`¿Seguro que deseas eliminar la reserva \${codigo} de la base de datos?\`)) return;
+  if (!confirm(`¿Seguro que deseas eliminar la reserva ${codigo} de la base de datos?`)) return;
   try {
-    const res = await fetch(\`/api/reservas/\${encodeURIComponent(codigo)}\`, {
+    const res = await fetch(`/api/reservas/${encodeURIComponent(codigo)}`, {
       method: 'DELETE'
     });
     if (res.ok) {
@@ -402,16 +402,17 @@ document.getElementById('btnRecargar').addEventListener('click', cargarDatos);
 // Exportar CSV
 document.getElementById('btnExportar').addEventListener('click', () => {
   if (reservasCache.length === 0) return alert('No hay reservas para exportar.');
-  let csv = 'Código,Restaurante,Nombre,Teléfono,Email,Fecha,Hora,Personas,Estado,Fecha Creación\\n';
+  let csv = 'Código,Restaurante,Nombre,Teléfono,Email,Fecha,Hora,Personas,Estado,Fecha Creación\n';
   reservasCache.forEach(r => {
-    csv += \`"\${r.codigo}","\${r.restaurante}","\${r.nombre}","\${r.telefono}","\${r.email}","\${r.fecha}","\${r.hora}",\${r.personas},"\${r.estado}","\${r.created_at}"\\n\`;
+    csv += `"${r.codigo}","${r.restaurante}","${r.nombre}","${r.telefono}","${r.email}","${r.fecha}","${r.hora}",${r.personas},"${r.estado}","${r.created_at}"\n`;
   });
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = \`reservas-don-sushi-\${new Date().toISOString().split('T')[0]}.csv\`;
+  a.download = `reservas-don-sushi-${new Date().toISOString().split('T')[0]}.csv`;
   a.click();
 });
+
 
 // Carga inicial y refresco cada 10s
 cargarDatos();
