@@ -43,8 +43,8 @@ function parseBody(req) {
 }
 
 function checkAdminAuth(req, res) {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  if (!adminPassword) return true; // Si no hay contraseña configurada en .env, permite paso (desarrollo)
+  const adminPassword = process.env.ADMIN_PASSWORD || 'donsushi2026';
+
 
   const authHeader = req.headers['authorization'] || '';
   if (!authHeader.startsWith('Basic ')) {
