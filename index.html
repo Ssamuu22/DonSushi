@@ -2582,6 +2582,46 @@ btnNuevaReserva.addEventListener('click', () => {
   fechaInput.value = new Date().toISOString().split('T')[0];
 });
 
+// Consultar reserva en la Base de Datos
+const btnBuscarEnBD = document.getElementById('btnBuscarEnBD');
+const inputCodConsulta = document.getElementById('inputCodConsulta');
+const resultadoConsultaBD = document.getElementById('resultadoConsultaBD');
+
+if (btnBuscarEnBD && inputCodConsulta && resultadoConsultaBD) {
+  btnBuscarEnBD.addEventListener('click', async () => {
+    const rawCod = inputCodConsulta.value.trim();
+    if (!rawCod) {
+      resultadoConsultaBD.innerHTML = '<span style="color:#ef4444">⚠️ Por favor introduce un código de reserva (ej. #DS-123456).</span>';
+      return;
+    }
+    resultadoConsultaBD.innerHTML = '<span style="color:#64748b">🔍 Buscando en Supabase...</span>';
+    try {
+      const res = await fetch(`/api/reservas/${encodeURIComponent(rawCod)}`);
+      if (!res.ok) {
+        resultadoConsultaBD.innerHTML = '<span style="color:#ef4444">❌ No se encontró ninguna reserva con el código <b>' + rawCod + '</b>.</span>';
+        return;
+      }
+      const r = await res.json();
+      const badgeColor = r.estado === 'confirmada' ? '#166534;background:#dcfce7' : (r.estado === 'cancelada' ? '#991b1b;background:#fee2e2' : '#92400e;background:#fef3c7');
+      resultadoConsultaBD.innerHTML = `
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:16px;margin-top:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-family:monospace;font-weight:800;color:var(--atun);font-size:1.1rem">${r.codigo}</span>
+            <span style="padding:4px 10px;border-radius:999px;font-size:0.8rem;font-weight:700;text-transform:uppercase;color:${badgeColor}">${r.estado}</span>
+          </div>
+          <div><b>Titular:</b> ${r.nombre}</div>
+          <div><b>Restaurante:</b> ${r.restaurante}</div>
+          <div><b>Fecha & Hora:</b> 📅 ${r.fecha} a las ⏰ ${r.hora} h</div>
+          <div><b>Comensales:</b> ${r.personas} personas</div>
+        </div>
+      `;
+    } catch(err) {
+      resultadoConsultaBD.innerHTML = '<span style="color:#ef4444">Error al conectar con la base de datos: ' + err.message + '</span>';
+    }
+  });
+}
+
+
 /* 9. CHATBOT COMPLETAMENTE FUNCIONAL (HIROSHI VIRTUAL) */
 const chatWidgetBtn = document.getElementById('chatWidgetBtn');
 const chatWindow = document.getElementById('chatWindow');
