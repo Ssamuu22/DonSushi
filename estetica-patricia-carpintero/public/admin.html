@@ -788,8 +788,8 @@ td {
         <option value="cancelada">❌ Canceladas</option>
       </select>
       <select id="filterFecha" class="filter-select" onchange="filtrarReservas()">
-        <option value="todas">Todas las Fechas</option>
-        <option value="hoy" selected>Solo Hoy</option>
+        <option value="todas" selected>📅 Todas las Fechas</option>
+        <option value="hoy">Hoy</option>
         <option value="manana">Mañana</option>
         <option value="semana">Esta Semana</option>
       </select>
@@ -926,6 +926,8 @@ window.addEventListener('DOMContentLoaded', () => {
   if (authToken) {
     document.getElementById('loginOverlay').classList.add('hidden');
     cargarReservas();
+    // Auto-recarga cada 5 segundos para recibir citas en tiempo real
+    setInterval(cargarReservas, 5000);
   } else {
     document.getElementById('loginOverlay').classList.remove('hidden');
   }
@@ -951,6 +953,7 @@ async function handleLogin(e) {
       localStorage.setItem('pc_admin_token', authToken);
       document.getElementById('loginOverlay').classList.add('hidden');
       cargarReservas();
+      setInterval(cargarReservas, 5000);
       mostrarToast('Bienvenida al panel, Patricia ✨');
     } else {
       // Fallback offline directo si se abre como archivo estático
