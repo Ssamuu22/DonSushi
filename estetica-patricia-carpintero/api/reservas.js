@@ -13,6 +13,12 @@ module.exports = async (req, res) => {
   const { codigo } = req.query;
 
   try {
+    // 0. CONSULTA PÚBLICA DE HORAS OCUPADAS PARA UNA FECHA
+    if (req.method === 'GET' && req.query.fecha && req.query.horasOcupadas) {
+      const horas = await db.obtenerHorasOcupadas(req.query.fecha);
+      return res.status(200).json({ fecha: req.query.fecha, horasOcupadas: horas });
+    }
+
     // 1. CONSULTA ESPECÍFICA DE CITA (Pública para clientes que tienen su código #PC-XXXXXX)
     if (req.method === 'GET' && codigo) {
       const reserva = await db.obtenerReservaPorCodigo(codigo);

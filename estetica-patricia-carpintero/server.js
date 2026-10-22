@@ -132,6 +132,19 @@ const requestHandler = async (req, res) => {
     return;
   }
 
+  // 2.1 Consulta Pública de Horas Ocupadas (GET /api/reservas?fecha=YYYY-MM-DD&horasOcupadas=1)
+  if (req.method === 'GET' && pathname === '/api/reservas' && parsedUrl.query.fecha && parsedUrl.query.horasOcupadas) {
+    try {
+      const horas = await db.obtenerHorasOcupadas(parsedUrl.query.fecha);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ fecha: parsedUrl.query.fecha, horasOcupadas: horas }));
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: e.message }));
+    }
+    return;
+  }
+
   // 3. Obtener Reserva por Código (GET /api/reservas?codigo=XXX) - PÚBLICO
   if (req.method === 'GET' && pathname === '/api/reservas' && parsedUrl.query.codigo) {
     try {

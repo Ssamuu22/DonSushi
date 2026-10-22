@@ -100,7 +100,31 @@ module.exports = {
     return supabase;
   },
 
+  async obtenerHorasOcupadas(fecha) {
+    if (!fecha) return [];
+    if (supabase) {
+      const { data, error } = await supabase
+        .from('reservas')
+        .select('hora, estado')
+        .eq('fecha', fecha)
+        .neq('estado', 'cancelada');
+      if (error) throw error;
+      return (data || []).map(r => r.hora);
+    } else {
+      const reservas = leerReservasLocales();
+      return reservas
+        .filter(r => r.fecha === fecha && r.estado !== 'cancelada')
+        .map(r => r.hora);
+    }
+  },
+
   async crearReserva(data) {
+    // Comprobar si la hora ya está ocupada
+    const horasOcupadas = await this.obtenerHorasOcupadas(data.fecha);
+    if (horasOcupadas.includes(data.hora)) {
+      throw new Error('Lo sentimos, esa hora acaba de ser reservada. Por favor, selecciona otro horario disponible.');
+    }
+
     const nuevaReserva = {
       codigo: data.codigo,
       servicio: data.servicio,

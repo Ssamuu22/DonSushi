@@ -911,6 +911,26 @@ header.scrolled {
   color: #fff;
   box-shadow: 0 4px 12px rgba(180, 121, 153, 0.3);
 }
+.time-slot-btn.occupied {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed !important;
+  opacity: 0.65;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: none !important;
+}
+.time-slot-btn.occupied .occupied-tag {
+  font-size: 0.64rem;
+  color: #e11d48;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
 .step-buttons-row {
   display: flex;
@@ -2347,10 +2367,10 @@ function configurarFechas() {
   generarHorasDisponibles();
 }
 
-function generarHorasDisponibles() {
+async function generarHorasDisponibles() {
   const fechaVal = document.getElementById('bookDate').value;
   const grid = document.getElementById('timeSlotsGrid');
-  grid.innerHTML = '';
+  grid.innerHTML = '<span style="color:var(--texto-suave); font-size:0.85rem; grid-column:1/-1;">Consultando turnos libres en tiempo real...</span>';
 
   if (!fechaVal) return;
 
@@ -2364,6 +2384,25 @@ function generarHorasDisponibles() {
     return;
   }
 
+  // Consultar horas ya ocupadas en el sistema
+  let horasOcupadas = [];
+  try {
+    const res = await fetch(`/api/reservas?fecha=${fechaVal}&horasOcupadas=1`);
+    if (res.ok) {
+      const data = await res.json();
+      horasOcupadas = data.horasOcupadas || [];
+    }
+  } catch (err) {
+    try {
+      const local = JSON.parse(localStorage.getItem('pc_local_reservas') || '[]');
+      horasOcupadas = local
+        .filter(r => r.fecha === fechaVal && r.estado !== 'cancelada')
+        .map(r => r.hora);
+    } catch(e) {}
+  }
+
+  grid.innerHTML = '';
+
   let slots = [];
   if (diaSemana === 6) {
     // Sábado solo mañanas
@@ -2376,17 +2415,35 @@ function generarHorasDisponibles() {
     ];
   }
 
+  const horaActualSeleccionada = document.getElementById('bookHour').value;
+  if (horasOcupadas.includes(horaActualSeleccionada)) {
+    document.getElementById('bookHour').value = '';
+    document.getElementById('horaSeleccionadaTexto').textContent = 'Ninguno';
+  }
+
   slots.forEach(hora => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'time-slot-btn';
-    btn.textContent = hora;
-    btn.onclick = () => {
-      document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      document.getElementById('bookHour').value = hora;
-      document.getElementById('horaSeleccionadaTexto').textContent = hora + ' h';
-    };
+
+    const ocupada = horasOcupadas.includes(hora);
+    if (ocupada) {
+      btn.classList.add('occupied');
+      btn.disabled = true;
+      btn.title = 'Este turno ya está reservado';
+      btn.innerHTML = `${hora}<span class="occupied-tag">Ocupada</span>`;
+    } else {
+      btn.textContent = hora;
+      if (hora === horaActualSeleccionada) {
+        btn.classList.add('selected');
+      }
+      btn.onclick = () => {
+        document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('bookHour').value = hora;
+        document.getElementById('horaSeleccionadaTexto').textContent = hora + ' h';
+      };
+    }
     grid.appendChild(btn);
   });
 }
@@ -2446,7 +2503,13 @@ async function procesarReserva(e) {
       const resp = await res.json();
       ultimaCitaGenerada = resp.reserva || reservaData;
     } else {
-      ultimaCitaGenerada = reservaData;
+      const errorData = await res.json().catch(() => ({}));
+      alert(errorData.error || 'Lo sentimos, esa hora ya está ocupada por otra cita. Por favor, selecciona otro horario disponible.');
+      btn.disabled = false;
+      btn.textContent = 'Confirmar Reserva ✨';
+      irAlPaso(2);
+      generarHorasDisponibles();
+      return;
     }
   } catch (err) {
     // Si corre estático (file://)
