@@ -1,0 +1,26 @@
+{
+  "name": "estetica-patricia-carpintero",
+  "version": "1.0.0",
+  "description": "Centro de Estética Patricia Carpintero · Web oficial con reservas online, comprobante digital, WhatsApp, panel admin y catálogo de tratamientos en Fuensalida (Toledo)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "estetica",
+    "patricia-carpintero",
+    "fuensalida",
+    "toledo",
+    "belleza",
+    "maderoterapia",
+    "higiene-facial",
+    "dermapen",
+    "reservas"
+  ],
+  "author": "Centro de Estética Patricia Carpintero",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0"
+  }
+}

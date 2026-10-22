@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/reservas/(.*)", "destination": "/api/reservas?codigo=$1" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/admin.htlm", "destination": "/admin.html" }
+  ]
+}

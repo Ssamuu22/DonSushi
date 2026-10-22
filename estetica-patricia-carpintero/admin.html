@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centro de Estética Patricia Carpintero · Panel de Gestión de Citas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Alex+Brush&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rosa-peonia: #b47999;
+  --rosa-claro: #fbf5f8;
+  --rosa-hover: #9c5e82;
+  --verde-salvia: #52796f;
+  --verde-hover: #3d5c54;
+  --verde-fondo: #eef5f2;
+  --carbon: #1f2421;
+  --texto-medio: #4a5568;
+  --texto-suave: #718096;
+  --fondo: #f8faf9;
+  --blanco: #ffffff;
+  --borde: #e2e8f0;
+  --dorado: #c5a059;
+  --dorado-suave: #fdfaf3;
+  --amarillo: #d97706;
+  --amarillo-bg: #fef3c7;
+  --verde-ok: #059669;
+  --verde-ok-bg: #d1fae5;
+  --rojo: #dc2626;
+  --rojo-bg: #fee2e2;
+  --azul: #2563eb;
+  --azul-bg: #dbeafe;
+  --whatsapp: #25d366;
+  --whatsapp-hover: #128c7e;
+  --sombra: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --sombra-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background: var(--fondo);
+  color: var(--carbon);
+  min-height: 100vh;
+  padding: 24px 16px;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Modal Login Privado */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 36, 33, 0.88);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.login-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.login-card {
+  background: var(--blanco);
+  border-radius: 28px;
+  padding: 42px 36px;
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(180, 121, 153, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--verde-salvia), var(--rosa-peonia), var(--dorado));
+}
+.login-avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 2px solid var(--rosa-peonia);
+  padding: 4px;
+  background: #fff;
+  object-fit: cover;
+  box-shadow: 0 6px 16px rgba(180, 121, 153, 0.2);
+}
+.login-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--carbon);
+  margin-bottom: 6px;
+}
+.login-brand-sub {
+  font-family: 'Alex Brush', cursive;
+  font-size: 1.5rem;
+  color: var(--rosa-peonia);
+  display: block;
+  margin-top: -4px;
+  margin-bottom: 12px;
+}
+.login-desc {
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+  margin-bottom: 24px;
+}
+.login-input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1.1rem;
+  text-align: center;
+  letter-spacing: 2px;
+  border-radius: 14px;
+  border: 1.5px solid var(--borde);
+  margin-bottom: 16px;
+  outline: none;
+  background: #fdfcfd;
+  transition: all 0.2s ease;
+}
+.login-input:focus {
+  border-color: var(--rosa-peonia);
+  box-shadow: 0 0 0 3px rgba(180, 121, 153, 0.15);
+  background: #fff;
+}
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--rosa-peonia), var(--rosa-hover));
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 18px rgba(180, 121, 153, 0.28);
+}
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(180, 121, 153, 0.35);
+}
+.login-hint {
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+/* Header Principal */
+header {
+  background: var(--blanco);
+  border-radius: 24px;
+  padding: 22px 28px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  box-shadow: var(--sombra);
+  border: 1px solid var(--borde);
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--rosa-peonia);
+  object-fit: cover;
+  background: #fff;
+  padding: 2px;
+}
+.header-title-box h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--carbon);
+  line-height: 1.2;
+}
+.header-script {
+  font-family: 'Alex Brush', cursive;
+  font-size: 1.4rem;
+  color: var(--rosa-peonia);
+  margin-left: 6px;
+}
+.header-subtitle {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 3px;
+}
+.badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--verde-ok-bg);
+  color: var(--verde-ok);
+}
+.badge-live::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--verde-ok);
+  border-radius: 50%;
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--rosa-peonia);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(180, 121, 153, 0.2);
+}
+.btn-primary:hover {
+  background: var(--rosa-hover);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: var(--verde-fondo);
+  color: var(--verde-salvia);
+  border: 1px solid rgba(82, 121, 111, 0.2);
+}
+.btn-secondary:hover {
+  background: #e2ede8;
+}
+.btn-outline {
+  background: #fff;
+  color: var(--texto-medio);
+  border: 1.5px solid var(--borde);
+}
+.btn-outline:hover {
+  border-color: var(--rosa-peonia);
+  color: var(--rosa-peonia);
+}
+.btn-danger-outline {
+  background: #fff;
+  color: var(--rojo);
+  border: 1.5px solid rgba(220, 38, 38, 0.2);
+}
+.btn-danger-outline:hover {
+  background: var(--rojo-bg);
+}
+
+/* Métricas / Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--blanco);
+  border-radius: 20px;
+  padding: 22px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-lg);
+}
+.stat-info p {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.stat-info h3 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--carbon);
+  line-height: 1;
+}
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+.stat-icon.pink { background: var(--rosa-claro); color: var(--rosa-peonia); }
+.stat-icon.green { background: var(--verde-fondo); color: var(--verde-salvia); }
+.stat-icon.amber { background: var(--amarillo-bg); color: var(--amarillo); }
+.stat-icon.blue { background: var(--azul-bg); color: var(--azul); }
+
+/* Filtros y Búsqueda */
+.controls-card {
+  background: var(--blanco);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.search-box {
+  flex: 1;
+  min-width: 280px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde);
+  font-size: 0.92rem;
+  outline: none;
+  transition: all 0.2s;
+  background: #fdfdfd;
+}
+.search-box input:focus {
+  border-color: var(--rosa-peonia);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(180, 121, 153, 0.12);
+}
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--texto-suave);
+  pointer-events: none;
+}
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.filter-select {
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde);
+  font-size: 0.88rem;
+  color: var(--carbon);
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.filter-select:focus {
+  border-color: var(--rosa-peonia);
+}
+
+/* Tabla de Citas */
+.table-card {
+  background: var(--blanco);
+  border-radius: 24px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+}
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+thead tr {
+  background: #fafbfc;
+  border-bottom: 1.5px solid var(--borde);
+}
+th {
+  padding: 16px 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--texto-suave);
+  white-space: nowrap;
+}
+tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.15s ease;
+}
+tbody tr:hover {
+  background: #fcfbfa;
+}
+td {
+  padding: 18px 20px;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+.badge-code {
+  font-family: monospace;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+}
+.client-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--carbon);
+}
+.client-info span {
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+.service-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--rosa-claro);
+  color: var(--rosa-hover);
+  border: 1px solid rgba(180, 121, 153, 0.2);
+}
+.time-badge {
+  display: flex;
+  flex-direction: column;
+}
+.time-badge .date {
+  font-weight: 700;
+  color: var(--carbon);
+}
+.time-badge .hour {
+  font-size: 0.82rem;
+  color: var(--verde-salvia);
+  font-weight: 600;
+}
+
+/* Badges de Estado */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.status-badge.pendiente {
+  background: var(--amarillo-bg);
+  color: var(--amarillo);
+}
+.status-badge.confirmada {
+  background: var(--verde-ok-bg);
+  color: var(--verde-ok);
+}
+.status-badge.completada {
+  background: var(--azul-bg);
+  color: var(--azul);
+}
+.status-badge.cancelada {
+  background: var(--rojo-bg);
+  color: var(--rojo);
+}
+
+/* Acciones en fila */
+.actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-action-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid var(--borde);
+  background: #fff;
+  color: var(--texto-medio);
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-action-icon:hover {
+  transform: scale(1.08);
+}
+.btn-action-icon.whatsapp {
+  color: var(--whatsapp);
+  border-color: rgba(37, 211, 102, 0.3);
+  background: #f0fdf4;
+}
+.btn-action-icon.whatsapp:hover {
+  background: var(--whatsapp);
+  color: #fff;
+}
+.btn-action-icon.trash {
+  color: var(--rojo);
+  border-color: rgba(220, 38, 38, 0.25);
+}
+.btn-action-icon.trash:hover {
+  background: var(--rojo);
+  color: #fff;
+}
+
+/* Modal Nueva Cita */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-box {
+  background: #fff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 520px;
+  padding: 30px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  transform: translateY(20px);
+  transition: transform 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-overlay.active .modal-box {
+  transform: translateY(0);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.modal-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--texto-suave);
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--carbon);
+}
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde);
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--rosa-peonia);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--carbon);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10001;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--texto-suave);
+}
+.empty-state svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  color: #cbd5e1;
+}
+
+@media (max-width: 768px) {
+  header { flex-direction: column; align-items: stretch; }
+  .header-actions { justify-content: stretch; }
+  .header-actions .btn { flex: 1; justify-content: center; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .controls-card { flex-direction: column; align-items: stretch; }
+  .search-box { width: 100%; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- MODAL DE LOGIN PRIVADO -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-card">
+    <img src="assets/logo.jpg" alt="Centro de Estética Patricia Carpintero" class="login-avatar" onerror="this.src='https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=200&q=80'">
+    <h2 class="login-title">Panel Administrativo</h2>
+    <span class="login-brand-sub">Patricia Carpintero</span>
+    <p class="login-desc">Introduce la contraseña de acceso exclusivo del salón para gestionar las citas y clientes de Fuensalida.</p>
+    
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <input type="password" id="loginPass" class="login-input" placeholder="••••••••" autocomplete="current-password" autofocus required>
+      <button type="submit" class="btn-login">Entrar al Panel</button>
+      <div id="loginError" style="color: var(--rojo); font-size: 0.85rem; margin-top: 12px; display: none; font-weight: 600;">Contraseña incorrecta. Inténtalo de nuevo.</div>
+      <p class="login-hint">Contraseña por defecto: <code>patricia2026</code></p>
+    </form>
+  </div>
+</div>
+
+<div class="container">
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <img src="assets/logo.jpg" alt="Logo Patricia Carpintero" class="header-logo" onerror="this.src='https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=120&q=80'">
+      <div class="header-title-box">
+        <h1>Centro de Estética <span class="header-script">Patricia Carpintero</span></h1>
+        <div class="header-subtitle">
+          <span>Gestión de Citas · C/ Fray Luis Fuensalida, 2</span>
+          <span class="badge-live">En línea</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" onclick="openModalNuevaCita()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Nueva Cita
+      </button>
+      <button class="btn btn-secondary" onclick="exportarCSV()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Exportar CSV
+      </button>
+      <a href="/" target="_blank" class="btn btn-outline" title="Ver web pública">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        Ver Web
+      </a>
+      <button class="btn btn-danger-outline" onclick="logout()" title="Cerrar sesión">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        Salir
+      </button>
+    </div>
+  </header>
+
+  <!-- MÉTRICAS -->
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-info">
+        <p>Citas para Hoy</p>
+        <h3 id="statHoy">0</h3>
+      </div>
+      <div class="stat-icon pink">📅</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-info">
+        <p>Pendientes</p>
+        <h3 id="statPendientes">0</h3>
+      </div>
+      <div class="stat-icon amber">⏳</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-info">
+        <p>Confirmadas</p>
+        <h3 id="statConfirmadas">0</h3>
+      </div>
+      <div class="stat-icon green">✅</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-info">
+        <p>Total Citas</p>
+        <h3 id="statTotal">0</h3>
+      </div>
+      <div class="stat-icon blue">✨</div>
+    </div>
+  </section>
+
+  <!-- CONTROLES & FILTROS -->
+  <section class="controls-card">
+    <div class="search-box">
+      <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar por cliente, teléfono o código #PC-..." oninput="filtrarReservas()">
+    </div>
+    <div class="filter-group">
+      <select id="filterEstado" class="filter-select" onchange="filtrarReservas()">
+        <option value="">Todos los Estados</option>
+        <option value="pendiente">⏳ Pendientes</option>
+        <option value="confirmada">✅ Confirmadas</option>
+        <option value="completada">💆‍♀️ Realizadas</option>
+        <option value="cancelada">❌ Canceladas</option>
+      </select>
+      <select id="filterFecha" class="filter-select" onchange="filtrarReservas()">
+        <option value="todas">Todas las Fechas</option>
+        <option value="hoy" selected>Solo Hoy</option>
+        <option value="manana">Mañana</option>
+        <option value="semana">Esta Semana</option>
+      </select>
+      <button class="btn btn-outline" onclick="cargarReservas()" title="Refrescar">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- TABLA DE CITAS -->
+  <section class="table-card">
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Cliente</th>
+            <th>Tratamiento</th>
+            <th>Fecha & Hora</th>
+            <th>Estado</th>
+            <th>Notas</th>
+            <th style="text-align: right;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="reservasTableBody">
+          <!-- Carga dinámica -->
+        </tbody>
+      </table>
+    </div>
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <p style="font-weight: 700; font-size: 1.1rem; color: var(--carbon); margin-bottom: 4px;">No se encontraron citas</p>
+      <p style="font-size: 0.88rem;">No hay registros para los filtros seleccionados o aún no se han recibido citas.</p>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL NUEVA CITA MANUAL -->
+<div id="modalNuevaCita" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>Agendar Cita Manual</h2>
+      <button class="modal-close" onclick="closeModalNuevaCita()">&times;</button>
+    </div>
+    <form id="formNuevaCita" onsubmit="guardarNuevaCita(event)">
+      <div class="form-group">
+        <label>Nombre y Apellidos *</label>
+        <input type="text" id="ncNombre" required placeholder="Ej: María Dolores Pérez">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Teléfono *</label>
+          <input type="tel" id="ncTelefono" required placeholder="Ej: 647 12 34 56">
+        </div>
+        <div class="form-group">
+          <label>Email (Opcional)</label>
+          <input type="email" id="ncEmail" placeholder="cliente@correo.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tratamiento / Servicio *</label>
+        <select id="ncServicio" required>
+          <optgroup label="Estética Facial">
+            <option value="Higiene Facial Profunda con Punta de Diamante">Higiene Facial Profunda con Punta de Diamante</option>
+            <option value="Tratamiento Rejuvenecedor Radiofrecuencia Facial">Tratamiento Rejuvenecedor Radiofrecuencia Facial</option>
+            <option value="Tratamiento Despigmentante & Antimanchas">Tratamiento Despigmentante & Antimanchas</option>
+            <option value="Dermapen & Microneedling con Principios Activos">Dermapen & Microneedling con Principios Activos</option>
+            <option value="Hidratación Intensiva con Ácido Hialurónico">Hidratación Intensiva con Ácido Hialurónico</option>
+          </optgroup>
+          <optgroup label="Corporal & Masajes">
+            <option value="Maderoterapia Corporal Reductora & Drenante">Maderoterapia Corporal Reductora & Drenante</option>
+            <option value="Cavitación & Radiofrecuencia Corporal">Cavitación & Radiofrecuencia Corporal</option>
+            <option value="Presoterapia Médica & Drenaje Linfático">Presoterapia Médica & Drenaje Linfático</option>
+            <option value="Masaje Relajante con Aceites Esenciales">Masaje Relajante con Aceites Esenciales</option>
+          </optgroup>
+          <optgroup label="Mirada & Pestañas">
+            <option value="Lifting de Pestañas con Tinte & Queratina">Lifting de Pestañas con Tinte & Queratina</option>
+            <option value="Diseño y Depilación de Cejas con Henna">Diseño y Depilación de Cejas con Henna</option>
+            <option value="Extensiones de Pestañas">Extensiones de Pestañas</option>
+          </optgroup>
+          <optgroup label="Uñas & Depilación">
+            <option value="Manicura Semipermanente Rusa / Nivelación">Manicura Semipermanente Rusa / Nivelación</option>
+            <option value="Pedicura Spa Completa con Hidronutrición">Pedicura Spa Completa con Hidronutrición</option>
+            <option value="Uñas de Gel / Acrigel">Uñas de Gel / Acrigel</option>
+            <option value="Depilación Láser de Diodo">Depilación Láser de Diodo</option>
+            <option value="Depilación a la Cera">Depilación a la Cera</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha *</label>
+          <input type="date" id="ncFecha" required>
+        </div>
+        <div class="form-group">
+          <label>Hora *</label>
+          <input type="time" id="ncHora" required min="10:00" max="20:00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Estado</label>
+        <select id="ncEstado">
+          <option value="confirmada">Confirmada</option>
+          <option value="pendiente">Pendiente</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Notas Internas (Opcional)</label>
+        <textarea id="ncNotas" rows="2" placeholder="Tipo de piel, preferencias, si tiene bono..."></textarea>
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button type="button" class="btn btn-outline" style="flex: 1;" onclick="closeModalNuevaCita()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" style="flex: 1;">Guardar Cita</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICACIÓN -->
+<div id="toast" class="toast">
+  <span id="toastMsg">Operación completada</span>
+</div>
+
+<script>
+let reservas = [];
+let authToken = localStorage.getItem('pc_admin_token') || '';
+
+// Inicializar fecha de hoy por defecto en el selector
+const hoyISO = new Date().toISOString().split('T')[0];
+document.getElementById('ncFecha').value = hoyISO;
+
+// Comprobar autenticación al arrancar
+window.addEventListener('DOMContentLoaded', () => {
+  if (authToken) {
+    document.getElementById('loginOverlay').classList.add('hidden');
+    cargarReservas();
+  } else {
+    document.getElementById('loginOverlay').classList.remove('hidden');
+  }
+});
+
+// Manejo del Login
+async function handleLogin(e) {
+  e.preventDefault();
+  const pass = document.getElementById('loginPass').value.trim();
+  const errDiv = document.getElementById('loginError');
+  errDiv.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pass })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.token) {
+      authToken = data.token;
+      localStorage.setItem('pc_admin_token', authToken);
+      document.getElementById('loginOverlay').classList.add('hidden');
+      cargarReservas();
+      mostrarToast('Bienvenida al panel, Patricia ✨');
+    } else {
+      // Fallback offline directo si se abre como archivo estático
+      if (pass.toLowerCase() === 'patricia2026' || pass === '2026') {
+        authToken = 'local_offline_token';
+        localStorage.setItem('pc_admin_token', authToken);
+        document.getElementById('loginOverlay').classList.add('hidden');
+        cargarReservas();
+        mostrarToast('Acceso en modo local / sin conexión');
+      } else {
+        errDiv.style.display = 'block';
+      }
+    }
+  } catch (err) {
+    // Si no hay backend (abierto con doble clic file:///)
+    if (pass.toLowerCase() === 'patricia2026' || pass === '2026') {
+      authToken = 'local_offline_token';
+      localStorage.setItem('pc_admin_token', authToken);
+      document.getElementById('loginOverlay').classList.add('hidden');
+      cargarReservas();
+      mostrarToast('Acceso local sin conexión');
+    } else {
+      errDiv.style.display = 'block';
+    }
+  }
+}
+
+function logout() {
+  if (confirm('¿Deseas cerrar la sesión del panel?')) {
+    localStorage.removeItem('pc_admin_token');
+    authToken = '';
+    document.getElementById('loginOverlay').classList.remove('hidden');
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+// Cargar Citas
+async function cargarReservas() {
+  try {
+    const res = await fetch('/api/reservas', {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+    if (res.status === 401) {
+      logout();
+      return;
+    }
+    if (res.ok) {
+      reservas = await res.json();
+    } else {
+      throw new Error('Error al cargar');
+    }
+  } catch (e) {
+    // Fallback con localStorage si estamos sin servidor
+    const local = localStorage.getItem('pc_local_reservas');
+    if (local) {
+      try { reservas = JSON.parse(local); } catch(err) { reservas = []; }
+    } else {
+      reservas = [
+        {
+          id: 1,
+          codigo: '#PC-749201',
+          nombre: 'Laura Sánchez',
+          telefono: '654 11 22 33',
+          email: 'laura.s@gmail.com',
+          servicio: 'Maderoterapia Corporal Reductora',
+          fecha: hoyISO,
+          hora: '10:30',
+          estado: 'confirmada',
+          notas: 'Primera sesión corporal bono'
+        },
+        {
+          id: 2,
+          codigo: '#PC-381940',
+          nombre: 'Carmen Gómez',
+          telefono: '678 44 55 66',
+          email: 'carmen.g@hotmail.com',
+          servicio: 'Higiene Facial Profunda con Punta de Diamante',
+          fecha: hoyISO,
+          hora: '17:00',
+          estado: 'pendiente',
+          notas: 'Piel sensible'
+        },
+        {
+          id: 3,
+          codigo: '#PC-912834',
+          nombre: 'Sofía Ruiz',
+          telefono: '612 99 88 77',
+          email: 'sofia.ruiz@gmail.com',
+          servicio: 'Lifting de Pestañas con Tinte & Keratina',
+          fecha: hoyISO,
+          hora: '18:15',
+          estado: 'confirmada',
+          notas: 'Para boda el sábado'
+        }
+      ];
+      localStorage.setItem('pc_local_reservas', JSON.stringify(reservas));
+    }
+  }
+
+  actualizarMetricas();
+  filtrarReservas();
+}
+
+function actualizarMetricas() {
+  const hoy = hoyISO;
+  const cHoy = reservas.filter(r => r.fecha === hoy && r.estado !== 'cancelada').length;
+  const cPendientes = reservas.filter(r => r.estado === 'pendiente').length;
+  const cConfirmadas = reservas.filter(r => r.estado === 'confirmada').length;
+
+  document.getElementById('statHoy').textContent = cHoy;
+  document.getElementById('statPendientes').textContent = cPendientes;
+  document.getElementById('statConfirmadas').textContent = cConfirmadas;
+  document.getElementById('statTotal').textContent = reservas.length;
+}
+
+function filtrarReservas() {
+  const busqueda = document.getElementById('searchInput').value.toLowerCase().trim();
+  const fEstado = document.getElementById('filterEstado').value;
+  const fFecha = document.getElementById('filterFecha').value;
+
+  const hoyDate = new Date();
+  const hoyStr = hoyDate.toISOString().split('T')[0];
+
+  const mananaDate = new Date(hoyDate);
+  mananaDate.setDate(hoyDate.getDate() + 1);
+  const mananaStr = mananaDate.toISOString().split('T')[0];
+
+  const filtradas = reservas.filter(r => {
+    // Filtro texto
+    const coincideTexto = !busqueda || 
+      (r.nombre && r.nombre.toLowerCase().includes(busqueda)) ||
+      (r.telefono && r.telefono.includes(busqueda)) ||
+      (r.codigo && r.codigo.toLowerCase().includes(busqueda)) ||
+      (r.servicio && r.servicio.toLowerCase().includes(busqueda));
+
+    // Filtro estado
+    const coincideEstado = !fEstado || r.estado === fEstado;
+
+    // Filtro fecha
+    let coincideFecha = true;
+    if (fFecha === 'hoy') coincideFecha = (r.fecha === hoyStr);
+    else if (fFecha === 'manana') coincideFecha = (r.fecha === mananaStr);
+    else if (fFecha === 'semana') {
+      const fechaR = new Date(r.fecha);
+      const diffDias = (fechaR - hoyDate) / (1000 * 60 * 60 * 24);
+      coincideFecha = (diffDias >= -1 && diffDias <= 7);
+    }
+
+    return coincideTexto && coincideEstado && coincideFecha;
+  });
+
+  renderTabla(filtradas);
+}
+
+function renderTabla(lista) {
+  const tbody = document.getElementById('reservasTableBody');
+  const empty = document.getElementById('emptyState');
+
+  if (lista.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  tbody.innerHTML = lista.map(r => {
+    const telLimpio = (r.telefono || '').replace(/\D/g, '');
+    const msgWapp = encodeURIComponent(`Hola ${r.nombre}, te escribo desde el Centro de Estética Patricia Carpintero en Fuensalida sobre tu cita de ${r.servicio} el día ${formatearFecha(r.fecha)} a las ${r.hora}. ¿Nos confirmas tu asistencia? ¡Gracias! ✨`);
+    const linkWapp = `https://wa.me/34${telLimpio}?text=${msgWapp}`;
+
+    return `
+      <tr>
+        <td>
+          <span class="badge-code">${r.codigo || '#PC-000'}</span>
+        </td>
+        <td>
+          <div class="client-info">
+            <strong>${escapeHTML(r.nombre)}</strong>
+            <span>📞 <a href="tel:${r.telefono}" style="color: inherit; text-decoration: underline;">${escapeHTML(r.telefono)}</a></span>
+            ${r.email ? `<br><span>✉️ ${escapeHTML(r.email)}</span>` : ''}
+          </div>
+        </td>
+        <td>
+          <span class="service-pill">${escapeHTML(r.servicio)}</span>
+        </td>
+        <td>
+          <div class="time-badge">
+            <span class="date">${formatearFecha(r.fecha)}</span>
+            <span class="hour">⏰ ${r.hora}</span>
+          </div>
+        </td>
+        <td>
+          <select class="status-badge ${r.estado}" onchange="cambiarEstado('${r.codigo}', this.value)" style="border: none; outline: none; cursor: pointer; font-family: inherit;">
+            <option value="pendiente" ${r.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+            <option value="confirmada" ${r.estado === 'confirmada' ? 'selected' : ''}>✅ Confirmada</option>
+            <option value="completada" ${r.estado === 'completada' ? 'selected' : ''}>💆‍♀️ Realizada</option>
+            <option value="cancelada" ${r.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
+          </select>
+        </td>
+        <td style="max-width: 220px; font-size: 0.82rem; color: var(--texto-suave);">
+          ${r.notas ? escapeHTML(r.notas) : '<em style="color:#cbd5e1;">Sin notas</em>'}
+        </td>
+        <td style="text-align: right;">
+          <div class="actions-cell" style="justify-content: flex-end;">
+            <a href="${linkWapp}" target="_blank" class="btn-action-icon whatsapp" title="Contactar por WhatsApp">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
+            </a>
+            <button class="btn-action-icon trash" onclick="eliminarCita('${r.codigo}')" title="Eliminar cita">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// Cambiar estado
+async function cambiarEstado(codigo, nuevoEstado) {
+  try {
+    const res = await fetch(`/api/reservas?codigo=${codigo}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ estado: nuevoEstado })
+    });
+    if (res.ok) {
+      mostrarToast(`Estado actualizado a ${nuevoEstado}`);
+    }
+  } catch(e) {}
+
+  // Actualizar en memoria local
+  const item = reservas.find(r => r.codigo === codigo);
+  if (item) item.estado = nuevoEstado;
+  localStorage.setItem('pc_local_reservas', JSON.stringify(reservas));
+  actualizarMetricas();
+  filtrarReservas();
+}
+
+// Eliminar cita
+async function eliminarCita(codigo) {
+  if (!confirm(`¿Estás segura de eliminar la cita ${codigo}?`)) return;
+
+  try {
+    await fetch(`/api/reservas?codigo=${codigo}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+  } catch(e) {}
+
+  reservas = reservas.filter(r => r.codigo !== codigo);
+  localStorage.setItem('pc_local_reservas', JSON.stringify(reservas));
+  mostrarToast('Cita eliminada correctamente');
+  actualizarMetricas();
+  filtrarReservas();
+}
+
+// Modal Nueva Cita
+function openModalNuevaCita() {
+  document.getElementById('modalNuevaCita').classList.add('active');
+}
+function closeModalNuevaCita() {
+  document.getElementById('modalNuevaCita').classList.remove('active');
+  document.getElementById('formNuevaCita').reset();
+  document.getElementById('ncFecha').value = hoyISO;
+}
+
+// Guardar Nueva Cita
+async function guardarNuevaCita(e) {
+  e.preventDefault();
+  const nueva = {
+    codigo: '#PC-' + Math.floor(100000 + Math.random() * 900000),
+    nombre: document.getElementById('ncNombre').value.trim(),
+    telefono: document.getElementById('ncTelefono').value.trim(),
+    email: document.getElementById('ncEmail').value.trim(),
+    servicio: document.getElementById('ncServicio').value,
+    fecha: document.getElementById('ncFecha').value,
+    hora: document.getElementById('ncHora').value,
+    estado: document.getElementById('ncEstado').value,
+    notas: document.getElementById('ncNotas').value.trim()
+  };
+
+  try {
+    const res = await fetch('/api/reservas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nueva)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      reservas.unshift(data.reserva || nueva);
+    } else {
+      reservas.unshift(nueva);
+    }
+  } catch (err) {
+    reservas.unshift(nueva);
+  }
+
+  localStorage.setItem('pc_local_reservas', JSON.stringify(reservas));
+  closeModalNuevaCita();
+  mostrarToast('Cita agendada con éxito ✨');
+  actualizarMetricas();
+  filtrarReservas();
+}
+
+// Exportar a CSV
+function exportarCSV() {
+  if (reservas.length === 0) {
+    alert('No hay reservas para exportar');
+    return;
+  }
+  let csv = "Código;Cliente;Teléfono;Email;Tratamiento;Fecha;Hora;Estado;Notas\n";
+  reservas.forEach(r => {
+    csv += `"${r.codigo}";"${r.nombre}";"${r.telefono}";"${r.email || ''}";"${r.servicio}";"${r.fecha}";"${r.hora}";"${r.estado}";"${(r.notas || '').replace(/"/g, '""')}"\n`;
+  });
+
+  const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Citas_Patricia_Carpintero_${hoyISO}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('Descargando archivo CSV...');
+}
+
+// Utilidades
+function formatearFecha(isoStr) {
+  if (!isoStr) return '';
+  const [y, m, d] = isoStr.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function escapeHTML(str) {
+  if (!str) return '';
+  return str.toString()
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
