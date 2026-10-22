@@ -12,32 +12,36 @@
 :root {
   --seda-fondo: #fcfbf9;
   --blanco: #ffffff;
-  --crema-suave: #f6efe8;
-  --rosa-peonia: #b47999;
-  --rosa-peonia-dark: #8d4d70;
-  --rosa-peonia-light: #fbf5f8;
-  --rosa-acento: #cf9ab4;
-  --verde-salvia: #52796f;
-  --verde-salvia-dark: #354f52;
-  --verde-salvia-light: #edf4f1;
-  --dorado-champagne: #c5a059;
-  --dorado-glow: rgba(197, 160, 89, 0.28);
-  --carbon-ebano: #1f2421;
-  --carbon-suave: #2d3748;
-  --texto-medio: #4a5568;
-  --texto-suave: #718096;
-  --borde-suave: rgba(31, 36, 33, 0.08);
-  --borde-luxe: rgba(180, 121, 153, 0.25);
+  --crema-suave: #f9f5f1;
+  --rosa-peonia: #be3a7b;
+  --rosa-peonia-vivid: #d92d84;
+  --rosa-peonia-dark: #861d52;
+  --rosa-peonia-light: #fdf2f8;
+  --rosa-glow: rgba(217, 45, 132, 0.35);
+  --verde-salvia: #2d6a4f;
+  --verde-esmeralda: #10b981;
+  --verde-salvia-dark: #1b4332;
+  --verde-salvia-light: #ecfdf5;
+  --verde-glow: rgba(16, 185, 129, 0.28);
+  --dorado-champagne: #d4af37;
+  --dorado-luxe: #b38f2a;
+  --dorado-glow: rgba(212, 175, 55, 0.32);
+  --carbon-ebano: #111827;
+  --carbon-suave: #1f2937;
+  --texto-medio: #4b5563;
+  --texto-suave: #6b7280;
+  --borde-suave: rgba(190, 58, 123, 0.12);
+  --borde-luxe: rgba(217, 45, 132, 0.28);
   --whatsapp: #25d366;
   --whatsapp-dark: #128c7e;
-  --exito: #059669;
   --serif: 'Playfair Display', Georgia, serif;
   --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --script: 'Alex Brush', cursive;
-  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-emil: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --sombra-card: 0 10px 30px -8px rgba(31, 36, 33, 0.07);
-  --sombra-luxe: 0 20px 40px -12px rgba(180, 121, 153, 0.16);
+  --sombra-card: 0 12px 35px -8px rgba(134, 29, 82, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+  --sombra-luxe: 0 25px 50px -12px rgba(217, 45, 132, 0.22), 0 8px 20px -6px rgba(0, 0, 0, 0.06);
+  --sombra-glow: 0 0 30px rgba(217, 45, 132, 0.3);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,13 +60,52 @@ a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 3px solid var(--rosa-peonia); outline-offset: 3px; }
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; position: relative; }
 
+/* ORBES AMBIENTALES FLOTANTES (Fondo Dinámico con Más Color) */
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  animation: floatAmbient 18s ease-in-out infinite alternate;
+}
+.ambient-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(217, 45, 132, 0.22) 0%, rgba(254, 205, 211, 0) 70%);
+  top: -100px;
+  right: -100px;
+}
+.ambient-2 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(167, 243, 208, 0) 70%);
+  top: 40%;
+  left: -120px;
+  animation-duration: 22s;
+}
+.ambient-3 {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.16) 0%, rgba(254, 243, 199, 0) 70%);
+  bottom: 5%;
+  right: -80px;
+  animation-duration: 26s;
+}
+@keyframes floatAmbient {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 60px) scale(1.08); }
+  100% { transform: translate(-30px, 30px) scale(0.95); }
+}
+
 /* Barra superior de progreso */
 .scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--verde-salvia), var(--rosa-peonia), var(--dorado-champagne));
+  height: 4px;
+  background: linear-gradient(90deg, #be3a7b, #ec4899, #10b981, #d4af37);
   width: 0%;
   z-index: 1000;
   transition: width 0.08s linear;
@@ -77,7 +120,7 @@ a { color: inherit; text-decoration: none; }
     left: 0;
     width: 8px;
     height: 8px;
-    background: var(--rosa-peonia);
+    background: var(--rosa-peonia-vivid);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
@@ -91,23 +134,31 @@ a { color: inherit; text-decoration: none; }
     left: 0;
     width: 38px;
     height: 38px;
-    border: 1.5px solid rgba(180, 121, 153, 0.55);
+    border: 2px solid var(--rosa-peonia-vivid);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s;
+    transition: width 0.28s var(--ease-emil), height 0.28s var(--ease-emil), border-color 0.25s, background 0.25s;
     will-change: transform;
   }
   .cursor-hover .cursor-ring {
-    width: 62px;
-    height: 62px;
-    background: rgba(180, 121, 153, 0.12);
-    border-color: var(--rosa-peonia);
+    width: 65px;
+    height: 65px;
+    background: rgba(217, 45, 132, 0.14);
+    border-color: var(--rosa-peonia-vivid);
   }
   .cursor-hover .cursor-dot {
     transform: translate(-50%, -50%) scale(1.6);
   }
+}
+
+/* REGLA DE ORO DE EMIL KOWALSKI: Feedback táctil activo en TODO botón */
+button, .btn, .btn-hero-primary, .btn-hero-secondary, .btn-nav-book, .time-slot-btn, .filter-tab {
+  transition: transform 0.18s var(--ease-emil), box-shadow 0.18s var(--ease-emil), background 0.2s, border-color 0.2s !important;
+}
+button:active, .btn:active, .btn-hero-primary:active, .btn-hero-secondary:active, .btn-nav-book:active, .time-slot-btn:active {
+  transform: scale(0.96) translateY(1px) !important;
 }
 
 /* Header & Navbar */
@@ -115,21 +166,22 @@ header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 90;
-  background: rgba(252, 251, 249, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--borde-suave);
-  transition: background 0.3s, box-shadow 0.3s;
+  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 header.scrolled {
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0 10px 30px rgba(31, 36, 33, 0.06);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 10px 30px rgba(134, 29, 82, 0.08);
+  border-bottom-color: rgba(217, 45, 132, 0.2);
 }
 .nav-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 84px;
 }
 .brand-link {
   display: flex;
@@ -137,34 +189,34 @@ header.scrolled {
   gap: 14px;
 }
 .brand-logo-img {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  border: 1.5px solid var(--rosa-peonia);
+  border: 2px solid var(--rosa-peonia-vivid);
   object-fit: cover;
   background: #fff;
-  padding: 2px;
-  box-shadow: 0 4px 12px rgba(180, 121, 153, 0.2);
-  transition: transform 0.3s ease;
+  padding: 3px;
+  box-shadow: 0 6px 18px var(--rosa-glow);
+  transition: transform 0.4s var(--ease-spring);
 }
 .brand-link:hover .brand-logo-img {
-  transform: rotate(5deg) scale(1.05);
+  transform: rotate(8deg) scale(1.08);
 }
 .brand-text-box {
   display: flex;
   flex-direction: column;
 }
 .brand-pretitle {
-  font-size: 0.72rem;
-  letter-spacing: 2px;
+  font-size: 0.74rem;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   color: var(--verde-salvia);
-  font-weight: 700;
+  font-weight: 800;
 }
 .brand-name {
   font-family: var(--serif);
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 800;
   color: var(--carbon-ebano);
   line-height: 1.1;
   display: flex;
@@ -173,8 +225,8 @@ header.scrolled {
 }
 .brand-name-script {
   font-family: var(--script);
-  font-size: 1.6rem;
-  color: var(--rosa-peonia);
+  font-size: 1.75rem;
+  color: var(--rosa-peonia-vivid);
   font-weight: normal;
 }
 
@@ -185,25 +237,26 @@ header.scrolled {
   list-style: none;
 }
 .nav-menu a {
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-size: 0.93rem;
+  font-weight: 700;
   color: var(--carbon-suave);
   position: relative;
   transition: color 0.25s ease;
-  padding: 6px 0;
+  padding: 8px 0;
 }
 .nav-menu a:hover {
-  color: var(--rosa-peonia);
+  color: var(--rosa-peonia-vivid);
 }
 .nav-menu a::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: 2px;
   left: 0;
   width: 0%;
-  height: 2px;
-  background: var(--rosa-peonia);
-  transition: width 0.25s ease;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--rosa-peonia-vivid), var(--verde-esmeralda));
+  border-radius: 4px;
+  transition: width 0.3s var(--ease-emil);
 }
 .nav-menu a:hover::after {
   width: 100%;
@@ -221,53 +274,47 @@ header.scrolled {
   font-weight: 700;
   color: var(--verde-salvia-dark);
   background: var(--verde-salvia-light);
-  padding: 9px 16px;
+  padding: 10px 18px;
   border-radius: 30px;
-  border: 1px solid rgba(82, 121, 111, 0.2);
-  transition: all 0.25s ease;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
 }
 .btn-nav-call:hover {
-  background: #deebe5;
-  transform: translateY(-1px);
+  background: #d1fae5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
 }
 .btn-nav-book {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 800;
   color: #fff;
-  background: linear-gradient(135deg, var(--rosa-peonia), var(--rosa-peonia-dark));
-  padding: 10px 20px;
+  background: linear-gradient(135deg, #be3a7b 0%, #d92d84 50%, #861d52 100%);
+  background-size: 200% auto;
+  padding: 11px 22px;
   border-radius: 30px;
-  box-shadow: 0 4px 15px rgba(180, 121, 153, 0.3);
-  transition: all 0.25s ease;
+  box-shadow: 0 6px 20px var(--rosa-glow);
   border: none;
   cursor: pointer;
+  animation: gradientShift 4s ease infinite alternate;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 .btn-nav-book:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(180, 121, 153, 0.4);
+  box-shadow: 0 10px 28px rgba(217, 45, 132, 0.45);
 }
 
-/* Menú móvil hamburguesa */
-.btn-mobile-toggle {
-  display: none;
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  color: var(--carbon-ebano);
-}
-
-/* HERO SECTION */
+/* HERO SECTION - Elevada, Colorida y Animada */
 .hero {
-  padding-top: 150px;
-  padding-bottom: 90px;
+  padding-top: 165px;
+  padding-bottom: 100px;
   position: relative;
-  overflow: hidden;
-  background: radial-gradient(circle at 80% 20%, rgba(180, 121, 153, 0.08) 0%, transparent 60%),
-              radial-gradient(circle at 10% 80%, rgba(82, 121, 111, 0.07) 0%, transparent 60%);
+  z-index: 1;
 }
 .hero-grid {
   display: grid;
@@ -279,97 +326,121 @@ header.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
-  background: var(--rosa-peonia-light);
-  border: 1px solid var(--borde-luxe);
+  padding: 8px 18px;
+  background: linear-gradient(135deg, rgba(253, 242, 248, 0.95), rgba(254, 205, 211, 0.8));
+  border: 1.5px solid var(--borde-luxe);
   border-radius: 30px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 800;
   color: var(--rosa-peonia-dark);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-}
-.hero-tag::before {
-  content: '🌸';
-  font-size: 0.9rem;
+  letter-spacing: 1.2px;
+  margin-bottom: 22px;
+  box-shadow: 0 6px 18px rgba(217, 45, 132, 0.12);
+  backdrop-filter: blur(10px);
 }
 .hero h1 {
   font-family: var(--serif);
-  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  font-size: clamp(2.5rem, 4.4vw, 4rem);
   line-height: 1.15;
   font-weight: 800;
   color: var(--carbon-ebano);
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   letter-spacing: -0.5px;
+}
+.hero-gradient-text {
+  background: linear-gradient(135deg, #be3a7b 0%, #ec4899 45%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
 }
 .hero-script-lead {
   font-family: var(--script);
-  font-size: clamp(3rem, 5vw, 4.4rem);
-  color: var(--rosa-peonia);
+  font-size: clamp(3.2rem, 5.2vw, 4.8rem);
+  color: var(--rosa-peonia-vivid);
   font-weight: normal;
   display: block;
   margin-top: 4px;
+  text-shadow: 0 4px 20px rgba(217, 45, 132, 0.2);
 }
 .hero-p {
-  font-size: 1.12rem;
+  font-size: 1.15rem;
   color: var(--texto-medio);
   max-width: 580px;
-  margin-bottom: 34px;
-  line-height: 1.7;
+  margin-bottom: 36px;
+  line-height: 1.75;
 }
 .hero-ctas {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
+  margin-bottom: 42px;
 }
 .btn-hero-primary {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 32px;
-  background: linear-gradient(135deg, var(--rosa-peonia), var(--rosa-peonia-dark));
+  gap: 12px;
+  padding: 17px 36px;
+  background: linear-gradient(135deg, #be3a7b 0%, #d92d84 60%, #861d52 100%);
   color: #fff;
   border-radius: 40px;
-  font-size: 1.02rem;
-  font-weight: 700;
-  box-shadow: 0 10px 25px rgba(180, 121, 153, 0.35);
-  transition: all 0.3s ease;
+  font-size: 1.05rem;
+  font-weight: 800;
+  box-shadow: 0 12px 30px var(--rosa-glow);
   border: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+/* Efecto Shimmer de Luz Emil Kowalski */
+.btn-hero-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: shimmerLight 4s infinite;
+}
+@keyframes shimmerLight {
+  0% { left: -100%; }
+  30% { left: 140%; }
+  100% { left: 140%; }
 }
 .btn-hero-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 32px rgba(180, 121, 153, 0.45);
+  box-shadow: 0 18px 40px rgba(217, 45, 132, 0.5);
 }
 .btn-hero-secondary {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 16px 28px;
-  background: #fff;
+  padding: 16px 30px;
+  background: rgba(255, 255, 255, 0.95);
   color: var(--carbon-ebano);
-  border: 1.5px solid var(--borde-suave);
+  border: 2px solid var(--borde-luxe);
   border-radius: 40px;
   font-size: 1.02rem;
-  font-weight: 600;
-  transition: all 0.25s ease;
+  font-weight: 700;
   box-shadow: var(--sombra-card);
+  backdrop-filter: blur(10px);
 }
 .btn-hero-secondary:hover {
-  border-color: var(--rosa-peonia);
-  color: var(--rosa-peonia);
-  transform: translateY(-2px);
+  border-color: var(--rosa-peonia-vivid);
+  color: var(--rosa-peonia-vivid);
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-luxe);
 }
 
 .hero-stats-row {
   display: flex;
   align-items: center;
-  gap: 28px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(31, 36, 33, 0.08);
+  gap: 32px;
+  padding-top: 26px;
+  border-top: 1.5px solid rgba(190, 58, 123, 0.15);
 }
 .hero-stat-item {
   display: flex;
@@ -377,87 +448,110 @@ header.scrolled {
 }
 .hero-stat-num {
   font-family: var(--serif);
-  font-size: 1.7rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  color: var(--carbon-ebano);
+  background: linear-gradient(135deg, var(--rosa-peonia-dark), var(--rosa-peonia-vivid));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   line-height: 1;
 }
 .hero-stat-lbl {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--texto-suave);
-  font-weight: 500;
-  margin-top: 4px;
+  font-weight: 600;
+  margin-top: 5px;
 }
 
-/* Tarjeta Hero Visual */
+/* Tarjeta Hero con Glassmorphism y Badges */
 .hero-media-box {
   position: relative;
 }
 .hero-media-card {
   position: relative;
-  border-radius: 36px;
+  border-radius: 40px;
   overflow: hidden;
   box-shadow: var(--sombra-luxe);
-  border: 8px solid #fff;
+  border: 10px solid #fff;
   background: #fff;
 }
 .hero-main-img {
   width: 100%;
-  height: 500px;
+  height: 520px;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s ease;
+  transition: transform 0.8s var(--ease-emil);
 }
 .hero-media-card:hover .hero-main-img {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 .hero-floating-badge {
   position: absolute;
   bottom: 24px;
   left: 24px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 14px 20px;
-  border-radius: 20px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  padding: 16px 22px;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.14);
   display: flex;
   align-items: center;
   gap: 14px;
-  border: 1px solid rgba(255,255,255,0.8);
-  animation: float 4s ease-in-out infinite;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  animation: organicFloat 5s ease-in-out infinite;
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+.hero-badge-top {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(254, 242, 248, 0.92));
+  backdrop-filter: blur(14px);
+  padding: 12px 20px;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--rosa-peonia-dark);
+  border: 1.5px solid var(--borde-luxe);
+  animation: organicFloat 6s ease-in-out infinite 1s;
+}
+@keyframes organicFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1.2deg); }
 }
 .hero-badge-icon {
-  width: 44px;
-  height: 44px;
-  background: var(--verde-salvia-light);
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
   color: var(--verde-salvia);
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 .hero-badge-title {
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 800;
   color: var(--carbon-ebano);
 }
 .hero-badge-desc {
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   color: var(--texto-suave);
+  font-weight: 600;
 }
 
-/* Cinta de Valores Botánicos */
+/* CINTA DE BENEFICIOS VIBRANTE */
 .ribbon-strip {
-  background: var(--verde-salvia-dark);
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #861d52 100%);
   color: #fff;
-  padding: 20px 0;
-  overflow: hidden;
+  padding: 22px 0;
   position: relative;
+  z-index: 2;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 .ribbon-flex {
   display: flex;
@@ -470,104 +564,211 @@ header.scrolled {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
 }
 .ribbon-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--dorado-champagne);
+  width: 8px;
+  height: 8px;
+  background: #facc15;
   border-radius: 50%;
+  box-shadow: 0 0 10px #facc15;
+}
+
+/* SECCIÓN ANTES Y DESPUÉS (WIDGET INTERACTIVO) */
+.before-after-section {
+  padding: 100px 0;
+  background: linear-gradient(180deg, rgba(253, 242, 248, 0.4) 0%, rgba(236, 253, 245, 0.4) 100%);
+  position: relative;
+  z-index: 1;
+}
+.ba-container {
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: 36px;
+  overflow: hidden;
+  box-shadow: var(--sombra-luxe);
+  border: 6px solid #fff;
+  background: #fff;
+  position: relative;
+}
+.ba-wrapper {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  user-select: none;
+  cursor: ew-resize;
+}
+.ba-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.ba-img-after {
+  z-index: 1;
+}
+.ba-img-before {
+  z-index: 2;
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+  filter: contrast(0.92) saturate(0.85);
+}
+.ba-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: #fff;
+  z-index: 3;
+  transform: translateX(-50%);
+  pointer-events: none;
+  box-shadow: 0 0 14px rgba(0,0,0,0.3);
+}
+.ba-handle-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  background: #fff;
+  border: 3px solid var(--rosa-peonia-vivid);
+  border-radius: 50%;
+  box-shadow: 0 8px 25px rgba(217, 45, 132, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--rosa-peonia-vivid);
+  font-weight: 800;
+}
+.ba-label {
+  position: absolute;
+  top: 24px;
+  padding: 8px 18px;
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 4;
+}
+.ba-label-before { left: 24px; }
+.ba-label-after { right: 24px; background: rgba(190, 58, 123, 0.85); }
+.ba-hint {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--rosa-peonia-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* SECCIÓN TRATAMIENTOS / SERVICIOS */
 .section {
   padding: 100px 0;
   position: relative;
+  z-index: 1;
 }
 .section-header {
   text-align: center;
-  max-width: 700px;
+  max-width: 760px;
   margin: 0 auto 50px;
 }
 .section-sub {
-  font-size: 0.8rem;
-  letter-spacing: 2px;
+  font-size: 0.84rem;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--rosa-peonia);
-  font-weight: 700;
-  margin-bottom: 8px;
-  display: block;
+  color: var(--rosa-peonia-vivid);
+  font-weight: 800;
+  margin-bottom: 10px;
+  display: inline-block;
+  padding: 4px 14px;
+  background: var(--rosa-peonia-light);
+  border-radius: 20px;
+  border: 1px solid var(--borde-luxe);
 }
 .section-title {
   font-family: var(--serif);
-  font-size: clamp(2rem, 3.2vw, 2.8rem);
-  font-weight: 700;
+  font-size: clamp(2.1rem, 3.4vw, 3rem);
+  font-weight: 800;
   color: var(--carbon-ebano);
   line-height: 1.2;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .section-desc {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--texto-medio);
 }
 
-/* Tabs de Tratamientos */
+/* Tabs de Tratamientos con Estilo Vibrante */
 .filter-tabs {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
+  margin-bottom: 46px;
 }
 .filter-tab {
-  padding: 10px 22px;
+  padding: 12px 24px;
   border-radius: 30px;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 800;
   background: #fff;
   color: var(--texto-medio);
-  border: 1.5px solid var(--borde-suave);
+  border: 2px solid rgba(190, 58, 123, 0.15);
   cursor: pointer;
-  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
 }
 .filter-tab:hover {
-  border-color: var(--rosa-peonia);
-  color: var(--rosa-peonia);
+  border-color: var(--rosa-peonia-vivid);
+  color: var(--rosa-peonia-vivid);
+  transform: translateY(-2px);
 }
 .filter-tab.active {
-  background: var(--rosa-peonia);
+  background: linear-gradient(135deg, #be3a7b, #d92d84);
   color: #fff;
-  border-color: var(--rosa-peonia);
-  box-shadow: 0 4px 14px rgba(180, 121, 153, 0.3);
+  border-color: transparent;
+  box-shadow: 0 8px 22px var(--rosa-glow);
 }
 
 /* Grid de Servicios */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 32px;
 }
 .service-card {
   background: #fff;
-  border-radius: 28px;
+  border-radius: 32px;
   overflow: hidden;
-  border: 1px solid var(--borde-suave);
+  border: 1.5px solid rgba(190, 58, 123, 0.12);
   box-shadow: var(--sombra-card);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.35s var(--ease-emil), box-shadow 0.35s var(--ease-emil), border-color 0.3s;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 .service-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px);
   box-shadow: var(--sombra-luxe);
-  border-color: var(--borde-luxe);
+  border-color: var(--rosa-peonia-vivid);
 }
 .service-thumb-box {
-  height: 220px;
+  height: 230px;
   position: relative;
   overflow: hidden;
 }
@@ -575,7 +776,7 @@ header.scrolled {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.7s var(--ease-emil);
 }
 .service-card:hover .service-thumb {
   transform: scale(1.08);
@@ -584,18 +785,34 @@ header.scrolled {
   position: absolute;
   top: 16px;
   left: 16px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--verde-salvia-dark);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.service-featured-pill {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(135deg, #d92d84, #be3a7b);
+  color: #fff;
+  padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 800;
   letter-spacing: 0.8px;
-  color: var(--verde-salvia-dark);
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(217, 45, 132, 0.4);
 }
 .service-body {
-  padding: 26px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -609,64 +826,150 @@ header.scrolled {
 }
 .service-name {
   font-family: var(--serif);
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-size: 1.35rem;
+  font-weight: 800;
   color: var(--carbon-ebano);
   line-height: 1.25;
 }
 .service-price {
   font-family: var(--serif);
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 800;
-  color: var(--rosa-peonia-dark);
+  color: var(--rosa-peonia-vivid);
   white-space: nowrap;
 }
 .service-desc {
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   color: var(--texto-medio);
-  line-height: 1.6;
-  margin-bottom: 20px;
+  line-height: 1.65;
+  margin-bottom: 22px;
   flex: 1;
 }
 .service-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
-  border-top: 1px solid rgba(31, 36, 33, 0.06);
+  padding-top: 18px;
+  border-top: 1.5px solid rgba(190, 58, 123, 0.08);
 }
 .service-duration {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--texto-suave);
-  font-weight: 600;
+  font-weight: 700;
 }
 .btn-card-book {
-  padding: 9px 18px;
+  padding: 10px 20px;
   background: var(--rosa-peonia-light);
   color: var(--rosa-peonia-dark);
   border: 1.5px solid var(--borde-luxe);
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 .btn-card-book:hover {
-  background: var(--rosa-peonia);
+  background: var(--rosa-peonia-vivid);
   color: #fff;
-  border-color: var(--rosa-peonia);
+  border-color: var(--rosa-peonia-vivid);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--rosa-glow);
+}
+
+/* BANNER TRATAMIENTO ESTRELLA & BONOS */
+.promo-banner-section {
+  padding: 60px 0;
+  position: relative;
+  z-index: 2;
+}
+.promo-card {
+  background: linear-gradient(135deg, #861d52 0%, #be3a7b 50%, #1b4332 100%);
+  border-radius: 36px;
+  padding: 50px 40px;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+  gap: 40px;
+  box-shadow: var(--sombra-luxe);
+  position: relative;
+  overflow: hidden;
+}
+.promo-badge-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  background: #facc15;
+  color: #111827;
+  border-radius: 30px;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.promo-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.promo-desc {
+  font-size: 1.05rem;
+  color: #fed7aa;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+.promo-card-right {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  padding: 30px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  text-align: center;
+}
+.promo-price-big {
+  font-family: var(--serif);
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.promo-subprice {
+  font-size: 0.92rem;
+  color: #fed7aa;
+  margin-bottom: 20px;
+}
+.btn-promo-book {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 15px;
+  background: #fff;
+  color: var(--rosa-peonia-dark);
+  font-weight: 800;
+  font-size: 1rem;
+  border-radius: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.btn-promo-book:hover {
+  background: #fef2f8;
   transform: translateY(-2px);
 }
 
 /* SECCIÓN EXPERIENCIA / FILOSOFÍA */
 .experience-section {
-  background: #f7f9f8;
+  background: #fafaf9;
   border-top: 1px solid var(--borde-suave);
   border-bottom: 1px solid var(--borde-suave);
   padding: 100px 0;
+  position: relative;
+  z-index: 1;
 }
 .experience-grid {
   display: grid;
@@ -679,10 +982,10 @@ header.scrolled {
 }
 .exp-main-img {
   width: 100%;
-  border-radius: 32px;
-  box-shadow: var(--sombra-card);
-  border: 6px solid #fff;
-  height: 480px;
+  border-radius: 36px;
+  box-shadow: var(--sombra-luxe);
+  border: 8px solid #fff;
+  height: 500px;
   object-fit: cover;
 }
 .exp-mini-badge {
@@ -690,96 +993,105 @@ header.scrolled {
   top: -20px;
   right: -20px;
   background: #fff;
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-  border: 1px solid var(--borde-suave);
-  max-width: 220px;
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  border: 2px solid var(--borde-luxe);
+  max-width: 240px;
   text-align: center;
 }
 .exp-mini-badge strong {
   display: block;
   font-family: var(--serif);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: var(--verde-salvia);
   line-height: 1;
 }
 .exp-mini-badge span {
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: var(--texto-suave);
+  font-weight: 600;
 }
 
 .exp-content h2 {
   font-family: var(--serif);
-  font-size: clamp(2rem, 3.2vw, 2.7rem);
-  font-weight: 700;
+  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+  font-weight: 800;
   margin-bottom: 20px;
   line-height: 1.2;
 }
 .exp-p {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--texto-medio);
-  margin-bottom: 30px;
-  line-height: 1.7;
+  margin-bottom: 32px;
+  line-height: 1.75;
 }
 .exp-pillars {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 36px;
+  gap: 22px;
+  margin-bottom: 38px;
 }
 .pillar-card {
   background: #fff;
-  padding: 20px;
-  border-radius: 20px;
-  border: 1px solid var(--borde-suave);
+  padding: 24px;
+  border-radius: 24px;
+  border: 1.5px solid rgba(190, 58, 123, 0.12);
+  box-shadow: var(--sombra-card);
+  transition: transform 0.3s var(--ease-emil);
+}
+.pillar-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--rosa-peonia-vivid);
 }
 .pillar-icon {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
+  margin-bottom: 12px;
 }
 .pillar-title {
-  font-weight: 700;
-  font-size: 0.98rem;
-  margin-bottom: 4px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
   color: var(--carbon-ebano);
 }
 .pillar-desc {
-  font-size: 0.84rem;
+  font-size: 0.88rem;
   color: var(--texto-suave);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* SECCIÓN SISTEMA DE RESERVAS */
 .booking-section {
   padding: 100px 0;
-  background: radial-gradient(circle at 50% 10%, rgba(180, 121, 153, 0.06) 0%, transparent 70%);
+  position: relative;
+  z-index: 1;
 }
 .booking-wrapper {
   max-width: 980px;
   margin: 0 auto;
   background: #fff;
-  border-radius: 36px;
-  border: 1px solid var(--borde-luxe);
-  box-shadow: 0 25px 60px -15px rgba(31, 36, 33, 0.08);
+  border-radius: 40px;
+  border: 2px solid var(--borde-luxe);
+  box-shadow: 0 30px 70px -15px rgba(134, 29, 82, 0.15);
   overflow: hidden;
 }
 .booking-header-banner {
-  background: linear-gradient(135deg, var(--verde-salvia-dark), #26383a);
+  background: linear-gradient(135deg, #861d52 0%, #be3a7b 50%, #1b4332 100%);
   color: #fff;
-  padding: 40px;
+  padding: 44px 30px;
   text-align: center;
   position: relative;
 }
 .booking-header-banner h2 {
   font-family: var(--serif);
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
 }
 .booking-header-banner p {
-  color: #c4d7d1;
-  font-size: 1rem;
+  color: #fed7aa;
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
 /* Stepper */
@@ -787,37 +1099,39 @@ header.scrolled {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 28px 20px;
-  border-bottom: 1px solid var(--borde-suave);
+  padding: 30px 20px;
+  border-bottom: 1px solid rgba(190, 58, 123, 0.1);
   background: #fafaf9;
 }
 .step-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.88rem;
-  font-weight: 700;
+  gap: 12px;
+  font-size: 0.92rem;
+  font-weight: 800;
   color: var(--texto-suave);
 }
 .step-circle {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e2e8f0;
+  background: #e5e7eb;
   color: var(--texto-suave);
-  font-size: 0.85rem;
-  transition: all 0.3s;
+  font-size: 0.92rem;
+  font-weight: 800;
+  transition: all 0.3s var(--ease-spring);
 }
 .step-item.active {
-  color: var(--rosa-peonia-dark);
+  color: var(--rosa-peonia-vivid);
 }
 .step-item.active .step-circle {
-  background: var(--rosa-peonia);
+  background: var(--rosa-peonia-vivid);
   color: #fff;
-  box-shadow: 0 4px 10px rgba(180, 121, 153, 0.4);
+  box-shadow: 0 6px 16px var(--rosa-glow);
+  transform: scale(1.1);
 }
 .step-item.completed {
   color: var(--verde-salvia);
@@ -828,95 +1142,98 @@ header.scrolled {
 }
 .step-line {
   width: 50px;
-  height: 2px;
-  background: #e2e8f0;
+  height: 3px;
+  background: #e5e7eb;
   margin: 0 16px;
+  border-radius: 4px;
 }
 
 /* Formulario Reserva */
 .booking-form-box {
-  padding: 40px;
+  padding: 44px;
 }
 .step-container {
   display: none;
 }
 .step-container.active {
   display: block;
-  animation: fadeIn 0.4s ease;
+  animation: fadeInStep 0.4s var(--ease-emil);
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes fadeInStep {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .form-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 22px;
 }
 .form-field {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 .form-field label {
   display: block;
-  font-size: 0.86rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 800;
   margin-bottom: 8px;
   color: var(--carbon-ebano);
 }
 .form-field input, .form-field select, .form-field textarea {
   width: 100%;
-  padding: 14px 18px;
-  border-radius: 14px;
-  border: 1.5px solid var(--borde-suave);
-  font-size: 0.95rem;
+  padding: 15px 18px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(190, 58, 123, 0.15);
+  font-size: 0.98rem;
   font-family: inherit;
   background: #fdfdfd;
   color: var(--carbon-ebano);
   outline: none;
-  transition: all 0.25s ease;
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
 .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
-  border-color: var(--rosa-peonia);
+  border-color: var(--rosa-peonia-vivid);
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(180, 121, 153, 0.12);
+  box-shadow: 0 0 0 4px rgba(217, 45, 132, 0.15);
 }
 
-/* Selección Horarios Interactiva */
+/* Horas con diseño y bloqueo en tiempo real */
 .time-slots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+  gap: 12px;
   margin-top: 10px;
 }
 .time-slot-btn {
-  padding: 10px;
+  padding: 12px 8px;
   text-align: center;
-  border-radius: 12px;
-  border: 1.5px solid var(--borde-suave);
+  border-radius: 14px;
+  border: 1.5px solid rgba(190, 58, 123, 0.15);
   background: #fff;
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
   color: var(--carbon-ebano);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
 }
 .time-slot-btn:hover {
-  border-color: var(--rosa-peonia);
-  color: var(--rosa-peonia);
+  border-color: var(--rosa-peonia-vivid);
+  color: var(--rosa-peonia-vivid);
+  transform: translateY(-2px);
 }
 .time-slot-btn.selected {
-  background: var(--rosa-peonia);
-  border-color: var(--rosa-peonia);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(180, 121, 153, 0.3);
+  background: linear-gradient(135deg, #be3a7b, #d92d84) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 6px 18px var(--rosa-glow) !important;
+  transform: scale(1.05);
 }
 .time-slot-btn.occupied {
   background: #f8fafc !important;
   border-color: #e2e8f0 !important;
   color: #94a3b8 !important;
   cursor: not-allowed !important;
-  opacity: 0.65;
+  opacity: 0.6;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -925,54 +1242,52 @@ header.scrolled {
   box-shadow: none !important;
 }
 .time-slot-btn.occupied .occupied-tag {
-  font-size: 0.64rem;
+  font-size: 0.65rem;
   color: #e11d48;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .step-buttons-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
-  padding-top: 24px;
-  border-top: 1px solid var(--borde-suave);
+  margin-top: 32px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(190, 58, 123, 0.1);
 }
 .btn-step-prev {
-  padding: 12px 24px;
+  padding: 14px 28px;
   border-radius: 30px;
   background: #fff;
-  border: 1.5px solid var(--borde-suave);
-  font-size: 0.92rem;
-  font-weight: 600;
+  border: 1.5px solid rgba(190, 58, 123, 0.2);
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
   color: var(--texto-medio);
 }
 .btn-step-next {
-  padding: 14px 32px;
+  padding: 15px 36px;
   border-radius: 30px;
-  background: linear-gradient(135deg, var(--rosa-peonia), var(--rosa-peonia-dark));
+  background: linear-gradient(135deg, #be3a7b, #d92d84);
   color: #fff;
   border: none;
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(180, 121, 153, 0.3);
-  transition: all 0.25s;
+  box-shadow: 0 10px 25px var(--rosa-glow);
 }
 .btn-step-next:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(180, 121, 153, 0.4);
+  box-shadow: 0 14px 32px rgba(217, 45, 132, 0.45);
 }
 
-/* MODAL DE COMPROBANTE DIGITAL (#PC-XXXXXX) */
+/* MODAL DE COMPROBANTE DIGITAL */
 .voucher-modal {
   position: fixed;
   inset: 0;
-  background: rgba(31, 36, 33, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(17, 24, 39, 0.88);
+  backdrop-filter: blur(12px);
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -980,7 +1295,7 @@ header.scrolled {
   padding: 20px;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s var(--ease-emil), visibility 0.3s;
 }
 .voucher-modal.active {
   opacity: 1;
@@ -988,15 +1303,15 @@ header.scrolled {
 }
 .voucher-card {
   background: #fff;
-  border-radius: 32px;
+  border-radius: 36px;
   max-width: 540px;
   width: 100%;
-  padding: 36px 30px;
-  box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+  padding: 40px 32px;
+  box-shadow: 0 35px 80px rgba(0,0,0,0.35);
   position: relative;
   text-align: center;
-  transform: scale(0.95);
-  transition: transform 0.3s ease;
+  transform: scale(0.94);
+  transition: transform 0.35s var(--ease-spring);
   border: 2px solid var(--dorado-champagne);
 }
 .voucher-modal.active .voucher-card {
@@ -1004,14 +1319,14 @@ header.scrolled {
 }
 .voucher-close {
   position: absolute;
-  top: 18px;
-  right: 20px;
-  background: #f1f5f9;
+  top: 20px;
+  right: 22px;
+  background: #f3f4f6;
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   cursor: pointer;
   color: var(--texto-suave);
   display: flex;
@@ -1019,67 +1334,69 @@ header.scrolled {
   justify-content: center;
 }
 .voucher-header {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 .voucher-logo {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  border: 2px solid var(--rosa-peonia);
-  margin: 0 auto 10px;
+  border: 2.5px solid var(--rosa-peonia-vivid);
+  margin: 0 auto 12px;
   object-fit: cover;
+  box-shadow: 0 6px 18px var(--rosa-glow);
 }
 .voucher-title {
   font-family: var(--serif);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.75rem;
+  font-weight: 800;
   color: var(--carbon-ebano);
 }
 .voucher-badge {
   display: inline-block;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 20px;
   background: var(--verde-salvia-light);
   color: var(--verde-salvia-dark);
-  font-size: 0.78rem;
-  font-weight: 700;
-  margin-top: 6px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-top: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 .voucher-code-box {
-  background: #faf7f8;
-  border: 1.5px dashed var(--rosa-peonia);
-  border-radius: 16px;
-  padding: 16px;
-  margin: 20px 0;
+  background: #fdf2f8;
+  border: 2px dashed var(--rosa-peonia-vivid);
+  border-radius: 20px;
+  padding: 18px;
+  margin: 22px 0;
 }
 .voucher-code-label {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   color: var(--texto-suave);
-  font-weight: 700;
+  font-weight: 800;
 }
 .voucher-code-val {
   font-family: monospace;
-  font-size: 1.8rem;
-  font-weight: 800;
+  font-size: 2rem;
+  font-weight: 900;
   color: var(--rosa-peonia-dark);
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 
 .voucher-details-list {
   text-align: left;
-  background: #fdfdfd;
-  border-radius: 16px;
+  background: #fafafa;
+  border-radius: 20px;
   border: 1px solid var(--borde-suave);
-  padding: 18px 20px;
-  margin-bottom: 24px;
-  font-size: 0.9rem;
+  padding: 20px 22px;
+  margin-bottom: 26px;
+  font-size: 0.94rem;
 }
 .voucher-row {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 1px solid #f1f5f9;
 }
 .voucher-row:last-child {
@@ -1095,141 +1412,152 @@ header.scrolled {
 .voucher-actions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 .btn-voucher-wapp {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px;
+  padding: 15px;
   background: var(--whatsapp);
   color: #fff;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 0.98rem;
-  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
-  text-decoration: none;
-  transition: transform 0.2s;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.35);
 }
 .btn-voucher-wapp:hover {
-  transform: translateY(-2px);
   background: var(--whatsapp-dark);
+  transform: translateY(-2px);
 }
 .btn-voucher-cal {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px;
+  padding: 13px;
   background: #fff;
   color: var(--carbon-ebano);
-  border: 1.5px solid var(--borde-suave);
-  border-radius: 14px;
-  font-weight: 600;
-  font-size: 0.9rem;
+  border: 1.5px solid rgba(190, 58, 123, 0.2);
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 0.92rem;
   cursor: pointer;
-  transition: border-color 0.2s;
 }
 .btn-voucher-cal:hover {
-  border-color: var(--rosa-peonia);
+  border-color: var(--rosa-peonia-vivid);
+  color: var(--rosa-peonia-vivid);
 }
 
-/* SECCIÓN OPINIONES / RESEÑAS */
+/* SECCIÓN OPINIONES / RESEÑAS CON GRADIENTES */
 .reviews-section {
-  padding: 90px 0;
+  padding: 100px 0;
   background: #fff;
+  position: relative;
+  z-index: 1;
 }
 .reviews-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 28px;
+  gap: 32px;
 }
 .review-card {
-  background: var(--seda-fondo);
-  padding: 32px 28px;
-  border-radius: 24px;
-  border: 1px solid var(--borde-suave);
+  background: linear-gradient(135deg, #fff 0%, #fdf2f8 100%);
+  padding: 36px 30px;
+  border-radius: 28px;
+  border: 1.5px solid var(--borde-luxe);
   box-shadow: var(--sombra-card);
   position: relative;
+  transition: transform 0.3s var(--ease-emil);
+}
+.review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-luxe);
 }
 .review-stars {
   color: #f59e0b;
-  font-size: 1.1rem;
-  margin-bottom: 14px;
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
 }
 .review-quote {
-  font-size: 0.96rem;
+  font-size: 1rem;
   color: var(--texto-medio);
-  line-height: 1.65;
-  margin-bottom: 20px;
+  line-height: 1.7;
+  margin-bottom: 24px;
   font-style: italic;
 }
 .review-author {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 .author-avatar {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--rosa-peonia-light);
-  color: var(--rosa-peonia);
+  background: linear-gradient(135deg, #be3a7b, #d92d84);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px var(--rosa-glow);
 }
 .author-info strong {
   display: block;
-  font-size: 0.92rem;
+  font-size: 0.98rem;
   color: var(--carbon-ebano);
 }
 .author-info span {
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: var(--texto-suave);
 }
 
-/* PREGUNTAS FRECUENTES (FAQ) */
+/* PREGUNTAS FRECUENTES */
 .faq-section {
-  padding: 90px 0;
-  background: #faf9f7;
+  padding: 100px 0;
+  background: #fafaf9;
+  position: relative;
+  z-index: 1;
 }
 .faq-accordion {
-  max-width: 820px;
+  max-width: 840px;
   margin: 0 auto;
 }
 .faq-item {
   background: #fff;
-  border-radius: 18px;
-  border: 1px solid var(--borde-suave);
-  margin-bottom: 16px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(190, 58, 123, 0.12);
+  margin-bottom: 18px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.02);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.faq-item.open {
+  border-color: var(--rosa-peonia-vivid);
+  box-shadow: var(--sombra-card);
 }
 .faq-question {
   width: 100%;
   text-align: left;
-  padding: 20px 24px;
+  padding: 22px 26px;
   background: none;
   border: none;
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--carbon-ebano);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: color 0.2s;
-}
-.faq-question:hover {
-  color: var(--rosa-peonia);
 }
 .faq-icon {
-  font-size: 1.3rem;
-  transition: transform 0.3s;
+  font-size: 1.4rem;
+  transition: transform 0.3s var(--ease-spring);
+  color: var(--rosa-peonia-vivid);
 }
 .faq-item.open .faq-icon {
   transform: rotate(45deg);
@@ -1237,21 +1565,23 @@ header.scrolled {
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  padding: 0 24px;
+  padding: 0 26px;
   color: var(--texto-medio);
-  font-size: 0.94rem;
-  line-height: 1.7;
-  transition: max-height 0.35s ease, padding 0.35s ease;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  transition: max-height 0.4s var(--ease-emil), padding 0.3s;
 }
 .faq-item.open .faq-answer {
-  max-height: 250px;
-  padding-bottom: 22px;
+  max-height: 260px;
+  padding-bottom: 24px;
 }
 
-/* UBICACIÓN & HORARIO */
+/* UBICACIÓN Y CONTACTO */
 .location-section {
-  padding: 90px 0;
+  padding: 100px 0;
   background: #fff;
+  position: relative;
+  z-index: 1;
 }
 .location-grid {
   display: grid;
@@ -1261,52 +1591,54 @@ header.scrolled {
 }
 .location-info h2 {
   font-family: var(--serif);
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-size: 2.4rem;
+  font-weight: 800;
   margin-bottom: 16px;
 }
 .location-info p {
   color: var(--texto-medio);
-  margin-bottom: 28px;
+  margin-bottom: 30px;
+  font-size: 1.05rem;
 }
 .info-detail-box {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 30px;
+  gap: 18px;
+  margin-bottom: 32px;
 }
 .info-row {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 16px;
 }
 .info-icon-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
   background: var(--rosa-peonia-light);
-  color: var(--rosa-peonia-dark);
+  color: var(--rosa-peonia-vivid);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px var(--rosa-glow);
 }
 .info-text strong {
   display: block;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--carbon-ebano);
 }
 .info-text span {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   color: var(--texto-medio);
 }
 .map-container {
-  height: 380px;
-  border-radius: 28px;
+  height: 400px;
+  border-radius: 36px;
   overflow: hidden;
-  box-shadow: var(--sombra-card);
-  border: 1px solid var(--borde-suave);
+  box-shadow: var(--sombra-luxe);
+  border: 4px solid #fff;
 }
 .map-container iframe {
   width: 100%;
@@ -1314,11 +1646,11 @@ header.scrolled {
   border: 0;
 }
 
-/* BOTONES FLOTANTES */
+/* BOTÓN FLOTANTE WHATSAPP CON EFECTO ONDA VIBRANTE */
 .floating-whatsapp {
   position: fixed;
-  bottom: 26px;
-  right: 26px;
+  bottom: 28px;
+  right: 28px;
   z-index: 99;
   display: flex;
   align-items: center;
@@ -1326,58 +1658,72 @@ header.scrolled {
 }
 .wapp-bubble {
   background: #fff;
-  padding: 8px 14px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-  font-size: 0.82rem;
-  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  font-size: 0.86rem;
+  font-weight: 800;
   color: var(--carbon-ebano);
-  border: 1px solid var(--borde-suave);
-  animation: pulse 2.5s infinite;
+  border: 1.5px solid var(--borde-luxe);
+  animation: pulseBubble 3s infinite;
+}
+@keyframes pulseBubble {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
 }
 .wapp-circle-btn {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   background: var(--whatsapp);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
+  position: relative;
 }
-.wapp-circle-btn:hover {
-  transform: scale(1.12);
+.wapp-circle-btn::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 2px solid var(--whatsapp);
+  border-radius: 50%;
+  animation: rippleWave 2s infinite;
+}
+@keyframes rippleWave {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
 }
 
 .floating-book-pill {
   position: fixed;
-  bottom: 26px;
-  left: 26px;
+  bottom: 28px;
+  left: 28px;
   z-index: 99;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 24px;
-  background: linear-gradient(135deg, var(--rosa-peonia), var(--rosa-peonia-dark));
+  padding: 15px 28px;
+  background: linear-gradient(135deg, #be3a7b 0%, #d92d84 60%, #861d52 100%);
   color: #fff;
   border-radius: 40px;
-  font-weight: 700;
-  font-size: 0.92rem;
-  box-shadow: 0 10px 25px rgba(180, 121, 153, 0.4);
-  transition: all 0.3s;
+  font-weight: 800;
+  font-size: 0.96rem;
+  box-shadow: 0 12px 30px var(--rosa-glow);
 }
 .floating-book-pill:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 30px rgba(180, 121, 153, 0.5);
+  box-shadow: 0 16px 36px rgba(217, 45, 132, 0.5);
 }
 
-/* FOOTER */
+/* FOOTER ELEGANTE */
 footer {
-  background: #141716;
-  color: #e2e8f0;
-  padding: 80px 0 30px;
+  background: #111827;
+  color: #e5e7eb;
+  padding: 80px 0 32px;
+  position: relative;
+  z-index: 1;
 }
 .footer-grid {
   display: grid;
@@ -1387,45 +1733,45 @@ footer {
 }
 .footer-brand h3 {
   font-family: var(--serif);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: #fff;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .footer-brand p {
-  color: #94a3b8;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  color: #9ca3af;
+  font-size: 0.94rem;
+  line-height: 1.65;
   margin-bottom: 20px;
 }
 .footer-col h4 {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #fff;
-  margin-bottom: 18px;
-  font-weight: 700;
+  margin-bottom: 20px;
+  font-weight: 800;
 }
 .footer-links {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 .footer-links a {
-  color: #94a3b8;
-  font-size: 0.88rem;
+  color: #9ca3af;
+  font-size: 0.92rem;
   transition: color 0.2s;
 }
 .footer-links a:hover {
-  color: var(--rosa-acento);
+  color: #f472b6;
 }
 .footer-social-row {
   display: flex;
   gap: 12px;
 }
 .social-icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: #232826;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #1f2937;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1433,34 +1779,36 @@ footer {
   transition: all 0.2s;
 }
 .social-icon-btn:hover {
-  background: var(--rosa-peonia);
-  transform: translateY(-2px);
+  background: var(--rosa-peonia-vivid);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px var(--rosa-glow);
 }
 .footer-bottom {
-  padding-top: 30px;
-  border-top: 1px solid #232826;
+  padding-top: 32px;
+  border-top: 1px solid #1f2937;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  font-size: 0.82rem;
-  color: #64748b;
+  font-size: 0.85rem;
+  color: #6b7280;
 }
 .admin-discreet-link {
-  color: #475569;
+  color: #9ca3af;
   text-decoration: none;
-  transition: color 0.2s;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  font-weight: 600;
 }
 .admin-discreet-link:hover {
-  color: var(--rosa-acento);
+  color: #f472b6;
 }
 
 @media (max-width: 992px) {
   .hero-grid { grid-template-columns: 1fr; }
+  .promo-card { grid-template-columns: 1fr; }
   .experience-grid { grid-template-columns: 1fr; }
   .location-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -1472,10 +1820,16 @@ footer {
   .footer-grid { grid-template-columns: 1fr; }
   .floating-book-pill { display: none; }
   .hero-stats-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .ba-wrapper { height: 320px; }
 }
 </style>
 </head>
 <body>
+
+<!-- ORBES AMBIENTALES LUMINOSOS (MÁS COLOR & VIDA) -->
+<div class="ambient-glow ambient-1"></div>
+<div class="ambient-glow ambient-2"></div>
+<div class="ambient-glow ambient-3"></div>
 
 <!-- Barra de progreso -->
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -1497,10 +1851,11 @@ footer {
 
     <ul class="nav-menu">
       <li><a href="#tratamientos">Tratamientos</a></li>
+      <li><a href="#antes-despues">Antes & Después</a></li>
       <li><a href="#experiencia">Nuestra Esencia</a></li>
       <li><a href="#reservas">Reservar Cita</a></li>
       <li><a href="#opiniones">Reseñas</a></li>
-      <li><a href="#contacto">Contacto & Horarios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
 
     <div class="nav-actions">
@@ -1520,21 +1875,21 @@ footer {
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-content">
-      <div class="hero-tag">Belleza & Estética Avanzada en Fuensalida (Toledo)</div>
+      <div class="hero-tag">🌸 Centro de Estética Avanzada en Fuensalida (Toledo)</div>
       <h1>
         El arte de cuidar tu piel y realzar tu belleza
         <span class="hero-script-lead">Patricia Carpintero</span>
       </h1>
       <p class="hero-p">
-        Descubre un espacio exclusivo de bienestar y armonía donde combinamos cosmética de alta gama, técnicas avanzadas de maderoterapia y aparatología estética con un trato cálido e individualizado para resultados visibles y duraderos.
+        Descubre un espacio exclusivo donde combinamos <strong style="color:var(--rosa-peonia-dark);">cosmética botánica de alta gama</strong>, técnicas avanzadas de maderoterapia y aparatología estética de vanguardia para resultados visibles desde la 1ª sesión.
       </p>
       <div class="hero-ctas">
         <a href="#reservas" class="btn-hero-primary">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           Reservar Cita Previa
         </a>
-        <a href="#tratamientos" class="btn-hero-secondary">
-          Ver Catálogo de Servicios
+        <a href="#antes-despues" class="btn-hero-secondary">
+          ✨ Ver Resultados Reales
         </a>
       </div>
       <div class="hero-stats-row">
@@ -1544,11 +1899,11 @@ footer {
         </div>
         <div class="hero-stat-item">
           <span class="hero-stat-num">100%</span>
-          <span class="hero-stat-lbl">Diagnóstico personalizado</span>
+          <span class="hero-stat-lbl">Diagnóstico a medida</span>
         </div>
         <div class="hero-stat-item">
-          <span class="hero-stat-num">Fuensalida</span>
-          <span class="hero-stat-lbl">C/ Fray Luis Fuensalida, 2</span>
+          <span class="hero-stat-num">⭐ 4.9/5</span>
+          <span class="hero-stat-lbl">Satisfacción clientas</span>
         </div>
       </div>
     </div>
@@ -1556,11 +1911,14 @@ footer {
     <div class="hero-media-box">
       <div class="hero-media-card">
         <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80" alt="Tratamiento Facial en Centro de Estética Patricia Carpintero" class="hero-main-img">
+        <div class="hero-badge-top">
+          <span>✨ Maderoterapia & Radiofrecuencia</span>
+        </div>
         <div class="hero-floating-badge">
           <div class="hero-badge-icon">🌿</div>
           <div>
-            <div class="hero-badge-title">Maderoterapia & Faciales</div>
-            <div class="hero-badge-desc">Protocolos reafirmantes y dérmicos</div>
+            <div class="hero-badge-title">Resultados Visibles</div>
+            <div class="hero-badge-desc">Protocolos dérmicos sin cirugía</div>
           </div>
         </div>
       </div>
@@ -1568,44 +1926,101 @@ footer {
   </div>
 </section>
 
-<!-- CINTA DE VALORES -->
+<!-- CINTA DE BENEFICIOS VIBRANTE -->
 <div class="ribbon-strip">
   <div class="wrap ribbon-flex">
     <div class="ribbon-item">
-      <span>✨ Protocolos de Higiene & Esterilización Rigurosos</span>
+      <span>✨ Protocolos de Higiene Rigurosos</span>
     </div>
     <div class="ribbon-dot"></div>
     <div class="ribbon-item">
-      <span>🌸 Cosmecéutica y Principios Activos Puros</span>
+      <span>🌸 Cosmética Botánica de Alta Gama</span>
     </div>
     <div class="ribbon-dot"></div>
     <div class="ribbon-item">
-      <span>💆‍♀️ Tratamientos No Invasivos & Efecto Inmediato</span>
+      <span>💆‍♀️ Tratamientos Reafirmantes & Antiaging</span>
     </div>
     <div class="ribbon-dot"></div>
     <div class="ribbon-item">
-      <span>📅 Citas Online con Confirmación Directa por WhatsApp</span>
+      <span>📅 Citas Online con Confirmación por WhatsApp</span>
     </div>
   </div>
 </div>
+
+<!-- SECCIÓN ANTES Y DESPUÉS INTERACTIVO (WIDGET TIPO EMIL KOWALSKI) -->
+<section id="antes-despues" class="before-after-section">
+  <div class="wrap">
+    <div class="section-header">
+      <span class="section-sub">Resultados Comprobados</span>
+      <h2 class="section-title">Compara el Efecto Glow en la Piel</h2>
+      <p class="section-desc">Arrastra el deslizador con el ratón o el dedo para descubrir la transformación real tras nuestro protocolo de Higiene Facial Profunda & Radiofrecuencia.</p>
+    </div>
+
+    <div class="ba-container">
+      <div class="ba-wrapper" id="baWrapper">
+        <!-- Después (Fondo) -->
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=80" alt="Piel Luminosa Después" class="ba-img ba-img-after">
+        <!-- Antes (Encima con clip-path) -->
+        <img src="https://images.unsplash.com/photo-1512290900672-1f48b11eb11c?auto=format&fit=crop&w=1200&q=80" alt="Piel Antes del Tratamiento" class="ba-img ba-img-before" id="baBeforeImg">
+        
+        <!-- Separador / Handle -->
+        <div class="ba-handle" id="baHandle">
+          <div class="ba-handle-circle">↔</div>
+        </div>
+
+        <span class="ba-label ba-label-before">Antes</span>
+        <span class="ba-label ba-label-after">Después ✨</span>
+      </div>
+    </div>
+    <p class="ba-hint">👈 Arrastra la barra para ver la diferencia 👉</p>
+  </div>
+</section>
+
+<!-- BANNER PROMO: TRATAMIENTO ESTRELLA DEL MES -->
+<section class="promo-banner-section">
+  <div class="wrap">
+    <div class="promo-card">
+      <div class="promo-card-left">
+        <span class="promo-badge-tag">🔥 Tratamiento Más Solicitado</span>
+        <h3 class="promo-title">Bono Maderoterapia Corporal 5 Sesiones</h3>
+        <p class="promo-desc">
+          Moldea tu figura, elimina la retención de líquidos y combate la celulitis con instrumentos de madera noble colombiana. ¡Incluye 1 sesión de presoterapia médica de regalo!
+        </p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <button class="btn-card-book" style="background:#fff; color:var(--rosa-peonia-dark); padding:14px 28px; font-size:1rem; border:none;" onclick="seleccionarServicioYReservar('Maderoterapia Corporal Reductora & Drenante')">
+            Reservar este Bono
+          </button>
+        </div>
+      </div>
+      <div class="promo-card-right">
+        <span style="font-size:0.9rem; text-transform:uppercase; letter-spacing:1px; color:#fef08a; font-weight:800; display:block; margin-bottom:6px;">Precio Especial Bono</span>
+        <div class="promo-price-big">160€</div>
+        <div class="promo-subprice">Ahorras 30€ (Sesión a 32€ en lugar de 38€)</div>
+        <button class="btn-promo-book" onclick="seleccionarServicioYReservar('Maderoterapia Corporal Reductora & Drenante')">
+          Pedir Cita Online ✨
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- SECCIÓN TRATAMIENTOS -->
 <section id="tratamientos" class="section">
   <div class="wrap">
     <div class="section-header">
-      <span class="section-sub">Catálogo de Belleza</span>
-      <h2 class="section-title">Tratamientos Diseñados para Ti</h2>
-      <p class="section-desc">Cada piel y cada cuerpo son únicos. Selecciona el tratamiento que deseas o consúltanos para un diagnóstico previo adaptado a tus necesidades.</p>
+      <span class="section-sub">Carta de Servicios</span>
+      <h2 class="section-title">Tratamientos Exclusivos a Tu Medida</h2>
+      <p class="section-desc">Selecciona tu categoría de tratamiento para conocer los detalles, duración y precios.</p>
     </div>
 
     <!-- Filtros de Categorías -->
     <div class="filter-tabs">
-      <button class="filter-tab active" onclick="filtrarCategoria('todos', this)">Todos los Tratamientos</button>
-      <button class="filter-tab" onclick="filtrarCategoria('facial', this)">Facial & Luminosidad</button>
-      <button class="filter-tab" onclick="filtrarCategoria('corporal', this)">Corporal & Maderoterapia</button>
-      <button class="filter-tab" onclick="filtrarCategoria('mirada', this)">Mirada & Pestañas</button>
-      <button class="filter-tab" onclick="filtrarCategoria('unas', this)">Manos, Pies & Uñas</button>
-      <button class="filter-tab" onclick="filtrarCategoria('depilacion', this)">Depilación Láser & Cera</button>
+      <button class="filter-tab active" onclick="filtrarCategoria('todos', this)">🌸 Todos los Tratamientos</button>
+      <button class="filter-tab" onclick="filtrarCategoria('facial', this)">✨ Facial & Luminosidad</button>
+      <button class="filter-tab" onclick="filtrarCategoria('corporal', this)">🌿 Corporal & Maderoterapia</button>
+      <button class="filter-tab" onclick="filtrarCategoria('mirada', this)">👁️ Mirada & Pestañas</button>
+      <button class="filter-tab" onclick="filtrarCategoria('unas', this)">💅 Manos, Pies & Uñas</button>
+      <button class="filter-tab" onclick="filtrarCategoria('depilacion', this)">⚡ Depilación Láser</button>
     </div>
 
     <!-- Grid de Tratamientos -->
@@ -1615,14 +2030,15 @@ footer {
       <div class="service-card" data-category="corporal">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80" alt="Maderoterapia Corporal Reductora" class="service-thumb">
-          <span class="service-cat-badge">Corporal Estrella</span>
+          <span class="service-cat-badge">🌿 Corporal</span>
+          <span class="service-featured-pill">⭐ Top Ventas</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
             <h3 class="service-name">Maderoterapia Corporal Reductora</h3>
-            <span class="service-price">Desde 38€</span>
+            <span class="service-price">38€</span>
           </div>
-          <p class="service-desc">Técnica holística colombiana con instrumentos de madera noble anatómicos. Drena, rompe nódulos grasos, elimina celulitis y tonifica piernas, glúteos, abdomen y flancos.</p>
+          <p class="service-desc">Técnica holística colombiana con instrumentos de madera noble anatómicos. Drena, rompe nódulos grasos, elimina celulitis y tonifica piernas, glúteos y abdomen.</p>
           <div class="service-meta-row">
             <span class="service-duration">⏱️ 60 min</span>
             <button class="btn-card-book" onclick="seleccionarServicioYReservar('Maderoterapia Corporal Reductora & Drenante')">Pedir Cita</button>
@@ -1634,14 +2050,15 @@ footer {
       <div class="service-card" data-category="facial">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1512290900672-1f48b11eb11c?auto=format&fit=crop&w=600&q=80" alt="Higiene Facial Profunda con Punta de Diamante" class="service-thumb">
-          <span class="service-cat-badge">Facial Esencial</span>
+          <span class="service-cat-badge">✨ Facial</span>
+          <span class="service-featured-pill">Glow Total</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
-            <h3 class="service-name">Higiene Facial con Punta de Diamante</h3>
-            <span class="service-price">Desde 42€</span>
+            <h3 class="service-name">Higiene con Punta de Diamante</h3>
+            <span class="service-price">42€</span>
           </div>
-          <p class="service-desc">Microdermoabrasión suave no invasiva que retira células muertas, desobstruye poros y unifica la textura cutánea. Incluye extracción delicada, sérum vitamínico y mascarilla relajante.</p>
+          <p class="service-desc">Microdermoabrasión suave no invasiva que retira células muertas, desobstruye poros y unifica la textura cutánea. Incluye extracción indolora y mascarilla calmante.</p>
           <div class="service-meta-row">
             <span class="service-duration">⏱️ 60-75 min</span>
             <button class="btn-card-book" onclick="seleccionarServicioYReservar('Higiene Facial Profunda con Punta de Diamante')">Pedir Cita</button>
@@ -1653,11 +2070,11 @@ footer {
       <div class="service-card" data-category="facial">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80" alt="Tratamiento Despigmentante y Antimanchas" class="service-thumb">
-          <span class="service-cat-badge">Facial Avanzado</span>
+          <span class="service-cat-badge">✨ Facial</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
-            <h3 class="service-name">Tratamiento Despigmentante & Antimanchas</h3>
+            <h3 class="service-name">Tratamiento Antimanchas</h3>
             <span class="service-price">Consultar</span>
           </div>
           <p class="service-desc">Protocolo intensivo para atenuar manchas solares, melasmas y marcas hormonales. Aporta una dosis de luminosidad espectacular y regula la síntesis de melanina.</p>
@@ -1672,14 +2089,14 @@ footer {
       <div class="service-card" data-category="facial">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80" alt="Radiofrecuencia Facial Lifting" class="service-thumb">
-          <span class="service-cat-badge">Antiaging</span>
+          <span class="service-cat-badge">🌸 Antiaging</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
             <h3 class="service-name">Radiofrecuencia Efecto Lifting</h3>
-            <span class="service-price">Desde 45€</span>
+            <span class="service-price">45€</span>
           </div>
-          <p class="service-desc">Estimula la síntesis natural de colágeno y elastina mediante calor dérmico controlado. Redefine el óvalo facial, reduce líneas de expresión y combate la flacidez dérmica.</p>
+          <p class="service-desc">Estimula la síntesis natural de colágeno y elastina mediante calor dérmico controlado. Redefine el óvalo facial, reduce líneas de expresión y combate la flacidez.</p>
           <div class="service-meta-row">
             <span class="service-duration">⏱️ 50 min</span>
             <button class="btn-card-book" onclick="seleccionarServicioYReservar('Tratamiento Rejuvenecedor Radiofrecuencia Facial')">Pedir Cita</button>
@@ -1691,14 +2108,14 @@ footer {
       <div class="service-card" data-category="facial">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=600&q=80" alt="Dermapen y Microneedling" class="service-thumb">
-          <span class="service-cat-badge">Regeneración Profunda</span>
+          <span class="service-cat-badge">🔬 Avanzado</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
-            <h3 class="service-name">Dermapen con Cóctel de Vitaminas</h3>
-            <span class="service-price">Desde 55€</span>
+            <h3 class="service-name">Dermapen con Cóctel Vitaminas</h3>
+            <span class="service-price">55€</span>
           </div>
-          <p class="service-desc">Microcanales transdérmicos indoloros que introducen ácido hialurónico reticulado, péptidos y antioxidantes en las capas vivas de la dermis. Trata poros, cicatrices y textura.</p>
+          <p class="service-desc">Microcanales transdérmicos indoloros que introducen ácido hialurónico reticulado y antioxidantes en las capas vivas de la dermis. Trata poros y textura.</p>
           <div class="service-meta-row">
             <span class="service-duration">⏱️ 60 min</span>
             <button class="btn-card-book" onclick="seleccionarServicioYReservar('Dermapen & Microneedling con Principios Activos')">Pedir Cita</button>
@@ -1706,18 +2123,18 @@ footer {
         </div>
       </div>
 
-      <!-- 6. Lifting de Pestañas & Cejas -->
+      <!-- 6. Lifting de Pestañas -->
       <div class="service-card" data-category="mirada">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1583001809873-a128495da465?auto=format&fit=crop&w=600&q=80" alt="Lifting de Pestañas con Tinte" class="service-thumb">
-          <span class="service-cat-badge">Mirada Radiante</span>
+          <span class="service-cat-badge">👁️ Mirada</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
-            <h3 class="service-name">Lifting de Pestañas con Tinte & Queratina</h3>
+            <h3 class="service-name">Lifting de Pestañas & Queratina</h3>
             <span class="service-price">32€</span>
           </div>
-          <p class="service-desc">Eleva y curva tus pestañas naturales desde la raíz con una nutrición intensiva de queratina. Efecto rímel y mirada abierta hasta 6-8 semanas sin extensiones.</p>
+          <p class="service-desc">Eleva y curva tus pestañas naturales desde la raíz con nutrición intensiva de queratina y tinte oscuro. Efecto rímel y mirada abierta hasta 6-8 semanas.</p>
           <div class="service-meta-row">
             <span class="service-duration">⏱️ 50 min</span>
             <button class="btn-card-book" onclick="seleccionarServicioYReservar('Lifting de Pestañas con Tinte & Queratina')">Pedir Cita</button>
@@ -1725,18 +2142,18 @@ footer {
         </div>
       </div>
 
-      <!-- 7. Manicura Rusa & Semipermanente -->
+      <!-- 7. Manicura Rusa -->
       <div class="service-card" data-category="unas">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=600&q=80" alt="Manicura Semipermanente Rusa" class="service-thumb">
-          <span class="service-cat-badge">Manos Impecables</span>
+          <span class="service-cat-badge">💅 Manos</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
-            <h3 class="service-name">Manicura Rusa / Nivelación</h3>
-            <span class="service-price">Desde 22€</span>
+            <h3 class="service-name">Manicura Rusa con Nivelación</h3>
+            <span class="service-price">22€</span>
           </div>
-          <p class="service-desc">Limpieza profunda de cutículas con torno para un esmaltado bajo cutícula de máxima durabilidad (hasta 4 semanas). Refuerzo de base Rubber para uñas fuertes y flexibles.</p>
+          <p class="service-desc">Limpieza profunda de cutículas con torno para un esmaltado bajo cutícula de máxima durabilidad (hasta 4 semanas). Refuerzo con base Rubber flexible.</p>
           <div class="service-meta-row">
             <span class="service-duration">⏱️ 60 min</span>
             <button class="btn-card-book" onclick="seleccionarServicioYReservar('Manicura Semipermanente Rusa / Nivelación')">Pedir Cita</button>
@@ -1748,14 +2165,14 @@ footer {
       <div class="service-card" data-category="corporal">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=600&q=80" alt="Presoterapia y Cavitación" class="service-thumb">
-          <span class="service-cat-badge">Remodelación</span>
+          <span class="service-cat-badge">🌿 Corporal</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
-            <h3 class="service-name">Cavitación & Presoterapia Médica</h3>
-            <span class="service-price">Desde 35€</span>
+            <h3 class="service-name">Cavitación & Presoterapia</h3>
+            <span class="service-price">35€</span>
           </div>
-          <p class="service-desc">Ultrasonidos de baja frecuencia que licúan el tejido adiposo rebelde combinados con presoterapia secuencial para expulsar líquidos retenidos y aliviar piernas cansadas.</p>
+          <p class="service-desc">Ultrasonidos reductores combinados con presoterapia secuencial médica para expulsar líquidos retenidos, reactivar el retorno venoso y aliviar piernas cansadas.</p>
           <div class="service-meta-row">
             <span class="service-duration">⏱️ 55 min</span>
             <button class="btn-card-book" onclick="seleccionarServicioYReservar('Cavitación & Radiofrecuencia Corporal')">Pedir Cita</button>
@@ -1767,12 +2184,12 @@ footer {
       <div class="service-card" data-category="depilacion">
         <div class="service-thumb-box">
           <img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=600&q=80" alt="Depilación Láser de Diodo" class="service-thumb">
-          <span class="service-cat-badge">Láser Avanzado</span>
+          <span class="service-cat-badge">⚡ Láser</span>
         </div>
         <div class="service-body">
           <div class="service-header-row">
-            <h3 class="service-name">Depilación Láser de Diodo Indoloro</h3>
-            <span class="service-price">Consultar zona</span>
+            <h3 class="service-name">Láser de Diodo Indoloro</h3>
+            <span class="service-price">Consultar</span>
           </div>
           <p class="service-desc">Cabezal ultra refrigerado a -5ºC para una depilación definitiva confortable en todo tipo de fototipos de piel. Packs personalizados para zonas íntimas, piernas y axilas.</p>
           <div class="service-meta-row">
@@ -1808,12 +2225,12 @@ footer {
         <div class="pillar-card">
           <div class="pillar-icon">🌿</div>
           <h4 class="pillar-title">Cosmética Respetuosa</h4>
-          <p class="pillar-desc">Formulaciones con alta concentración de activos botánicos y dermocosméticos libres de parabenos.</p>
+          <p class="pillar-desc">Formulaciones con alta concentración de activos botánicos y dermocosméticos puros.</p>
         </div>
         <div class="pillar-card">
           <div class="pillar-icon">💆‍♀️</div>
           <h4 class="pillar-title">Espacio de Desconexión</h4>
-          <p class="pillar-desc">Cabinas climatizadas, aromaterapia suave y un entorno diseñado para resetear tu mente y cuerpo.</p>
+          <p class="pillar-desc">Cabinas climatizadas, aromaterapia suave y un entorno diseñado para resetear mente y cuerpo.</p>
         </div>
         <div class="pillar-card">
           <div class="pillar-icon">🔬</div>
@@ -1838,7 +2255,7 @@ footer {
     <div class="section-header">
       <span class="section-sub">Reserva Online 24/7</span>
       <h2 class="section-title">Agenda tu Cita en Solo 3 Pasos</h2>
-      <p class="section-desc">Selecciona tu tratamiento, el día y la hora que mejor te encajen. Recibirás de inmediato tu comprobante digital y podrás enviarlo con un clic a nuestro WhatsApp.</p>
+      <p class="section-desc">Selecciona tu tratamiento, el día y la hora que mejor te encajen. Las horas ocupadas se bloquean automáticamente en tiempo real.</p>
     </div>
 
     <div class="booking-wrapper">
@@ -1884,7 +2301,7 @@ footer {
           <div class="form-field">
             <label for="bookService">Tratamiento Específico *</label>
             <select id="bookService" required>
-              <!-- Dinámico según categoría -->
+              <!-- Dinámico -->
             </select>
           </div>
 
@@ -1899,10 +2316,10 @@ footer {
             <div class="form-field">
               <label for="bookDate">Día de la Cita *</label>
               <input type="date" id="bookDate" required onchange="generarHorasDisponibles()">
-              <small style="color: var(--texto-suave); font-size: 0.78rem;">Lunes a Viernes (10:00 - 13:30 / 16:00 - 20:00) | Sábados (10:00 - 13:30)</small>
+              <small style="color: var(--texto-suave); font-size: 0.8rem; font-weight:600;">L-V (10:00-13:30 / 16:00-20:00) | Sábados (10:00-13:30)</small>
             </div>
             <div class="form-field">
-              <label>Turno Horario Seleccionado: <strong id="horaSeleccionadaTexto" style="color: var(--rosa-peonia-dark);">Ninguno</strong></label>
+              <label>Turno Seleccionado: <strong id="horaSeleccionadaTexto" style="color: var(--rosa-peonia-vivid);">Ninguno</strong></label>
               <input type="hidden" id="bookHour" required>
               <div class="time-slots-grid" id="timeSlotsGrid">
                 <!-- Se rellena dinámicamente -->
@@ -1930,13 +2347,13 @@ footer {
           </div>
 
           <div class="form-field">
-            <label for="bookEmail">Correo Electrónico (Opcional para comprobante)</label>
+            <label for="bookEmail">Correo Electrónico (Opcional para justificante)</label>
             <input type="email" id="bookEmail" placeholder="tucorreo@ejemplo.com">
           </div>
 
           <div class="form-field">
-            <label for="bookNotes">Notas Adicionales / Estado de la Piel (Opcional)</label>
-            <textarea id="bookNotes" rows="2" placeholder="Indícanos si tienes piel sensible, alguna alergia o preferencia especial..."></textarea>
+            <label for="bookNotes">Notas Adicionales / Tipo de Piel (Opcional)</label>
+            <textarea id="bookNotes" rows="2" placeholder="Indícanos si tienes piel sensible, alergias o alguna preferencia..."></textarea>
           </div>
 
           <div class="step-buttons-row">
@@ -1952,7 +2369,7 @@ footer {
   </div>
 </section>
 
-<!-- MODAL COMPROBANTE DIGITAL (#PC-XXXXXX) -->
+<!-- MODAL COMPROBANTE DIGITAL -->
 <div id="voucherModal" class="voucher-modal">
   <div class="voucher-card">
     <button class="voucher-close" onclick="cerrarVoucherModal()">&times;</button>
@@ -1988,7 +2405,7 @@ footer {
 
     <div class="voucher-actions">
       <a id="vouchWhatsappBtn" href="#" target="_blank" class="btn-voucher-wapp">
-        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
+        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
         <span>Enviar confirmación a Patricia por WhatsApp</span>
       </a>
       <button class="btn-voucher-cal" onclick="descargarCalendarioICS()">
@@ -2008,8 +2425,8 @@ footer {
   <div class="wrap">
     <div class="section-header">
       <span class="section-sub">Experiencias Reales</span>
-      <h2 class="section-title">Lo que dicen nuestras clientas en Fuensalida</h2>
-      <p class="section-desc">La satisfacción y la confianza de quienes acuden a nuestro centro son nuestra mejor carta de presentación.</p>
+      <h2 class="section-title">Opiniones de Nuestras Clientas</h2>
+      <p class="section-desc">Testimonios de quienes confían en nuestro centro en Fuensalida.</p>
     </div>
 
     <div class="reviews-grid">
@@ -2057,28 +2474,28 @@ footer {
   <div class="wrap">
     <div class="section-header">
       <span class="section-sub">Dudas Frecuentes</span>
-      <h2 class="section-title">¿Tienes alguna pregunta?</h2>
-      <p class="section-desc">Aquí resolvemos las consultas más habituales sobre nuestros tratamientos y protocolo de citas.</p>
+      <h2 class="section-title">¿Tienes Alguna Pregunta?</h2>
+      <p class="section-desc">Aquí resolvemos las dudas más habituales sobre los protocolos.</p>
     </div>
 
     <div class="faq-accordion">
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          <span>¿La maderoterapia corporal produce moratones o duele?</span>
+          <span>¿La maderoterapia corporal produce moratones o dolor?</span>
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          No. La maderoterapia bien realizada por una profesional no debe doler ni causar hematomas. Adaptamos la presión de las maderas nobles a la sensibilidad y nivel de celulitis de cada persona para una experiencia placentera y tonificante.
+          No. La maderoterapia bien realizada por una profesional no debe doler ni causar hematomas. Adaptamos la presión de las maderas a la sensibilidad de cada persona para una experiencia agradable y reafirmante.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          <span>¿Cómo sé cuál es el tratamiento facial que necesita mi piel?</span>
+          <span>¿Cómo sé cuál es el facial que necesita mi piel?</span>
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          No te preocupes al reservar: cuando acudas a tu cita, realizaremos un diagnóstico visual y dérmico para ver si tu piel requiere hidratación profunda, microdermoabrasión, tratamiento antimanchas o efecto reafirmante.
+          No te preocupes al reservar: cuando acudas a tu cita, realizaremos un diagnóstico dérmico previo para ver si tu piel requiere hidratación profunda, punta de diamante, tratamiento antimanchas o radiofrecuencia.
         </div>
       </div>
 
@@ -2088,7 +2505,7 @@ footer {
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          Recomendamos reservar con 2 a 5 días de margen para asegurar el horario que mejor te convenga, especialmente para tardes y mañanas de sábados.
+          Recomendamos reservar con 2 a 5 días de margen para asegurar tu horario preferido, especialmente para tardes y mañanas de sábados.
         </div>
       </div>
 
@@ -2098,7 +2515,7 @@ footer {
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          Sí, por supuesto. Solo te pedimos que nos avises con al menos 24 horas de antelación enviándonos un mensaje directo a nuestro WhatsApp (647 54 32 25) para poder reasignar el hueco a otra persona.
+          Sí, por supuesto. Solo te pedimos que nos avises con al menos 24 horas de antelación enviándonos un mensaje directo a nuestro WhatsApp (647 54 32 25).
         </div>
       </div>
     </div>
@@ -2111,7 +2528,7 @@ footer {
     <div class="location-info">
       <span class="section-sub">Dónde Encontrarnos</span>
       <h2>Visítanos en Fuensalida</h2>
-      <p>Nuestro centro de estética está situado en una ubicación céntrica y de fácil aparcamiento en Fuensalida (Toledo). Un refugio de cuidado personal cerca de ti.</p>
+      <p>Nuestro centro de estética está situado en una ubicación céntrica y de fácil aparcamiento en Fuensalida (Toledo).</p>
 
       <div class="info-detail-box">
         <div class="info-row">
@@ -2155,12 +2572,12 @@ footer {
 <div class="floating-whatsapp">
   <div class="wapp-bubble">¿Dudas? ¡Escríbenos por WhatsApp! 💬</div>
   <a href="https://wa.me/34647543225?text=Hola%20Patricia,%20me%20gustar%C3%ADa%20consultar%20sobre%20vuestros%20tratamientos%20de%20est%C3%A9tica..." target="_blank" class="wapp-circle-btn" title="Contactar por WhatsApp">
-    <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
+    <svg width="34" height="34" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
   </a>
 </div>
 
 <a href="#reservas" class="floating-book-pill">
-  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
   <span>Pedir Cita Online</span>
 </a>
 
@@ -2169,21 +2586,21 @@ footer {
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand">
-        <img src="assets/logo.jpg" alt="Centro de Estética Patricia Carpintero" style="width: 50px; height: 50px; border-radius: 50%; border: 1.5px solid var(--rosa-peonia); margin-bottom: 12px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=120&q=80'">
+        <img src="assets/logo.jpg" alt="Centro de Estética Patricia Carpintero" style="width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--rosa-peonia-vivid); margin-bottom: 14px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=120&q=80'">
         <h3>Patricia Carpintero</h3>
-        <p>Centro de estética avanzada, maderoterapia corporal, tratamientos faciales regeneradores y belleza integral en Fuensalida (Toledo).</p>
+        <p>Centro de estética avanzada, maderoterapia corporal reductora, tratamientos faciales regeneradores y belleza integral en Fuensalida (Toledo).</p>
         <div class="footer-social-row">
           <!-- Facebook Oficial -->
           <a href="https://www.facebook.com/centropatriciacarpintero/" target="_blank" class="social-icon-btn" title="Facebook Centro de Estética Patricia Carpintero">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95C18.05 21.45 22 17.19 22 12z"/></svg>
+            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95C18.05 21.45 22 17.19 22 12z"/></svg>
           </a>
           <!-- WhatsApp Oficial -->
           <a href="https://wa.me/34647543225" target="_blank" class="social-icon-btn" title="WhatsApp Directo">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
+            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
           </a>
           <!-- Teléfono Llamada -->
           <a href="tel:+34647543225" class="social-icon-btn" title="Llamar">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.72 11.72 0 003.68.59 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.72 11.72 0 00.59 3.68 1 1 0 01-.24 1.02l-2.23 2.09z"/></svg>
+            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.72 11.72 0 003.68.59 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.72 11.72 0 00.59 3.68 1 1 0 01-.24 1.02l-2.23 2.09z"/></svg>
           </a>
         </div>
       </div>
@@ -2212,16 +2629,16 @@ footer {
 
       <div class="footer-col">
         <h4>Salón Fuensalida</h4>
-        <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 8px;">C/ Fray Luis Fuensalida, 2<br>45510 Fuensalida (Toledo)</p>
-        <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 8px;">Citas: <strong>647 54 32 25</strong></p>
-        <p style="color: var(--rosa-acento); font-size: 0.84rem;">L-V: 10:00-13:30 / 16:00-20:00<br>Sábados: 10:00-13:30</p>
+        <p style="color: #9ca3af; font-size: 0.92rem; margin-bottom: 8px;">C/ Fray Luis Fuensalida, 2<br>45510 Fuensalida (Toledo)</p>
+        <p style="color: #9ca3af; font-size: 0.92rem; margin-bottom: 8px;">Citas: <strong>647 54 32 25</strong></p>
+        <p style="color: #f472b6; font-size: 0.88rem; font-weight:700;">L-V: 10:00-13:30 / 16:00-20:00<br>Sábados: 10:00-13:30</p>
       </div>
     </div>
 
     <div class="footer-bottom">
       <p>© 2026 Centro de Estética Patricia Carpintero · Todos los derechos reservados.</p>
       <a href="/admin.html" class="admin-discreet-link" title="Acceso Exclusivo Salón">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
         <span>Acceso Panel Profesional (/admin.html)</span>
       </a>
     </div>
@@ -2266,6 +2683,8 @@ window.addEventListener('DOMContentLoaded', () => {
   configurarFechas();
   iniciarCursor();
   iniciarScrollProgress();
+  iniciarBeforeAfterSlider();
+  iniciarCardTiltEffect();
 });
 
 // Cursor animado
@@ -2281,7 +2700,7 @@ function iniciarCursor() {
     ring.style.top = e.clientY + 'px';
   });
 
-  document.querySelectorAll('a, button, input, select, textarea, .service-card').forEach(el => {
+  document.querySelectorAll('a, button, input, select, textarea, .service-card, .promo-card').forEach(el => {
     el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
     el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
   });
@@ -2298,8 +2717,70 @@ function iniciarScrollProgress() {
     const pct = dh > 0 ? (st / dh) * 100 : 0;
     if (bar) bar.style.width = pct + '%';
 
-    if (st > 50) header.classList.add('scrolled');
+    if (st > 40) header.classList.add('scrolled');
     else header.classList.remove('scrolled');
+  });
+}
+
+// SLIDER INTERACTIVO ANTES Y DESPUÉS
+function iniciarBeforeAfterSlider() {
+  const wrapper = document.getElementById('baWrapper');
+  const beforeImg = document.getElementById('baBeforeImg');
+  const handle = document.getElementById('baHandle');
+  if (!wrapper || !beforeImg || !handle) return;
+
+  let isDragging = false;
+
+  function updateSlider(x) {
+    const rect = wrapper.getBoundingClientRect();
+    let pos = (x - rect.left) / rect.width;
+    if (pos < 0.05) pos = 0.05;
+    if (pos > 0.95) pos = 0.95;
+
+    const pct = pos * 100;
+    beforeImg.style.clipPath = `polygon(0 0, ${pct}% 0, ${pct}% 100%, 0 100%)`;
+    handle.style.left = `${pct}%`;
+  }
+
+  wrapper.addEventListener('mousedown', e => {
+    isDragging = true;
+    updateSlider(e.clientX);
+  });
+  window.addEventListener('mouseup', () => { isDragging = false; });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    updateSlider(e.clientX);
+  });
+
+  // Soporte Táctil para Móviles
+  wrapper.addEventListener('touchstart', e => {
+    isDragging = true;
+    updateSlider(e.touches[0].clientX);
+  });
+  window.addEventListener('touchend', () => { isDragging = false; });
+  window.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    updateSlider(e.touches[0].clientX);
+  });
+}
+
+// EFECTO 3D TILT TÁCTIL EN TARJETAS DE SERVICIOS
+function iniciarCardTiltEffect() {
+  const cards = document.querySelectorAll('.service-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const midX = rect.width / 2;
+      const midY = rect.height / 2;
+      const rotateX = ((y - midY) / midY) * -4;
+      const rotateY = ((x - midX) / midX) * 4;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+    });
   });
 }
 
@@ -2312,6 +2793,7 @@ function filtrarCategoria(cat, btn) {
   cards.forEach(c => {
     if (cat === 'todos' || c.getAttribute('data-category') === cat) {
       c.style.display = 'flex';
+      c.style.animation = 'fadeInStep 0.4s ease';
     } else {
       c.style.display = 'none';
     }
@@ -2334,7 +2816,6 @@ function actualizarServiciosPorCategoria() {
 }
 
 function seleccionarServicioYReservar(nombreServicio) {
-  // Buscar a qué categoría pertenece
   let catEncontrada = 'corporal';
   for (const [cat, lista] of Object.entries(SERVICIOS_DATA)) {
     if (lista.some(item => item.nombre === nombreServicio)) {
@@ -2347,7 +2828,6 @@ function seleccionarServicioYReservar(nombreServicio) {
   actualizarServiciosPorCategoria();
   document.getElementById('bookService').value = nombreServicio;
 
-  // Scroll al formulario y abrir paso 2
   const reservasEl = document.getElementById('reservas');
   reservasEl.scrollIntoView({ behavior: 'smooth' });
   irAlPaso(2);
@@ -2359,7 +2839,6 @@ function configurarFechas() {
   const manana = new Date(hoy);
   manana.setDate(hoy.getDate() + 1);
 
-  // Mínimo mañana
   const minStr = manana.toISOString().split('T')[0];
   inputFecha.min = minStr;
   inputFecha.value = minStr;
@@ -2370,21 +2849,21 @@ function configurarFechas() {
 async function generarHorasDisponibles() {
   const fechaVal = document.getElementById('bookDate').value;
   const grid = document.getElementById('timeSlotsGrid');
-  grid.innerHTML = '<span style="color:var(--texto-suave); font-size:0.85rem; grid-column:1/-1;">Consultando turnos libres en tiempo real...</span>';
+  grid.innerHTML = '<span style="color:var(--texto-suave); font-size:0.88rem; grid-column:1/-1; padding:10px;">Consultando disponibilidad en vivo...</span>';
 
   if (!fechaVal) return;
 
   const fechaObj = new Date(fechaVal);
-  const diaSemana = fechaObj.getDay(); // 0: Domingo, 6: Sábado
+  const diaSemana = fechaObj.getDay();
 
   if (diaSemana === 0) {
-    grid.innerHTML = '<p style="grid-column: 1/-1; color: #dc2626; font-size: 0.88rem; padding: 10px;">Los domingos estamos cerrados por descanso. Por favor, selecciona de lunes a sábado.</p>';
+    grid.innerHTML = '<p style="grid-column: 1/-1; color: #dc2626; font-size: 0.88rem; padding: 10px; font-weight:700;">Los domingos estamos cerrados por descanso. Por favor, selecciona de lunes a sábado.</p>';
     document.getElementById('bookHour').value = '';
     document.getElementById('horaSeleccionadaTexto').textContent = 'Ninguno';
     return;
   }
 
-  // Consultar horas ya ocupadas en el sistema
+  // Consultar horas ocupadas en la API
   let horasOcupadas = [];
   try {
     const res = await fetch(`/api/reservas?fecha=${fechaVal}&horasOcupadas=1`);
@@ -2405,10 +2884,8 @@ async function generarHorasDisponibles() {
 
   let slots = [];
   if (diaSemana === 6) {
-    // Sábado solo mañanas
     slots = ['10:00', '10:45', '11:30', '12:15', '13:00'];
   } else {
-    // Lunes a Viernes
     slots = [
       '10:00', '10:45', '11:30', '12:15', '13:00',
       '16:00', '16:45', '17:30', '18:15', '19:00', '19:30'
@@ -2449,14 +2926,12 @@ async function generarHorasDisponibles() {
 }
 
 function irAlPaso(paso) {
-  // Ocultar todos
   document.querySelectorAll('.step-container').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.step-item').forEach(i => i.classList.remove('active'));
 
   document.getElementById(`stepContent${paso}`).classList.add('active');
   document.getElementById(`stepIndicator${paso}`).classList.add('active');
 
-  // Marcar completados los anteriores
   for (let i = 1; i < paso; i++) {
     document.getElementById(`stepIndicator${i}`).classList.add('completed');
   }
@@ -2504,7 +2979,7 @@ async function procesarReserva(e) {
       ultimaCitaGenerada = resp.reserva || reservaData;
     } else {
       const errorData = await res.json().catch(() => ({}));
-      alert(errorData.error || 'Lo sentimos, esa hora ya está ocupada por otra cita. Por favor, selecciona otro horario disponible.');
+      alert(errorData.error || 'Lo sentimos, esa hora acaba de ser reservada por otra persona. Por favor, selecciona otro horario disponible.');
       btn.disabled = false;
       btn.textContent = 'Confirmar Reserva ✨';
       irAlPaso(2);
@@ -2512,7 +2987,6 @@ async function procesarReserva(e) {
       return;
     }
   } catch (err) {
-    // Si corre estático (file://)
     ultimaCitaGenerada = reservaData;
     let local = [];
     try { local = JSON.parse(localStorage.getItem('pc_local_reservas') || '[]'); } catch(e){}
@@ -2534,7 +3008,6 @@ function abrirVoucherModal(r) {
   const [y, m, d] = (r.fecha || '').split('-');
   document.getElementById('vouchDateTime').textContent = `${d}/${m}/${y} a las ${r.hora}h`;
 
-  // Enlace directo a WhatsApp de Patricia Carpintero
   const msgWapp = encodeURIComponent(`¡Hola Patricia! Acabo de reservar cita en la web:\n\n` +
     `🔖 *Código:* ${r.codigo}\n` +
     `💆‍♀️ *Tratamiento:* ${r.servicio}\n` +
@@ -2556,7 +3029,6 @@ function cerrarVoucherModal() {
   configurarFechas();
 }
 
-// Descargar Archivo de Calendario .ics
 function descargarCalendarioICS() {
   if (!ultimaCitaGenerada) return;
   const r = ultimaCitaGenerada;
@@ -2595,7 +3067,6 @@ function descargarCalendarioICS() {
   URL.revokeObjectURL(url);
 }
 
-// FAQ Accordion
 function toggleFaq(btn) {
   const item = btn.parentElement;
   item.classList.toggle('open');
