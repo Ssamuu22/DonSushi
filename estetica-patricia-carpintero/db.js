@@ -95,6 +95,24 @@ function guardarReservasLocales(data) {
   fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(data, null, 2), 'utf8');
 }
 
+function normalizarFila(r) {
+  if (!r) return null;
+  let servicio = r.servicio;
+  let notas = r.notas || '';
+  if (!servicio && notas.startsWith('[') && notas.includes(']')) {
+    servicio = notas.substring(1, notas.indexOf(']'));
+    notas = notas.substring(notas.indexOf(']') + 1).trim();
+  } else if (!servicio) {
+    servicio = r.restaurante || 'Tratamiento Estética';
+  }
+  return {
+    ...r,
+    servicio,
+    notas,
+    creadoEl: r.creadoEl || r.created_at || new Date().toISOString()
+  };
+}
+
 module.exports = {
   get client() {
     return supabase;
@@ -103,13 +121,20 @@ module.exports = {
   async obtenerHorasOcupadas(fecha) {
     if (!fecha) return [];
     if (supabase) {
-      const { data, error } = await supabase
+      let query = supabase
         .from('reservas')
-        .select('hora, estado')
+        .select('hora, estado, codigo, restaurante')
         .eq('fecha', fecha)
         .neq('estado', 'cancelada');
+      
+      const { data, error } = await query;
       if (error) throw error;
-      return (data || []).map(r => r.hora);
+      // Filtrar citas correspondientes a Patricia Carpintero (#PC- o restaurante Patricia)
+      const citasFiltradas = (data || []).filter(r => 
+        (r.codigo && r.codigo.startsWith('#PC-')) ||
+        (r.restaurante && r.restaurante.toLowerCase().includes('patricia'))
+      );
+      return citasFiltradas.map(r => r.hora);
     } else {
       const reservas = leerReservasLocales();
       return reservas
@@ -139,13 +164,40 @@ module.exports = {
     };
 
     if (supabase) {
-      const { data: insertada, error } = await supabase
-        .from('reservas')
-        .insert([nuevaReserva])
-        .select()
-        .single();
-      if (error) throw error;
-      return insertada;
+      // Intentar inserción estándar con columna 'servicio'
+      const payloadSupabase = {
+        codigo: data.codigo,
+        servicio: data.servicio,
+        nombre: data.nombre,
+        telefono: data.telefono,
+        email: data.email || '',
+        fecha: data.fecha,
+        hora: data.hora,
+        notas: data.notas || '',
+        estado: data.estado || 'pendiente'
+      };
+      
+      let res = await supabase.from('reservas').insert([payloadSupabase]).select().single();
+      
+      // Si la tabla no tiene 'servicio' sino 'restaurante', adaptar el payload
+      if (res.error && res.error.message && (res.error.message.includes('servicio') || res.error.message.includes('creadoEl'))) {
+        const payloadCompat = {
+          codigo: data.codigo,
+          restaurante: 'Centro de Estética Patricia Carpintero',
+          nombre: data.nombre,
+          telefono: data.telefono,
+          email: data.email || '',
+          fecha: data.fecha,
+          hora: data.hora,
+          personas: 1,
+          estado: data.estado || 'pendiente',
+          notas: data.servicio ? `[${data.servicio}] ${data.notas || ''}`.trim() : (data.notas || '')
+        };
+        res = await supabase.from('reservas').insert([payloadCompat]).select().single();
+      }
+
+      if (res.error) throw res.error;
+      return normalizarFila(res.data);
     } else {
       const reservas = leerReservasLocales();
       nuevaReserva.id = reservas.length > 0 ? Math.max(...reservas.map(r => r.id || 0)) + 1 : 1;
@@ -160,9 +212,16 @@ module.exports = {
       let query = supabase.from('reservas').select('*').order('fecha', { ascending: false }).order('hora', { ascending: true });
       if (filtros.fecha) query = query.eq('fecha', filtros.fecha);
       if (filtros.estado) query = query.eq('estado', filtros.estado);
+      
       const { data, error } = await query;
       if (error) throw error;
-      return data || [];
+      
+      // Filtrar para mostrar citas de Patricia Carpintero
+      const filtradas = (data || []).filter(r => 
+        (r.codigo && r.codigo.startsWith('#PC-')) ||
+        (r.restaurante && r.restaurante.toLowerCase().includes('patricia'))
+      );
+      return filtradas.map(normalizarFila);
     } else {
       let reservas = leerReservasLocales();
       if (filtros.fecha) {
@@ -175,7 +234,7 @@ module.exports = {
         if (a.fecha !== b.fecha) return b.fecha.localeCompare(a.fecha);
         return (a.hora || '').localeCompare(b.hora || '');
       });
-      return reservas;
+      return reservas.map(normalizarFila);
     }
   },
 
@@ -187,10 +246,11 @@ module.exports = {
         .eq('codigo', codigo)
         .single();
       if (error && error.code !== 'PGRST116') throw error;
-      return data;
+      return normalizarFila(data);
     } else {
       const reservas = leerReservasLocales();
-      return reservas.find(r => r.codigo === codigo) || null;
+      const r = reservas.find(r => r.codigo === codigo) || null;
+      return normalizarFila(r);
     }
   },
 
@@ -203,14 +263,14 @@ module.exports = {
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return normalizarFila(data);
     } else {
       const reservas = leerReservasLocales();
       const index = reservas.findIndex(r => r.codigo === codigo);
       if (index === -1) throw new Error('Reserva no encontrada');
       reservas[index].estado = estado;
       guardarReservasLocales(reservas);
-      return reservas[index];
+      return normalizarFila(reservas[index]);
     }
   },
 

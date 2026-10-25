@@ -1574,6 +1574,165 @@ header.scrolled {
   color: var(--rosa-peonia-vivid);
 }
 
+/* FORMULARIO RGPD & LOPDGDD */
+.form-checkbox-rgpd {
+  margin: 18px 0 10px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--borde-suave);
+}
+.rgpd-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--carbon-suave);
+  cursor: pointer;
+  line-height: 1.5;
+  user-select: none;
+}
+.rgpd-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--rosa-peonia-vivid);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.rgpd-label a {
+  color: var(--rosa-peonia-vivid);
+  font-weight: 700;
+  text-decoration: underline;
+}
+.rgpd-clause-box {
+  background: rgba(248, 250, 252, 0.8);
+  border-left: 3px solid var(--verde-salvia);
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.76rem;
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+.rgpd-clause-box p {
+  margin: 2px 0;
+}
+.rgpd-clause-box strong {
+  color: var(--carbon-ebano);
+}
+.rgpd-clause-box a {
+  color: var(--verde-salvia-dark);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* BANNER DE COOKIES CONFORME A LA AEPD (RGPD & LSSI-CE) */
+.cookie-consent-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  right: auto;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1.5px solid var(--borde-luxe);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(217, 45, 132, 0.1);
+  padding: 22px 24px;
+  z-index: 9999;
+  animation: slideUpCookie 0.4s var(--ease-spring);
+}
+@keyframes slideUpCookie {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.cookie-banner-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cookie-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cookie-banner-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.cookie-banner-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--carbon-ebano);
+  margin: 0;
+}
+.cookie-banner-text {
+  font-size: 0.84rem;
+  color: var(--texto-medio);
+  line-height: 1.5;
+  margin: 0;
+}
+.cookie-banner-text a {
+  color: var(--rosa-peonia-vivid);
+  font-weight: 700;
+  text-decoration: underline;
+}
+.cookie-banner-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+.btn-cookie-reject {
+  background: var(--crema-fondo);
+  color: var(--carbon-suave);
+  border: 1px solid var(--borde-suave);
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-emil);
+}
+.btn-cookie-reject:hover {
+  background: #e2e8f0;
+}
+.btn-cookie-accept {
+  background: linear-gradient(135deg, var(--rosa-peonia-vivid), var(--rosa-peonia-dark));
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 20px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--rosa-glow);
+  transition: all 0.2s var(--ease-emil);
+}
+.btn-cookie-accept:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px var(--rosa-glow);
+}
+@media (max-width: 600px) {
+  .cookie-consent-banner {
+    left: 14px;
+    right: 14px;
+    max-width: 100%;
+    bottom: 14px;
+    padding: 18px;
+  }
+  .cookie-banner-actions {
+    width: 100%;
+  }
+  .btn-cookie-reject, .btn-cookie-accept {
+    flex: 1;
+    text-align: center;
+  }
+}
+
 /* SECCIÓN OPINIONES / RESEÑAS CON GRADIENTES */
 .reviews-section {
   padding: 100px 0;
@@ -2539,6 +2698,23 @@ footer {
             <textarea id="bookNotes" rows="2" placeholder="Indícanos si tienes piel sensible, alergias o alguna preferencia..."></textarea>
           </div>
 
+          <!-- Consentimiento RGPD Obligatorio -->
+          <div class="form-checkbox-rgpd">
+            <label class="rgpd-label">
+              <input type="checkbox" id="bookRgpdConsent" required>
+              <span>He leído y acepto la <a href="privacidad.html" target="_blank">Política de Privacidad</a> y consiento expresamente el tratamiento de mis datos personales para la reserva, confirmación y recordatorio de mi cita previa (RGPD / LOPDGDD). *</span>
+            </label>
+          </div>
+
+          <!-- Cláusula Informativa de Primera Capa (AEPD) -->
+          <div class="rgpd-clause-box">
+            <p><strong>Información Básica sobre Protección de Datos:</strong></p>
+            <p>• <strong>Responsable:</strong> Centro de Estética Patricia Carpintero · Fuensalida (Toledo).</p>
+            <p>• <strong>Finalidad:</strong> Gestionar la reserva de cita previa y comunicarnos por WhatsApp/Teléfono.</p>
+            <p>• <strong>Legitimación:</strong> Consentimiento del interesado (Art. 6.1.a RGPD).</p>
+            <p>• <strong>Derechos:</strong> Acceso, rectificación y supresión enviando un mensaje a info@esteticapatriciacarpintero.es o al 647 54 32 25. Más información en la <a href="privacidad.html" target="_blank">Política de Privacidad</a>.</p>
+          </div>
+
           <div class="step-buttons-row">
             <button type="button" class="btn-step-prev" onclick="irAlPaso(2)">← Volver</button>
             <button type="submit" class="btn-step-next" id="btnSubmitBooking" style="background: linear-gradient(135deg, var(--verde-salvia), var(--verde-salvia-dark));">
@@ -2828,6 +3004,23 @@ footer {
   </div>
 </footer>
 
+<!-- BANNER DE COOKIES CONFORME A LA AEPD (RGPD & LSSI-CE) -->
+<div id="cookieBanner" class="cookie-consent-banner" style="display:none;">
+  <div class="cookie-banner-wrap">
+    <div class="cookie-banner-header">
+      <span class="cookie-banner-icon">🍪</span>
+      <h4 class="cookie-banner-title">Tu Privacidad y Cookies</h4>
+    </div>
+    <p class="cookie-banner-text">
+      Utilizamos cookies técnicas necesarias para el funcionamiento del sitio web y el sistema de citas online. No utilizamos cookies publicitarias ni cedemos tus datos a terceros. Puedes consultar todos los detalles en nuestra <a href="cookies.html" target="_blank">Política de Cookies</a> y <a href="privacidad.html" target="_blank">Política de Privacidad</a>.
+    </p>
+    <div class="cookie-banner-actions">
+      <button type="button" class="btn-cookie-reject" onclick="gestionarCookies('necesarias')">Solo Necesarias</button>
+      <button type="button" class="btn-cookie-accept" onclick="gestionarCookies('todas')">Aceptar Todas</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ==================== CATÁLOGO DE SERVICIOS POR CATEGORÍA ====================
 const SERVICIOS_DATA = {
@@ -2868,7 +3061,28 @@ window.addEventListener('DOMContentLoaded', () => {
   iniciarScrollProgress();
   iniciarBeforeAfterSlider();
   iniciarCardTiltEffect();
+  iniciarCookieBanner();
 });
+
+// GESTIÓN DEL BANNER DE COOKIES CONFORME A LA AEPD
+function iniciarCookieBanner() {
+  const consentimiento = localStorage.getItem('patricia_cookies_consent');
+  if (!consentimiento) {
+    const banner = document.getElementById('cookieBanner');
+    if (banner) banner.style.display = 'block';
+  }
+}
+
+function gestionarCookies(tipo) {
+  localStorage.setItem('patricia_cookies_consent', tipo);
+  const banner = document.getElementById('cookieBanner');
+  if (banner) {
+    banner.style.opacity = '0';
+    banner.style.transform = 'translateY(20px)';
+    banner.style.transition = 'all 0.3s ease';
+    setTimeout(() => { banner.style.display = 'none'; }, 300);
+  }
+}
 
 // Cursor animado
 function iniciarCursor() {
@@ -3165,6 +3379,12 @@ let ultimaCitaGenerada = null;
 
 async function procesarReserva(e) {
   e.preventDefault();
+  const consent = document.getElementById('bookRgpdConsent');
+  if (!consent || !consent.checked) {
+    alert('Por favor, acepta la Política de Privacidad para poder tramitar la cita conforme al RGPD.');
+    return;
+  }
+
   const btn = document.getElementById('btnSubmitBooking');
   btn.disabled = true;
   btn.textContent = 'Registrando cita...';
