@@ -544,64 +544,112 @@ header.scrolled {
   font-weight: 600;
 }
 
-/* CINTA DE BENEFICIOS VIBRANTE */
-.ribbon-strip {
-  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #861d52 100%);
+/* CINTA DE BENEFICIOS CON ANIMACIÓN HACIA LA IZQUIERDA (MARQUEE INFINITO) */
+.marquee-ribbon-strip {
+  background: linear-gradient(90deg, #0b2216 0%, #173d28 50%, #0b2216 100%);
   color: #fff;
-  padding: 22px 0;
+  padding: 16px 0;
   position: relative;
   z-index: 2;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  border-top: 1px solid rgba(250, 204, 21, 0.25);
+  border-bottom: 1px solid rgba(250, 204, 21, 0.25);
+  box-shadow: 0 10px 30px rgba(11, 34, 22, 0.25);
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
-.ribbon-flex {
+.marquee-ribbon-track {
+  display: flex;
+  width: max-content;
+  user-select: none;
+}
+.marquee-ribbon-group {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 24px;
+  gap: 28px;
+  padding-right: 28px;
+  animation: marqueeScrollLeft 32s linear infinite;
+  flex-shrink: 0;
 }
-.ribbon-item {
-  display: flex;
+.marquee-ribbon-strip:hover .marquee-ribbon-group {
+  animation-play-state: paused;
+}
+@keyframes marqueeScrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+.marquee-item {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.94rem;
+  gap: 8px;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.4px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 18px;
+  border-radius: 30px;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background 0.25s, transform 0.25s, border-color 0.25s;
 }
-.ribbon-dot {
+.marquee-item:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(250, 204, 21, 0.5);
+  transform: translateY(-2px);
+}
+.marquee-item-icon {
+  font-size: 1.15rem;
+}
+.marquee-dot {
   width: 8px;
   height: 8px;
   background: #facc15;
   border-radius: 50%;
   box-shadow: 0 0 10px #facc15;
+  flex-shrink: 0;
 }
 
 /* SECCIÓN ANTES Y DESPUÉS (WIDGET INTERACTIVO) */
 .before-after-section {
   padding: 100px 0;
-  background: linear-gradient(180deg, rgba(253, 242, 248, 0.4) 0%, rgba(236, 253, 245, 0.4) 100%);
+  background: linear-gradient(180deg, rgba(253, 242, 248, 0.45) 0%, rgba(236, 253, 245, 0.45) 100%);
   position: relative;
   z-index: 1;
 }
 .ba-container {
-  max-width: 960px;
+  max-width: 980px;
   margin: 0 auto;
-  border-radius: 36px;
-  overflow: hidden;
-  box-shadow: var(--sombra-luxe);
-  border: 6px solid #fff;
-  background: #fff;
-  position: relative;
 }
-.ba-wrapper {
+.ba-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 32px;
+  box-shadow: 0 25px 60px rgba(134, 29, 82, 0.14), 0 8px 24px rgba(0,0,0,0.06);
+  border: 4px solid #ffffff;
+  overflow: hidden;
+}
+.ba-slider-container {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: 520px;
   overflow: hidden;
   user-select: none;
-  cursor: ew-resize;
+  -webkit-user-select: none;
+  touch-action: none;
+  background: #2b2b2b;
 }
-.ba-img {
+.ba-photo-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+.ba-photo-layer img {
   position: absolute;
   top: 0;
   left: 0;
@@ -609,71 +657,159 @@ header.scrolled {
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  user-select: none;
+  display: block;
 }
-.ba-img-after {
-  z-index: 1;
+/* CAPA DESPUÉS: Piel radiante, luminosa, glow hidratado */
+.ba-photo-after img {
+  filter: brightness(1.08) contrast(1.08) saturate(1.22);
 }
-.ba-img-before {
+.ba-glow-radial {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 65% 45%, rgba(254, 205, 211, 0.3) 0%, rgba(251, 113, 133, 0.1) 45%, transparent 75%);
+  pointer-events: none;
+}
+/* CAPA ANTES: Piel con aspecto apagado, tono desvitalizado, poros y falta de glow */
+.ba-photo-before {
   z-index: 2;
-  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-  filter: contrast(0.92) saturate(0.85);
+  clip-path: polygon(0 0, var(--slider-pos, 50%) 0, var(--slider-pos, 50%) 100%, 0 100%);
+  -webkit-clip-path: polygon(0 0, var(--slider-pos, 50%) 0, var(--slider-pos, 50%) 100%, 0 100%);
+  transition: none;
 }
-.ba-handle {
+.ba-photo-before img {
+  filter: grayscale(40%) brightness(0.85) contrast(0.92) sepia(18%);
+}
+.ba-dull-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(90, 80, 70, 0.18);
+  pointer-events: none;
+}
+/* BADGES ANTES Y DESPUÉS */
+.ba-badge {
+  position: absolute;
+  top: 20px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 4;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+.ba-badge-before {
+  left: 20px;
+  background: rgba(30, 41, 59, 0.85);
+  color: #f1f5f9;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.ba-badge-after {
+  right: 20px;
+  background: linear-gradient(135deg, rgba(190, 58, 123, 0.95), rgba(217, 45, 132, 0.95));
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 6px 20px rgba(217, 45, 132, 0.4);
+}
+/* LÍNEA DIVISORIA Y TIRADOR */
+.ba-split-line {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
+  left: var(--slider-pos, 50%);
   width: 4px;
-  background: #fff;
+  background: #ffffff;
   z-index: 3;
   transform: translateX(-50%);
   pointer-events: none;
-  box-shadow: 0 0 14px rgba(0,0,0,0.3);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+  transition: none;
 }
-.ba-handle-circle {
+.ba-handle-btn {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 52px;
   height: 52px;
-  background: #fff;
-  border: 3px solid var(--rosa-peonia-vivid);
   border-radius: 50%;
-  box-shadow: 0 8px 25px rgba(217, 45, 132, 0.4);
+  background: #ffffff;
+  border: 3.5px solid var(--rosa-peonia-vivid);
+  box-shadow: 0 10px 28px rgba(217, 45, 132, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  gap: 3px;
   color: var(--rosa-peonia-vivid);
-  font-weight: 800;
+  pointer-events: none;
 }
-.ba-label {
+.ba-handle-btn svg {
+  width: 20px;
+  height: 20px;
+}
+/* INPUT RANGE NATIVO SOBREPUESTO */
+.ba-native-range {
   position: absolute;
-  top: 24px;
-  padding: 8px 18px;
-  background: rgba(17, 24, 39, 0.75);
-  backdrop-filter: blur(8px);
-  color: #fff;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  z-index: 4;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  touch-action: none;
+  -webkit-appearance: none;
 }
-.ba-label-before { left: 24px; }
-.ba-label-after { right: 24px; background: rgba(190, 58, 123, 0.85); }
-.ba-hint {
-  text-align: center;
-  margin-top: 18px;
+/* BARRA DE BOTONES DE COMPARACIÓN RÁPIDA */
+.ba-footer-controls {
+  padding: 18px 24px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: 1px solid var(--borde-suave);
+}
+.ba-hint-text {
   font-size: 0.92rem;
   font-weight: 700;
-  color: var(--rosa-peonia-dark);
+  color: var(--texto-suave);
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
+}
+.ba-quick-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ba-quick-btn {
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--crema-fondo);
+  border: 1px solid var(--borde-suave);
+  color: var(--carbon-suave);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-emil);
+}
+.ba-quick-btn:hover {
+  background: var(--rosa-peonia-light);
+  color: var(--rosa-peonia-dark);
+  border-color: rgba(217, 45, 132, 0.3);
+}
+.ba-quick-btn.active {
+  background: var(--rosa-peonia-vivid);
+  color: #fff;
+  border-color: var(--rosa-peonia-vivid);
+  box-shadow: 0 4px 12px var(--rosa-glow);
 }
 
 /* SECCIÓN TRATAMIENTOS / SERVICIOS */
@@ -1820,7 +1956,9 @@ footer {
   .footer-grid { grid-template-columns: 1fr; }
   .floating-book-pill { display: none; }
   .hero-stats-row { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .ba-wrapper { height: 320px; }
+  .ba-slider-container { height: 350px; }
+  .ba-badge { font-size: 0.72rem; padding: 6px 12px; }
+  .ba-footer-controls { justify-content: center; text-align: center; }
 }
 </style>
 </head>
@@ -1926,23 +2064,53 @@ footer {
   </div>
 </section>
 
-<!-- CINTA DE BENEFICIOS VIBRANTE -->
-<div class="ribbon-strip">
-  <div class="wrap ribbon-flex">
-    <div class="ribbon-item">
-      <span>✨ Protocolos de Higiene Rigurosos</span>
+<!-- CINTA DE BENEFICIOS CON ANIMACIÓN HACIA LA IZQUIERDA (MARQUEE INFINITO) -->
+<div class="marquee-ribbon-strip">
+  <div class="marquee-ribbon-track">
+    <div class="marquee-ribbon-group">
+      <div class="marquee-item"><span class="marquee-item-icon">✨</span> Protocolos de Higiene Rigurosos</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">🌸</span> Cosmética Botánica de Alta Gama</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">💆‍♀️</span> Maderoterapia Corporal Reductora</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">💎</span> Higiene Facial Profunda & Punta Diamante</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">🌟</span> Radiofrecuencia Efecto Lifting Inmediato</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">👁️</span> Lifting de Pestañas con Queratina</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">💅</span> Manicura Semipermanente Rusa & Nivelación</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">⚡</span> Depilación Láser Diodo Indolora</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">🌿</span> Diagnóstico Dérmico Personalizado</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">📅</span> Citas Online con Confirmación por WhatsApp</div>
+      <div class="marquee-dot"></div>
     </div>
-    <div class="ribbon-dot"></div>
-    <div class="ribbon-item">
-      <span>🌸 Cosmética Botánica de Alta Gama</span>
-    </div>
-    <div class="ribbon-dot"></div>
-    <div class="ribbon-item">
-      <span>💆‍♀️ Tratamientos Reafirmantes & Antiaging</span>
-    </div>
-    <div class="ribbon-dot"></div>
-    <div class="ribbon-item">
-      <span>📅 Citas Online con Confirmación por WhatsApp</span>
+    <!-- Pista duplicada idéntica para bucle infinito perfecto y continuo hacia la izquierda -->
+    <div class="marquee-ribbon-group" aria-hidden="true">
+      <div class="marquee-item"><span class="marquee-item-icon">✨</span> Protocolos de Higiene Rigurosos</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">🌸</span> Cosmética Botánica de Alta Gama</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">💆‍♀️</span> Maderoterapia Corporal Reductora</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">💎</span> Higiene Facial Profunda & Punta Diamante</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">🌟</span> Radiofrecuencia Efecto Lifting Inmediato</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">👁️</span> Lifting de Pestañas con Queratina</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">💅</span> Manicura Semipermanente Rusa & Nivelación</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">⚡</span> Depilación Láser Diodo Indolora</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">🌿</span> Diagnóstico Dérmico Personalizado</div>
+      <div class="marquee-dot"></div>
+      <div class="marquee-item"><span class="marquee-item-icon">📅</span> Citas Online con Confirmación por WhatsApp</div>
+      <div class="marquee-dot"></div>
     </div>
   </div>
 </div>
@@ -1957,22 +2125,51 @@ footer {
     </div>
 
     <div class="ba-container">
-      <div class="ba-wrapper" id="baWrapper">
-        <!-- Después (Fondo) -->
-        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=80" alt="Piel Luminosa Después" class="ba-img ba-img-after">
-        <!-- Antes (Encima con clip-path) -->
-        <img src="https://images.unsplash.com/photo-1512290900672-1f48b11eb11c?auto=format&fit=crop&w=1200&q=80" alt="Piel Antes del Tratamiento" class="ba-img ba-img-before" id="baBeforeImg">
-        
-        <!-- Separador / Handle -->
-        <div class="ba-handle" id="baHandle">
-          <div class="ba-handle-circle">↔</div>
+      <div class="ba-card">
+        <div class="ba-slider-container" id="baContainer" style="--slider-pos: 50%;">
+          <!-- Capa DESPUÉS (Base con piel luminosa y radiante) -->
+          <div class="ba-photo-layer ba-photo-after">
+            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=85" alt="Piel Luminosa Efecto Glow Después">
+            <div class="ba-glow-radial"></div>
+            <span class="ba-badge ba-badge-after">DESPUÉS ✨ (Efecto Glow & Hidratación)</span>
+          </div>
+
+          <!-- Capa ANTES (Cortada con clip-path dinámico) -->
+          <div class="ba-photo-layer ba-photo-before" id="baBeforeLayer">
+            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=85" alt="Piel Antes del Tratamiento">
+            <div class="ba-dull-overlay"></div>
+            <span class="ba-badge ba-badge-before">ANTES (Piel Apagada & Sin Hidratar)</span>
+          </div>
+
+          <!-- Línea divisoria y tirador -->
+          <div class="ba-split-line" id="baSplitLine">
+            <div class="ba-handle-btn" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Input Range Nativo para interacción perfecta táctil y ratón -->
+          <input type="range" min="0" max="100" value="50" class="ba-native-range" id="baRangeSlider" aria-label="Deslizador comparador antes y después">
         </div>
 
-        <span class="ba-label ba-label-before">Antes</span>
-        <span class="ba-label ba-label-after">Después ✨</span>
+        <!-- Botones de visualización rápida y táctil -->
+        <div class="ba-footer-controls">
+          <div class="ba-hint-text">
+            <span>👈 Arrastra la barra con el ratón o el dedo 👉</span>
+          </div>
+          <div class="ba-quick-pills">
+            <button type="button" class="ba-quick-btn" onclick="setSliderPos(15)">Ver "Antes"</button>
+            <button type="button" class="ba-quick-btn active" onclick="setSliderPos(50)">Mitad (50%)</button>
+            <button type="button" class="ba-quick-btn" onclick="setSliderPos(85)">Ver "Después ✨"</button>
+          </div>
+        </div>
       </div>
     </div>
-    <p class="ba-hint">👈 Arrastra la barra para ver la diferencia 👉</p>
   </div>
 </section>
 
@@ -2722,47 +2919,78 @@ function iniciarScrollProgress() {
   });
 }
 
-// SLIDER INTERACTIVO ANTES Y DESPUÉS
+// SLIDER INTERACTIVO ANTES Y DESPUÉS (ROCK-SOLID TOUCH & MOUSE)
 function iniciarBeforeAfterSlider() {
-  const wrapper = document.getElementById('baWrapper');
-  const beforeImg = document.getElementById('baBeforeImg');
-  const handle = document.getElementById('baHandle');
-  if (!wrapper || !beforeImg || !handle) return;
+  const container = document.getElementById('baContainer');
+  const range = document.getElementById('baRangeSlider');
+  if (!container || !range) return;
 
-  let isDragging = false;
-
-  function updateSlider(x) {
-    const rect = wrapper.getBoundingClientRect();
-    let pos = (x - rect.left) / rect.width;
-    if (pos < 0.05) pos = 0.05;
-    if (pos > 0.95) pos = 0.95;
-
-    const pct = pos * 100;
-    beforeImg.style.clipPath = `polygon(0 0, ${pct}% 0, ${pct}% 100%, 0 100%)`;
-    handle.style.left = `${pct}%`;
+  function updatePos(val) {
+    const clamped = Math.max(0, Math.min(100, Number(val)));
+    container.style.setProperty('--slider-pos', clamped + '%');
+    
+    // Sincronizar botones rápidos
+    const btns = document.querySelectorAll('.ba-quick-btn');
+    btns.forEach(btn => btn.classList.remove('active'));
+    if (Math.abs(clamped - 15) < 10 && btns[0]) btns[0].classList.add('active');
+    else if (Math.abs(clamped - 50) < 10 && btns[1]) btns[1].classList.add('active');
+    else if (Math.abs(clamped - 85) < 10 && btns[2]) btns[2].classList.add('active');
   }
 
-  wrapper.addEventListener('mousedown', e => {
-    isDragging = true;
-    updateSlider(e.clientX);
-  });
-  window.addEventListener('mouseup', () => { isDragging = false; });
-  window.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    updateSlider(e.clientX);
+  // Evento nativo de rango (cubre táctil y arrastre nativo)
+  range.addEventListener('input', (e) => {
+    updatePos(e.target.value);
   });
 
-  // Soporte Táctil para Móviles
-  wrapper.addEventListener('touchstart', e => {
-    isDragging = true;
-    updateSlider(e.touches[0].clientX);
+  // Soporte directo con Pointer Events para arrastre suave y captura de puntero
+  let isPointerDown = false;
+  function handlePointer(clientX) {
+    const rect = container.getBoundingClientRect();
+    let pct = ((clientX - rect.left) / rect.width) * 100;
+    pct = Math.max(0, Math.min(100, pct));
+    range.value = pct;
+    updatePos(pct);
+  }
+
+  container.addEventListener('pointerdown', (e) => {
+    isPointerDown = true;
+    try { container.setPointerCapture(e.pointerId); } catch (_) {}
+    handlePointer(e.clientX);
   });
-  window.addEventListener('touchend', () => { isDragging = false; });
-  window.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    updateSlider(e.touches[0].clientX);
+
+  container.addEventListener('pointermove', (e) => {
+    if (!isPointerDown) return;
+    handlePointer(e.clientX);
   });
+
+  container.addEventListener('pointerup', (e) => {
+    if (isPointerDown) {
+      isPointerDown = false;
+      try { container.releasePointerCapture(e.pointerId); } catch (_) {}
+    }
+  });
+
+  container.addEventListener('pointercancel', () => {
+    isPointerDown = false;
+  });
+
+  // Inicializar al 50%
+  updatePos(50);
 }
+
+window.setSliderPos = function(val) {
+  const container = document.getElementById('baContainer');
+  const range = document.getElementById('baRangeSlider');
+  if (container && range) {
+    range.value = val;
+    container.style.setProperty('--slider-pos', val + '%');
+    const btns = document.querySelectorAll('.ba-quick-btn');
+    btns.forEach(btn => btn.classList.remove('active'));
+    if (val === 15 && btns[0]) btns[0].classList.add('active');
+    if (val === 50 && btns[1]) btns[1].classList.add('active');
+    if (val === 85 && btns[2]) btns[2].classList.add('active');
+  }
+};
 
 // EFECTO 3D TILT TÁCTIL EN TARJETAS DE SERVICIOS
 function iniciarCardTiltEffect() {
