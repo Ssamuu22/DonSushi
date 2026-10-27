@@ -1,0 +1,28 @@
+{
+  "name": "casa-paco-mentrida",
+  "version": "1.0.0",
+  "description": "Sitio web oficial de Bar Restaurante Casa Paco (Méntrida, Toledo). Especialistas en hamburguesas gourmet artesanales, pizzas al horno, tapeo castellano, sistema interactivo de reservas en tiempo real con calendario de ocupación y panel de control privado.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "restaurante",
+    "casa-paco",
+    "mentrida",
+    "toledo",
+    "hamburguesas",
+    "pizzas",
+    "tapas",
+    "vino-mentrida",
+    "reservas",
+    "supabase",
+    "vercel"
+  ],
+  "author": "Bar Restaurante Casa Paco Méntrida",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}

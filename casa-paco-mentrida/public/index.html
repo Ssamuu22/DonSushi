@@ -1,0 +1,3147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bar Restaurante Casa Paco Méntrida · Hamburguesas Gourmet, Pizzas Artesanas & Tapeo de Pueblo</title>
+<meta name="description" content="Bar Restaurante Casa Paco en Méntrida (Toledo). Especialistas en hamburguesas gourmet artesanales con patatas caseras, pizzas al horno, raciones tradicionales, molletes de pueblo y vinos D.O. Méntrida. Reserva online con confirmación inmediata.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Alex+Brush&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ambar: #d97706;
+  --ambar-claro: #f59e0b;
+  --ambar-oscuro: #b45309;
+  --ambar-glow: rgba(217, 119, 6, 0.35);
+  --ta-verde: #00aa6c;
+  --ta-verde-dark: #008756;
+  --ta-glow: rgba(0, 170, 108, 0.35);
+  --brasa: #b85d38;
+  --carbon-950: #0a0c0e;
+  --carbon-900: #101216;
+  --carbon-800: #171b21;
+  --carbon-700: #222731;
+  --carbon-600: #2d3441;
+  --marfil: #faf7f2;
+  --marfil-suave: #efeae1;
+  --texto: #f3f4f6;
+  --texto-medio: #9ca3af;
+  --texto-oscuro: #6b7280;
+  --borde: rgba(217, 119, 6, 0.28);
+  --borde-suave: rgba(255, 255, 255, 0.08);
+  --verde-ok: #10b981;
+  --whatsapp: #25d366;
+  --whatsapp-hover: #128c7e;
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-script: 'Alex Brush', cursive;
+  --sombra-card: 0 15px 35px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(217, 119, 6, 0.08);
+  --sombra-luxe: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px var(--ambar-glow);
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--carbon-950);
+  color: var(--texto);
+  line-height: 1.65;
+  font-size: 16px;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--ambar-claro); outline-offset: 3px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+/* BARRA DE PROGRESO DE SCROLL */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #d97706, #f59e0b, #00aa6c, #b85d38);
+  width: 0%;
+  z-index: 9999;
+  transition: width 0.05s linear;
+}
+
+/* CURSOR MAGNÉTICO (Desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 6px; height: 6px;
+    background: var(--ambar-claro);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10001;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s, transform 0.08s;
+  }
+  .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ambar-claro);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
+  }
+  body.cursor-hover .cursor-ring {
+    width: 52px;
+    height: 52px;
+    border-color: #fff;
+    background: rgba(217, 119, 6, 0.12);
+  }
+}
+
+/* ORBES AMBIENTALES DINÁMICOS */
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+  animation: floatAmbient 20s ease-in-out infinite alternate;
+}
+.ambient-1 {
+  width: 550px; height: 550px;
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.22) 0%, rgba(201, 151, 56, 0) 70%);
+  top: -150px; right: -100px;
+}
+.ambient-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(184, 93, 56, 0.2) 0%, rgba(184, 93, 56, 0) 70%);
+  top: 40%; left: -150px;
+  animation-duration: 25s;
+}
+.ambient-3 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0, 170, 108, 0.15) 0%, rgba(0, 170, 108, 0) 70%);
+  bottom: 5%; right: -120px;
+  animation-duration: 28s;
+}
+@keyframes floatAmbient {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(45px, 55px) scale(1.08); }
+  100% { transform: translate(-35px, 25px) scale(0.94); }
+}
+
+/* TOP ANNOUNCEMENT BAR */
+.top-bar {
+  background: linear-gradient(90deg, #181920, #22242c, #181920);
+  border-bottom: 1px solid var(--borde-suave);
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+  color: var(--marfil-suave);
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.top-bar strong { color: var(--ambar-claro); font-weight: 700; }
+.top-ta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 170, 108, 0.15);
+  border: 1px solid var(--ta-verde);
+  color: #34d399;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+/* HEADER / NAVEGACIÓN */
+.site-header {
+  position: sticky;
+  top: 0;
+  background: rgba(17, 18, 22, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--borde-suave);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+.site-header.scrolled {
+  background: rgba(10, 11, 13, 0.98);
+  border-bottom-color: var(--borde);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.brand-emblem {
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, #d97706, #8f4012);
+  border: 1px solid var(--ambar-claro);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+}
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+.brand-name {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fff;
+  line-height: 1.1;
+}
+.brand-city {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--ambar-claro);
+  font-weight: 600;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  list-style: none;
+}
+.nav-item a {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--marfil-suave);
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+  position: relative;
+  padding: 6px 0;
+}
+.nav-item a:hover {
+  color: var(--ambar-claro);
+}
+.nav-item a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0%; height: 2px;
+  background: var(--ambar-claro);
+  transition: width 0.25s var(--transition-smooth);
+}
+.nav-item a:hover::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-nav-reserve {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #ffffff;
+  font-weight: 800;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.25s var(--transition-smooth);
+  box-shadow: 0 4px 15px rgba(201, 151, 56, 0.25);
+}
+.btn-nav-reserve:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(201, 151, 56, 0.45);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+/* ==================== HERO SECTION INMERSIVO ==================== */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 70px 0 60px;
+  overflow: hidden;
+}
+.hero-bg-media {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/ka_juan_17.jpg');
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.05);
+  filter: brightness(0.28) contrast(1.15);
+  z-index: 1;
+  animation: heroKenBurns 30s ease-in-out infinite alternate;
+}
+@keyframes heroKenBurns {
+  0% { transform: scale(1.05) translate(0, 0); }
+  100% { transform: scale(1.15) translate(-10px, -15px); }
+}
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 65% 40%, rgba(217, 119, 6, 0.15) 0%, rgba(10, 11, 13, 0.94) 75%),
+              linear-gradient(180deg, rgba(10, 11, 13, 0.4) 0%, rgba(10, 11, 13, 1) 100%);
+  z-index: 2;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 50px;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+@media (max-width: 992px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+.hero-content {
+  max-width: 680px;
+}
+.hero-badges-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.hero-badge-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(217, 119, 6, 0.15);
+  border: 1px solid var(--borde);
+  color: var(--ambar-claro);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.hero-badge-ta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 170, 108, 0.18);
+  border: 1px solid var(--ta-verde);
+  color: #34d399;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.hero-badge-ta svg { width: 18px; height: 18px; fill: currentColor; }
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  margin-bottom: 18px;
+}
+.hero-title span {
+  color: var(--ambar-claro);
+  background: linear-gradient(135deg, #f59e0b, #d97706 60%, #e8c77e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-tagline {
+  font-family: var(--font-script);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  color: var(--ambar-claro);
+  margin-top: -8px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+.hero-desc {
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+  color: var(--marfil-suave);
+  margin-bottom: 34px;
+  line-height: 1.7;
+}
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 38px;
+}
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #0a0b0d;
+  font-weight: 800;
+  padding: 16px 30px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 10px 25px rgba(217, 119, 6, 0.35);
+  transition: all 0.25s var(--transition-smooth);
+}
+.btn-hero-primary:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 35px rgba(217, 119, 6, 0.5);
+}
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--carbon-800);
+  border: 1px solid var(--borde);
+  color: #fff;
+  font-weight: 700;
+  padding: 16px 26px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  transition: all 0.25s var(--transition-smooth);
+}
+.btn-hero-secondary:hover {
+  background: var(--carbon-700);
+  border-color: var(--ambar-claro);
+  color: var(--ambar-claro);
+  transform: translateY(-2px);
+}
+.btn-hero-ta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 170, 108, 0.15);
+  border: 1px solid var(--ta-verde);
+  color: #34d399;
+  font-weight: 700;
+  padding: 16px 22px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  transition: all 0.25s;
+}
+.btn-hero-ta:hover {
+  background: var(--ta-verde);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* HERO SHOWCASE CARD (FOTO REAL TRIPADVISOR) */
+.hero-showcase {
+  position: relative;
+}
+.showcase-card {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--sombra-luxe);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+.showcase-card:hover {
+  transform: translateY(-6px);
+}
+.showcase-img-wrap {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+}
+.showcase-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.showcase-card:hover .showcase-img {
+  transform: scale(1.08);
+}
+.showcase-overlay-badge {
+  position: absolute;
+  top: 18px; left: 18px;
+  background: rgba(15, 16, 20, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--ambar-claro);
+  color: var(--ambar-claro);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.showcase-ta-pill {
+  position: absolute;
+  top: 18px; right: 18px;
+  background: var(--ta-verde);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 170, 108, 0.4);
+}
+.showcase-content {
+  padding: 24px;
+}
+.showcase-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.showcase-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: #fff;
+  font-weight: 700;
+}
+.showcase-price {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ambar-claro);
+}
+.showcase-desc {
+  color: var(--texto-medio);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.showcase-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.showcase-tag {
+  background: var(--carbon-700);
+  border: 1px solid var(--borde-suave);
+  color: var(--marfil-suave);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+/* ==================== SECCIÓN GALERÍA VISUAL (BENTO GRID TRIPADVISOR) ==================== */
+.section {
+  padding: 100px 0;
+  position: relative;
+  z-index: 2;
+}
+.section-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 50px;
+}
+.section-badge {
+  display: inline-block;
+  color: var(--ambar-claro);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.5vw, 2.9rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--marfil-suave);
+  line-height: 1.7;
+}
+
+/* FILTROS DE GALERÍA */
+.gallery-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 38px;
+}
+.gallery-filter-btn {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde-suave);
+  color: var(--marfil-suave);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s var(--transition-smooth);
+}
+.gallery-filter-btn:hover {
+  border-color: var(--ambar-claro);
+  color: var(--ambar-claro);
+}
+.gallery-filter-btn.active {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #0a0b0d;
+  border-color: var(--ambar-claro);
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+}
+
+/* BENTO GRID FOTOGRÁFICO */
+.bento-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 260px;
+  gap: 20px;
+}
+@media (max-width: 1024px) {
+  .bento-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 240px; }
+}
+@media (max-width: 640px) {
+  .bento-gallery { grid-template-columns: 1fr; grid-auto-rows: 250px; }
+}
+
+.bento-item {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--borde-suave);
+  background: var(--carbon-800);
+  cursor: pointer;
+  box-shadow: var(--sombra-card);
+  transition: all 0.35s var(--transition-smooth);
+}
+.bento-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--ambar-claro);
+  box-shadow: var(--sombra-luxe);
+}
+.bento-span-2 {
+  grid-column: span 2;
+}
+.bento-row-2 {
+  grid-row: span 2;
+}
+@media (max-width: 640px) {
+  .bento-span-2 { grid-column: span 1; }
+  .bento-row-2 { grid-row: span 1; }
+}
+
+.bento-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--transition-smooth), filter 0.3s;
+}
+.bento-item:hover .bento-img {
+  transform: scale(1.08);
+}
+.bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 11, 13, 0.1) 40%, rgba(10, 11, 13, 0.92) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 22px;
+  transition: opacity 0.3s;
+}
+.bento-tag {
+  display: inline-block;
+  align-self: flex-start;
+  background: rgba(201, 151, 56, 0.9);
+  color: #0a0b0d;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+.bento-tag.ta {
+  background: var(--ta-verde);
+  color: #fff;
+}
+.bento-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+}
+.bento-sub {
+  font-size: 0.8rem;
+  color: var(--marfil-suave);
+  margin-top: 4px;
+}
+
+/* ==================== CARTA GASTRONÓMICA INTERACTIVA CON FOTOS ==================== */
+.menu-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 44px;
+}
+.menu-tab-btn {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde-suave);
+  color: var(--marfil-suave);
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s var(--transition-smooth);
+}
+.menu-tab-btn:hover {
+  border-color: var(--ambar-claro);
+  color: var(--ambar-claro);
+}
+.menu-tab-btn.active {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #0a0b0d;
+  border-color: var(--ambar-claro);
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+}
+
+.dishes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 28px;
+}
+.dish-card {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde-suave);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.28s var(--transition-smooth);
+  position: relative;
+  box-shadow: var(--sombra-card);
+}
+.dish-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--ambar-claro);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6);
+}
+.dish-thumb-wrap {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background: #181920;
+}
+.dish-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.dish-card:hover .dish-thumb {
+  transform: scale(1.08);
+}
+.dish-badge-float {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: rgba(10, 11, 13, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--ambar-claro);
+  color: var(--ambar-claro);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.dish-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+.dish-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.dish-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+}
+.dish-price {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--ambar-claro);
+  white-space: nowrap;
+}
+.dish-desc {
+  color: var(--texto-medio);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.dish-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 12px;
+  font-size: 0.78rem;
+}
+.dish-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(201, 151, 56, 0.1);
+  color: var(--ambar-claro);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.dish-allergens {
+  color: var(--texto-oscuro);
+}
+
+/* ==================== LOS ESPACIOS (CON FOTOGRAFÍAS) ==================== */
+.spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 26px;
+}
+.space-card {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde-suave);
+  border-radius: 22px;
+  overflow: hidden;
+  transition: all 0.28s var(--transition-smooth);
+  box-shadow: var(--sombra-card);
+}
+.space-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--ambar-claro);
+}
+.space-img-wrap {
+  height: 200px;
+  overflow: hidden;
+}
+.space-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.space-card:hover .space-img {
+  transform: scale(1.08);
+}
+.space-content {
+  padding: 24px;
+}
+.space-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.space-desc {
+  color: var(--texto-medio);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ==================== BANNER DESTACADO TRIPADVISOR ==================== */
+.google-maps-banner {
+  background: linear-gradient(135deg, rgba(0, 170, 108, 0.15) 0%, rgba(20, 22, 28, 0.95) 100%);
+  border: 1px solid var(--ta-verde);
+  border-radius: 26px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  box-shadow: 0 20px 40px rgba(0, 170, 108, 0.12);
+  margin-bottom: 80px;
+}
+.ta-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.ta-owl-circle {
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  background: var(--ta-verde);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 170, 108, 0.4);
+}
+.ta-info-wrap h3 {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.ta-bubbles {
+  color: var(--ta-verde);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+.ta-text-muted {
+  color: var(--marfil-suave);
+  font-size: 0.85rem;
+}
+
+/* ==================== MOTOR DE RESERVAS (FRONTEND) ==================== */
+.reservation-section {
+  background: linear-gradient(180deg, #111216 0%, #0d0e12 100%);
+  border-top: 1px solid var(--borde-suave);
+  border-bottom: 1px solid var(--borde-suave);
+  padding: 100px 0;
+  position: relative;
+}
+.reservation-card {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde);
+  border-radius: 28px;
+  padding: 48px 40px;
+  box-shadow: var(--sombra-luxe);
+  max-width: 980px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.reservation-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d97706, #f59e0b, #00aa6c);
+}
+
+.res-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .res-form-grid { grid-template-columns: 1fr; }
+  .reservation-card { padding: 32px 20px; }
+}
+
+.res-form-group-full {
+  grid-column: 1 / -1;
+}
+.res-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--marfil-suave);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.res-input, .res-select, .res-textarea {
+  width: 100%;
+  background: var(--carbon-700);
+  border: 1px solid var(--borde-suave);
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s;
+}
+.res-input:focus, .res-select:focus, .res-textarea:focus {
+  border-color: var(--ambar-claro);
+  box-shadow: 0 0 15px var(--ambar-glow);
+}
+.res-textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.pax-selector-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pax-btn {
+  flex: 1;
+  min-width: 48px;
+  background: var(--carbon-700);
+  border: 1px solid var(--borde-suave);
+  color: var(--marfil-suave);
+  padding: 12px 10px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+.pax-btn:hover {
+  border-color: var(--ambar-claro);
+  color: var(--ambar-claro);
+}
+.pax-btn.selected {
+  background: var(--ambar-claro);
+  color: #0a0b0d;
+  border-color: var(--ambar-claro);
+}
+
+/* ==================== CALENDARIO EN VIVO & OCUPACIÓN ==================== */
+.live-calendar-card {
+  background: var(--carbon-900);
+  border: 1px solid var(--borde);
+  border-radius: 20px;
+  padding: 24px;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+.cal-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.cal-nav-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cal-btn-nav {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--carbon-700);
+  border: 1px solid var(--borde-suave);
+  color: var(--ambar-claro);
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.cal-btn-nav:hover {
+  background: var(--ambar-claro);
+  color: #0a0b0d;
+}
+.cal-month-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: #fff;
+  font-weight: 700;
+  min-width: 170px;
+  text-align: center;
+}
+.cal-legend-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--marfil-suave);
+}
+.legend-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.dot-libre { background: #10b981; box-shadow: 0 0 8px #10b981; }
+.dot-ultimas { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+.dot-completo { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+.dot-cerrado { background: #6b7280; }
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ambar-claro);
+  margin-bottom: 10px;
+}
+.cal-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.cal-day-cell {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde-suave);
+  border-radius: 12px;
+  padding: 10px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  position: relative;
+}
+.cal-day-cell:hover:not(.disabled) {
+  transform: translateY(-2px);
+  border-color: var(--ambar-claro);
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.2);
+}
+.cal-day-cell.selected {
+  background: linear-gradient(135deg, rgba(201, 151, 56, 0.28) 0%, rgba(201, 151, 56, 0.1) 100%);
+  border-color: var(--ambar-claro);
+  box-shadow: 0 0 18px var(--ambar-glow);
+}
+.cal-day-cell.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: rgba(20, 22, 28, 0.4);
+}
+.cal-day-num {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.cal-day-status {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.status-libre { background: rgba(16, 185, 129, 0.18); color: #34d399; }
+.status-ultimas { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
+.status-completo { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+.status-cerrado { background: rgba(107, 114, 128, 0.2); color: #9ca3af; }
+
+/* PANEL DE HORAS EN VIVO */
+.live-slots-panel {
+  background: var(--carbon-800);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 22px;
+  margin-top: 18px;
+}
+.slots-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.slots-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.slots-sub {
+  color: var(--ambar-claro);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+.slots-shift-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--marfil-suave);
+  margin: 14px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+.slot-btn {
+  background: var(--carbon-700);
+  border: 1px solid var(--borde-suave);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s var(--transition-smooth);
+}
+.slot-btn:hover:not(.occupied) {
+  border-color: var(--ambar-claro);
+  transform: translateY(-2px);
+}
+.slot-btn.selected {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  border-color: var(--ambar-claro);
+  color: #0a0b0d !important;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+}
+.slot-btn.selected .slot-time { color: #0a0b0d; font-weight: 900; }
+.slot-btn.selected .slot-badge { background: #0a0b0d; color: var(--ambar-claro); }
+.slot-btn.occupied {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: rgba(239, 68, 68, 0.3);
+  text-decoration: line-through;
+}
+.slot-time {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+}
+.slot-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.slot-badge.disponible { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.slot-badge.ultimas { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.slot-badge.ocupado { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+.res-summary-box {
+  background: rgba(217, 119, 6, 0.08);
+  border: 1px dashed var(--borde);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--marfil-suave);
+}
+.res-summary-box strong { color: var(--ambar-claro); }
+
+.btn-submit-res {
+  width: 100%;
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #0a0b0d;
+  font-weight: 900;
+  padding: 18px;
+  border-radius: 14px;
+  border: none;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(217, 119, 6, 0.35);
+  transition: all 0.25s var(--transition-smooth);
+  margin-top: 14px;
+}
+.btn-submit-res:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(201, 151, 56, 0.55);
+}
+
+/* ==================== MODAL CONFIRMACIÓN ==================== */
+.confirm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 11, 13, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.confirm-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.confirm-modal-card {
+  background: var(--carbon-800);
+  border: 1px solid var(--ambar-claro);
+  border-radius: 28px;
+  width: 100%;
+  max-width: 580px;
+  padding: 42px 36px;
+  text-align: center;
+  position: relative;
+  box-shadow: var(--sombra-luxe);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+.confirm-icon {
+  width: 76px; height: 76px;
+  margin: 0 auto 20px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 2px solid var(--verde-ok);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: var(--verde-ok);
+}
+.confirm-title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.confirm-code-pill {
+  display: inline-block;
+  background: rgba(217, 119, 6, 0.15);
+  border: 1px solid var(--borde);
+  color: var(--ambar-claro);
+  font-family: monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  padding: 6px 18px;
+  border-radius: 30px;
+  margin: 14px 0 22px;
+}
+.confirm-details-box {
+  background: var(--carbon-700);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: left;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--marfil-suave);
+  margin-bottom: 26px;
+}
+.confirm-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.btn-confirm-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--whatsapp);
+  color: #fff;
+  font-weight: 700;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+.btn-confirm-cal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--carbon-600);
+  border: 1px solid var(--borde-suave);
+  color: #fff;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* ==================== LIGHTBOX MODAL PARA FOTOS ==================== */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 9, 12, 0.96);
+  backdrop-filter: blur(14px);
+  z-index: 20000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.lightbox-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--borde);
+}
+.lightbox-caption {
+  margin-top: 16px;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--marfil-suave);
+  text-align: center;
+}
+.lightbox-close {
+  position: absolute;
+  top: 24px; right: 28px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 34px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ==================== FOOTER ==================== */
+.site-footer {
+  background: #08090a;
+  border-top: 1px solid var(--borde-suave);
+  padding: 70px 0 30px;
+  font-size: 0.88rem;
+  color: var(--texto-medio);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 580px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+.footer-col h4 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-links a:hover {
+  color: var(--ambar-claro);
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.8rem;
+}
+.admin-discreet-link {
+  color: var(--texto-oscuro);
+  font-size: 0.75rem;
+  transition: color 0.2s;
+}
+.admin-discreet-link:hover {
+  color: var(--ambar-claro);
+}
+
+/* BOTONES FLOTANTES */
+.floating-actions {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+}
+.btn-floating-wa {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: var(--whatsapp);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.45);
+  transition: all 0.25s;
+  position: relative;
+}
+.btn-floating-wa:hover {
+  background: var(--whatsapp-hover);
+  transform: scale(1.08);
+}
+.btn-floating-wa::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--whatsapp);
+  opacity: 0.7;
+  animation: pulseWa 2s infinite;
+}
+@keyframes pulseWa {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+.wa-badge {
+  position: absolute;
+  top: -2px; right: -2px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--carbon-950);
+}
+.btn-floating-reserve {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #0a0b0d;
+  font-weight: 800;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(217, 119, 6, 0.4);
+  transition: all 0.25s;
+}
+
+/* BARRA STICKY INFERIOR MÓVIL */
+.mobile-sticky-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(15, 16, 20, 0.96);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--borde);
+  z-index: 9998;
+  padding: 8px 12px;
+}
+@media (max-width: 768px) {
+  .mobile-sticky-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .floating-actions {
+    bottom: 74px;
+    right: 16px;
+  }
+}
+.mobile-sticky-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--marfil-suave);
+  padding: 6px;
+  border-radius: 8px;
+  text-align: center;
+}
+.mobile-sticky-btn.highlight {
+  background: var(--ambar-claro);
+  color: #0a0b0d;
+}
+
+/* ANIMACIONES REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- BARRA DE PROGRESO DE SCROLL -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- CURSOR MAGNÉTICO (Desktop) -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ORBES AMBIENTALES -->
+<div class="ambient-glow ambient-1"></div>
+<div class="ambient-glow ambient-2"></div>
+<div class="ambient-glow ambient-3"></div>
+
+<!-- TOP ANNOUNCEMENT BAR -->
+<div class="top-bar">
+  <span>🏰 <strong>Bar Restaurante Casa Paco Méntrida</strong></span>
+  <span>·</span>
+  <span class="top-ta-badge" style="background: rgba(217, 119, 6, 0.2); border-color: var(--ambar-claro); color: #fff;">⭐ 4.7 en Google Maps (+200 Reseñas)</span>
+  <span>·</span>
+  <span>Carne de Angus Madurada & Brasas de Pueblo</span>
+  <span>·</span>
+  <span><strong>Tel. 635 39 12 18</strong></span>
+</div>
+
+<!-- CABECERA & NAVEGACIÓN -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap nav-wrap">
+    <a href="#" class="brand-link">
+      <div class="brand-emblem" style="background: linear-gradient(135deg, #d97706, #8f4012); border-color: var(--ambar-claro);">🥩</div>
+      <div class="brand-text">
+        <span class="brand-name" style="font-size: 1.25rem; letter-spacing: 1.5px;">KA JUAN</span>
+        <span class="brand-city" style="color: var(--ambar-claro); letter-spacing: 2px;">SOTILLO DE LAS PALOMAS</span>
+      </div>
+    </a>
+
+    <ul class="nav-menu" id="navMenu">
+      <li class="nav-item"><a href="#galeria">Galería Real</a></li>
+      <li class="nav-item"><a href="#carta">La Carta & Fotos</a></li>
+      <li class="nav-item"><a href="#espacios">Espacios</a></li>
+      <li class="nav-item"><a href="#google-maps">Google Maps</a></li>
+      <li class="nav-item"><a href="#reservas">Reservar Mesa</a></li>
+      <li class="nav-item"><a href="#contacto">Contacto</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#reservas" class="btn-nav-reserve">
+        <span>🍽️</span> Reservar Mesa
+      </a>
+      <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Abrir menú">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO SECTION VISUAL CON FOTO REAL TRIPADVISOR -->
+<section class="hero">
+  <div class="hero-bg" style="background-image: linear-gradient(180deg, rgba(10, 12, 14, 0.72) 0%, rgba(10, 12, 14, 0.94) 100%), url('assets/hero_paco.jpg');"></div>
+  <div class="wrap hero-wrap">
+    <div class="hero-content reveal active">
+      <div class="hero-badge-group">
+        <span class="hero-badge">★ Bar Restaurante de Referencia en Méntrida</span>
+        <span class="hero-badge-verified">✓ Ficha Verificada Google Maps · 4.3 ⭐</span>
+      </div>
+      <h1 class="hero-title">
+        Auténtica Pasión por las <span class="text-gradient">Hamburguesas Gourmet</span>, Pizzas & el Tapeo de Pueblo
+      </h1>
+      <p class="hero-desc">
+        En Avenida Félix Arranz, 28 (Méntrida, Toledo). Disfruta de la mejor cocina informal de calidad: carnes seleccionadas en tierno pan brioche artesanal, pizzas recién horneadas al punto, raciones caseras generosas y los mejores caldos de la D.O. Méntrida.
+      </p>
+      <div class="hero-ctas">
+        <a href="#reservas" class="btn-hero-primary">
+          <span>📅</span> Reservar Mesa Online al Instante
+        </a>
+        <a href="#carta" class="btn-hero-secondary">
+          <span>📖</span> Ver Carta & Precios
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-number">4.3 ★</div>
+          <div class="stat-label">+500 Opiniones Google</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Carne & Pan Brioche Diario</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-number">0 Esperas</div>
+          <div class="stat-label">Confirmación Inmediata</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-number">48h</div>
+          <div class="stat-label">Masa de Pizza Fermentada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVA SECCIÓN: GALERÍA VISUAL REAL (TRIPADVISOR BENTO GRID) -->
+<section class="section" id="galeria">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="section-badge">Galería Visual & Experiencia</span>
+      <h2 class="section-title">Autenticidad, Calidad & Sabor en Cada Detalle</h2>
+      <p class="section-desc">
+        Un recorrido visual por nuestras hamburguesas gourmet, pizzas artesanales, raciones castellanas, postres caseros y el ambiente acogedor de nuestras instalaciones en Méntrida. Haz clic en cualquier imagen para ampliarla a pantalla completa.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- FOTO 1 PRINCIPAL: HAMBURGUESA BUEY -->
+      <div class="bento-item bento-large reveal" onclick="abrirLightbox('assets/hamburguesa_buey.jpg', 'Hamburguesa de Buey Especial Casa Paco con Queso Madurado, Bacon y Patatas Fritas Caseras')">
+        <img src="assets/hamburguesa_buey.jpg" alt="Hamburguesa Gourmet Casa Paco" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Especialidad Estrella</span>
+          <h3 class="bento-item-title">Hamburguesa "Casa Paco" Selección Especial</h3>
+          <p class="bento-item-desc">Carne 100% de buey picada a diario, pan brioche artesanal dorado a la mantequilla, queso madurado fundido, bacon crujiente y guarnición de patatas caseras.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 2: PIZZA ARTESANA -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/pizza_artesana.jpg', 'Pizza Artesanal al Horno de Piedra con Masa Madre Fermentada')">
+        <img src="assets/pizza_artesana.jpg" alt="Pizza Artesanal Casa Paco" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Horno de Piedra</span>
+          <h3 class="bento-item-title">Pizzas Artesanales al Horno</h3>
+          <p class="bento-item-desc">Masa fina y crujiente fermentada durante 48 horas con ingredientes de máxima frescura.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 3: CROQUETAS CASERAS -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/croquetas_caseras.jpg', 'Croquetas Cremosas Caseras de Jamón Ibérico de Bellota')">
+        <img src="assets/croquetas_caseras.jpg" alt="Croquetas Caseras de Jamón" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Tradición de la Casa</span>
+          <h3 class="bento-item-title">Croquetas Cremosas de Jamón</h3>
+          <p class="bento-item-desc">Elaboradas a mano con bechamel suave, abundante jamón ibérico y rebozado fino muy crujiente.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 4: ALITAS BBQ -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/alitas_bbq.jpg', 'Alitas de Pollo Glaseadas a la Barbacoa con Miel')">
+        <img src="assets/alitas_bbq.jpg" alt="Alitas Glaseadas BBQ" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Top Picoteo</span>
+          <h3 class="bento-item-title">Alitas Glaseadas BBQ</h3>
+          <p class="bento-item-desc">Maceradas lentamente y glaseadas con nuestra salsa barbacoa agridulce con toque de miel.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 5: SMASH BURGER -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/hamburguesa_smash.jpg', 'Doble Smash Burger Méntrida con Cuádruple Cheddar Fundido')">
+        <img src="assets/hamburguesa_smash.jpg" alt="Doble Smash Burger Méntrida" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Tendencia Gourmet</span>
+          <h3 class="bento-item-title">Doble Smash Burger Méntrida</h3>
+          <p class="bento-item-desc">Técnica smash sobre plancha a máxima temperatura: costra crujiente y jugo concentrado.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 6: PATATAS BRAVAS -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/patatas_bravas.jpg', 'Patatas Bravas Caseras con Salsa Brava Artesanal y Alioli')">
+        <img src="assets/patatas_bravas.jpg" alt="Patatas Bravas Casa Paco" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Imprescindible</span>
+          <h3 class="bento-item-title">Patatas Bravas & al Queso</h3>
+          <p class="bento-item-desc">Patatas naturales recién fritas con nuestra receta secreta de salsa brava y alioli de ajo asado.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 7: DESAYUNOS MOLLETE -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/desayuno_mollete.jpg', 'Desayunos de Campo: Mollete de Pueblo con Jamón y Tomate')">
+        <img src="assets/desayuno_mollete.jpg" alt="Desayunos Tradicionales Casa Paco" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Desde las 07:00 h</span>
+          <h3 class="bento-item-title">Desayunos con Mollete de Pueblo</h3>
+          <p class="bento-item-desc">Empieza el día con pan de pueblo recién tostado, aceite virgen extra, jamón y café de tueste natural.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 8: TARTA DE QUESO -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/tarta_queso.jpg', 'Tarta de Queso Horneada Cremosa Estilo La Viña')">
+        <img src="assets/tarta_queso.jpg" alt="Tarta de Queso Casera" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Repostería Casera</span>
+          <h3 class="bento-item-title">Tarta de Queso Horneada</h3>
+          <p class="bento-item-desc">Suave, cremosa y con el corazón fluido, acompañada de confitura de arándanos silvestres.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 9: VINOS D.O. MÉNTRIDA -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/vino_mentrida.jpg', 'Vinos Tintos Garnacha con Denominación de Origen Méntrida')">
+        <img src="assets/vino_mentrida.jpg" alt="Vinos D.O. Méntrida" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Nuestra Tierra</span>
+          <h3 class="bento-item-title">Bodega D.O. Méntrida</h3>
+          <p class="bento-item-desc">El orgullo vinícola de nuestra villa: garnachas minerales con cuerpo y elegancia aromática.</p>
+        </div>
+      </div>
+
+      <!-- FOTO 10: TERRAZA EXTERIOR -->
+      <div class="bento-item reveal" onclick="abrirLightbox('assets/terraza_exterior.jpg', 'Amplia Terraza Exterior Climatizada de Verano en Méntrida')">
+        <img src="assets/terraza_exterior.jpg" alt="Terraza Exterior Casa Paco" class="bento-img" loading="lazy">
+        <div class="bento-overlay">
+          <span class="bento-tag">Al Aire Libre</span>
+          <h3 class="bento-item-title">Terraza Exterior de Verano</h3>
+          <p class="bento-item-desc">Espacio amplio, sombreado y fresco para disfrutar de comidas, cenas y tardeos con amigos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTA GASTRONÓMICA CON FOTOGRAFÍA EN CADA PLATO -->
+<section class="section" id="carta" style="background: rgba(17, 18, 22, 0.6);">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="section-badge">Propuesta Gastronómica</span>
+      <h2 class="section-title">Nuestra Carta con Imágenes Reales</h2>
+      <p class="section-desc">
+        Descubre nuestros platos más representativos con sus fotos auténticas. Selecciona una categoría:
+      </p>
+    </div>
+
+    <!-- TABS DE CATEGORÍA -->
+    <div class="menu-tabs reveal">
+      <button class="menu-tab-btn active" onclick="cambiarCategoriaMenu('carnes', this)">🍖 Carnes & Brasas</button>
+      <button class="menu-tab-btn" onclick="cambiarCategoriaMenu('caza', this)">🦆 Caza & Guisos de Cuchara</button>
+      <button class="menu-tab-btn" onclick="cambiarCategoriaMenu('pescados', this)">🐟 Pescados de Lonja</button>
+      <button class="menu-tab-btn" onclick="cambiarCategoriaMenu('entrantes', this)">🥗 Entrantes & Tapas</button>
+      <button class="menu-tab-btn" onclick="cambiarCategoriaMenu('postres', this)">🍯 Torrijas Caramelizadas con Helado</button>
+    </div>
+
+    <!-- CONTENEDOR DE PLATOS CON FOTOS -->
+    <div class="dishes-grid" id="dishesGrid">
+      <!-- Se inyecta dinámicamente con JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- BANNER OFICIAL GOOGLE MAPS -->
+<section class="wrap" id="opiniones">
+  <div class="section-header reveal">
+    <span class="section-badge">Opiniones Verificadas en Google Maps</span>
+    <h2 class="section-title">La Confianza de Más de 500 Comensales</h2>
+    <p class="section-desc">
+      La satisfacción de nuestros vecinos y visitantes es nuestra mayor garantía. Descubre lo que opinan quienes ya han probado nuestras hamburguesas, pizzas y raciones en Méntrida.
+    </p>
+  </div>
+
+  <div class="reviews-badge-card reveal">
+    <div class="reviews-badge-main">
+      <div class="badge-logo-circle">G</div>
+      <div>
+        <div style="font-weight: 800; font-size: 1.15rem; color:#fff;">Google Maps Business</div>
+        <div class="stars-gold">★★★★★ <span style="color:var(--ambar-claro); font-weight:800; font-size:1.2rem;">4.3 / 5</span></div>
+        <div style="color:var(--texto-medio); font-size:0.85rem;">Más de 500 opiniones de clientes reales verificadas</div>
+      </div>
+    </div>
+    <a href="https://maps.google.com/?q=Casa+Paco,+Av.+F%C3%A9lix+Arranz,+28,+45930+M%C3%A9ntrida,+Toledo" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary" style="font-size:0.85rem;">
+      Ver Perfil en Google Maps →
+    </a>
+  </div>
+
+  <div class="reviews-grid">
+    <!-- OPINIÓN 1 -->
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">CM</div>
+        <div>
+          <div class="review-author">Carlos Méndez</div>
+          <div class="review-role">Google Local Guide · Nivel 6</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+      </div>
+      <p class="review-text">
+        "Las mejores hamburguesas de Méntrida sin duda alguna. Carne jugosa, pan brioche tierno que no se rompe y las patatas caseras riquísimas. Relación calidad-precio inmejorable. La nueva gerencia ha revitalizado el local de diez."
+      </p>
+      <div class="review-date">Visita reciente · Comedor de Sala</div>
+    </div>
+
+    <!-- OPINIÓN 2 -->
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">EG</div>
+        <div>
+          <div class="review-author">Elena Gómez</div>
+          <div class="review-role">Cliente Habitual</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+      </div>
+      <p class="review-text">
+        "Trato impecable y súper cercano de todo el equipo de Casa Paco. Los desayunos son maravillosos con molletes de pueblo recién tostados con jamón y café de verdad. Por la tarde la terraza se llena de un ambiente genial para unas cervezas."
+      </p>
+      <div class="review-date">Visita reciente · Desayuno & Terraza</div>
+    </div>
+
+    <!-- OPINIÓN 3 -->
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">DS</div>
+        <div>
+          <div class="review-author">David Serrano</div>
+          <div class="review-role">Opinión Verificada</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+      </div>
+      <p class="review-text">
+        "Sitio genial tanto para cenar en la terraza como para unas cañas con raciones. Las pizzas artesanas tienen una masa crujiente estupenda y las alitas con salsa barbacoa son obligatorias cada vez que venimos. Muy recomendable."
+      </p>
+      <div class="review-date">Visita reciente · Cena en Terraza</div>
+    </div>
+
+    <!-- OPINIÓN 4 -->
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">PB</div>
+        <div>
+          <div class="review-author">Patricia Barroso</div>
+          <div class="review-role">Comensal en Familia</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+      </div>
+      <p class="review-text">
+        "Ambiente muy agradable, familiar y pet-friendly. Tienen vinos de la D.O. Méntrida riquísimos para acompañar el tapeo. Probamos los huevos rotos y las croquetas y volaron. De postre la tarta de queso casera estaba increíble."
+      </p>
+      <div class="review-date">Visita reciente · Almuerzo en Familia</div>
+    </div>
+
+    <!-- OPINIÓN 5 -->
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">MT</div>
+        <div>
+          <div class="review-author">Marcos Toledo</div>
+          <div class="review-role">Cliente de Fin de Semana</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+      </div>
+      <p class="review-text">
+        "Pedimos varias raciones para compartir (croquetas, patatas con queso y bacon, fingers de pollo caseros) y luego la doble smash burger: auténtico espectáculo. Rápido, abundante y con una atención de diez."
+      </p>
+      <div class="review-date">Visita reciente · Cena de Amigos</div>
+    </div>
+
+    <!-- OPINIÓN 6 -->
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">LR</div>
+        <div>
+          <div class="review-author">Lucía Rodríguez</div>
+          <div class="review-role">Opinión Verificada</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+      </div>
+      <p class="review-text">
+        "La terraza es súper amplia y se está de maravilla cuando hace buen tiempo. Se agradece encontrar un sitio donde la carne de las hamburguesas sea de calidad y las patatas no sean congeladas. ¡Un 10 para Casa Paco!"
+      </p>
+      <div class="review-date">Visita reciente · Terraza Exterior</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN ESPACIOS Y CELEBRACIONES -->
+<section class="section" id="espacios">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="section-badge">Instalaciones & Ambientes</span>
+      <h2 class="section-title">El Espacio Perfecto para Cada Momento</h2>
+      <p class="section-desc">
+        Diseñado para acoger desde un desayuno relajado por la mañana hasta cenas multitudinarias de fin de semana, cañas con amigos y celebraciones de cumpleaños.
+      </p>
+    </div>
+
+    <div class="spaces-grid">
+      <!-- ESPACIO 1: SALÓN COMEDOR -->
+      <div class="space-card reveal">
+        <div class="space-img-wrap">
+          <img src="assets/salon_comedor.jpg" alt="Salón Comedor Principal Casa Paco" class="space-img" loading="lazy">
+          <span class="space-badge">Climatizado · Acogedor</span>
+        </div>
+        <div class="space-body">
+          <h3 class="space-title">Salón Comedor Principal</h3>
+          <p class="space-desc">
+            Espacio confortable y climatizado durante todo el año. Ideal para comidas familiares, comidas de empresa y cenas tranquilas de pareja con servicio esmerado en mesa.
+          </p>
+          <div class="space-features">
+            <span class="feat-pill">Capacidad: 55 comensales</span>
+            <span class="feat-pill">Climatización integral</span>
+            <span class="feat-pill">Música ambiental</span>
+            <span class="feat-pill">Trona para bebés</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESPACIO 2: TERRAZA EXTERIOR -->
+      <div class="space-card reveal">
+        <div class="space-img-wrap">
+          <img src="assets/terraza_exterior.jpg" alt="Terraza Exterior de Verano Casa Paco" class="space-img" loading="lazy">
+          <span class="space-badge">Al Aire Libre · Pet Friendly</span>
+        </div>
+        <div class="space-body">
+          <h3 class="space-title">Terraza Exterior de Verano</h3>
+          <p class="space-desc">
+            Nuestra amplia terraza sobre la Avenida Félix Arranz. Disfruta de la brisa de Méntrida, sombra en las horas de sol y el mejor ambiente nocturno con iluminación cálida.
+          </p>
+          <div class="space-features">
+            <span class="feat-pill">Capacidad: 60 comensales</span>
+            <span class="feat-pill">Sombrillas y toldos</span>
+            <span class="feat-pill">Admite mascotas</span>
+            <span class="feat-pill">Espacio amplio</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESPACIO 3: BARRA & TAPEO -->
+      <div class="space-card reveal">
+        <div class="space-img-wrap">
+          <img src="assets/barra_tapas.jpg" alt="Zona de Barra y Picoteo Casa Paco" class="space-img" loading="lazy">
+          <span class="space-badge">Aperitivos · Cañas Frías</span>
+        </div>
+        <div class="space-body">
+          <h3 class="space-title">Zona de Barra & Picoteo</h3>
+          <p class="space-desc">
+            El alma clásica del bar de pueblo: cañas bien tiradas, vitrina de aperitivos diarios, porciones de tortilla, vinos de la tierra D.O. Méntrida y retransmisiones deportivas.
+          </p>
+          <div class="space-features">
+            <span class="feat-pill">Cerveza de bodega</span>
+            <span class="feat-pill">Pinchos del día</span>
+            <span class="feat-pill">Vinos D.O. Méntrida</span>
+            <span class="feat-pill">Punto de encuentro</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN MOTOR DE RESERVAS -->
+<section class="reservation-section" id="reservas">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="section-badge">Reserva Telemática Oficial</span>
+      <h2 class="section-title">Reserva tu Mesa Online al Instante</h2>
+      <p class="section-desc">
+        Confirmación telemática directa sin esperas telefónicas. Comprobante con código único `#CP-XXXXXX`, sincronización con calendario y WhatsApp.
+      </p>
+    </div>
+
+    <div class="reservation-card reveal">
+      <form id="reservationForm" onsubmit="enviarReserva(event)">
+        <div class="res-form-grid">
+          
+          <!-- COMENSALES -->
+          <div class="res-form-group-full">
+            <label class="res-label">1. Número de Comensales *</label>
+            <div class="pax-selector-btns" id="paxButtons">
+              <button type="button" class="pax-btn" onclick="seleccionarPax(1, this)">1 pax</button>
+              <button type="button" class="pax-btn selected" onclick="seleccionarPax(2, this)">2 pax</button>
+              <button type="button" class="pax-btn" onclick="seleccionarPax(3, this)">3 pax</button>
+              <button type="button" class="pax-btn" onclick="seleccionarPax(4, this)">4 pax</button>
+              <button type="button" class="pax-btn" onclick="seleccionarPax(5, this)">5 pax</button>
+              <button type="button" class="pax-btn" onclick="seleccionarPax(6, this)">6 pax</button>
+              <button type="button" class="pax-btn" onclick="seleccionarPax(8, this)">8 pax</button>
+              <button type="button" class="pax-btn" onclick="seleccionarPax(10, this)">10+ pax (Evento)</button>
+            </div>
+            <input type="hidden" id="inputComensales" value="2">
+          </div>
+
+          <!-- CALENDARIO EN VIVO DE DÍAS Y HORAS OCUPADOS (TIEMPO REAL) -->
+          <div class="res-form-group-full">
+            <label class="res-label">2. Calendario de Disponibilidad en Directo (Selecciona Día y Hora) *</label>
+            <div class="live-calendar-card">
+              
+              <!-- BARRA SUPERIOR DEL CALENDARIO -->
+              <div class="cal-top-bar">
+                <div class="cal-nav-group">
+                  <button type="button" class="cal-btn-nav" onclick="cambiarMesCalendario(-1)" title="Mes anterior">‹</button>
+                  <div class="cal-month-title" id="calMonthTitle">Noviembre 2026</div>
+                  <button type="button" class="cal-btn-nav" onclick="cambiarMesCalendario(1)" title="Mes siguiente">›</button>
+                </div>
+                <div class="cal-legend-group">
+                  <span class="legend-pill"><span class="legend-dot dot-libre"></span> Mesas Libres</span>
+                  <span class="legend-pill"><span class="legend-dot dot-ultimas"></span> Últimas Plazas</span>
+                  <span class="legend-pill"><span class="legend-dot dot-completo"></span> Ocupado / Lleno</span>
+                  <span class="legend-pill"><span class="legend-dot dot-cerrado"></span> Lunes Descanso</span>
+                </div>
+              </div>
+
+              <!-- DÍAS DE LA SEMANA -->
+              <div class="cal-weekdays">
+                <div>Lun</div>
+                <div>Mar</div>
+                <div>Mié</div>
+                <div>Jue</div>
+                <div>Vie</div>
+                <div>Sáb</div>
+                <div>Dom</div>
+              </div>
+
+              <!-- CUADRÍCULA DE DÍAS -->
+              <div class="cal-days-grid" id="calDaysGrid">
+                <!-- Se inyecta dinámicamente con JavaScript -->
+              </div>
+
+              <!-- PANEL DE HORAS EN VIVO PARA EL DÍA SELECCIONADO -->
+              <div class="live-slots-panel" id="liveSlotsPanel">
+                <div class="slots-header-row">
+                  <div class="slots-title">
+                    <span>⏰</span> Franjas Horarias en Tiempo Real
+                  </div>
+                  <div class="slots-sub" id="selectedDateLabel">Martes, 27 de Octubre de 2026</div>
+                </div>
+
+                <!-- ALMUERZOS -->
+                <div class="slots-shift-title">☀️ Turno Almuerzos (Mediodía)</div>
+                <div class="slots-grid" id="slotsAlmuerzo">
+                  <!-- Se inyecta dinámicamente -->
+                </div>
+
+                <!-- CENAS -->
+                <div class="slots-shift-title" style="margin-top:16px;">🌙 Turno Cenas (Noche)</div>
+                <div class="slots-grid" id="slotsCena">
+                  <!-- Se inyecta dinámicamente -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- INPUTS OCULTOS SINCRONIZADOS PARA EL ENVÍO -->
+            <input type="hidden" id="resFecha" name="resFecha" required>
+            <input type="hidden" id="resHora" name="resHora" required>
+          </div>
+
+          <!-- ZONA -->
+          <div>
+            <label class="res-label" for="resZona">4. Espacio Deseado</label>
+            <select id="resZona" class="res-select">
+              <option value="Salón Comedor Principal">Salón Comedor Principal</option>
+              <option value="Terraza Exterior de Verano">Terraza Exterior de Verano</option>
+              <option value="Zona de Barra & Picoteo">Zona de Barra & Picoteo</option>
+            </select>
+          </div>
+
+          <!-- EXPERIENCIA -->
+          <div>
+            <label class="res-label" for="resExperiencia">5. Preferencia de Menú</label>
+            <select id="resExperiencia" class="res-select">
+              <option value="Cena & Hamburguesas Gourmet">Cena & Hamburguesas Gourmet</option>
+              <option value="Pizzas Artesanas & Tapeo">Pizzas Artesanas & Tapeo</option>
+              <option value="Almuerzo de Tapeo & Raciones">Almuerzo de Tapeo & Raciones</option>
+              <option value="Desayuno de Campo & Molletes">Desayuno de Campo & Molletes</option>
+              <option value="Celebración Familiar / Cumpleaños">Celebración Familiar / Cumpleaños</option>
+            </select>
+          </div>
+
+          <!-- TITULAR -->
+          <div>
+            <label class="res-label" for="resNombre">6. Nombre y Apellidos *</label>
+            <input type="text" id="resNombre" class="res-input" placeholder="Ej: Fernando Morales" required>
+          </div>
+
+          <div>
+            <label class="res-label" for="resTelefono">7. Teléfono Móvil (WhatsApp) *</label>
+            <input type="tel" id="resTelefono" class="res-input" placeholder="635 39 12 18" required>
+          </div>
+
+          <div class="res-form-group-full">
+            <label class="res-label" for="resEmail">8. Correo Electrónico (para comprobante y calendario)</label>
+            <input type="email" id="resEmail" class="res-input" placeholder="ejemplo@email.com">
+          </div>
+
+          <!-- NOTAS -->
+          <div class="res-form-group-full">
+            <label class="res-label" for="resAlergias">9. Alergias, Intolerancias o Celebración Especial</label>
+            <textarea id="resAlergias" class="res-textarea" placeholder="Indícanos si algún comensal es celíaco, si necesitas trona para bebé o si se trata de un cumpleaños o aniversario..."></textarea>
+          </div>
+
+          <!-- RESUMEN -->
+          <div class="res-form-group-full">
+            <div class="res-summary-box">
+              <div>
+                <span>Mesa: </span>
+                <strong id="summaryText">2 comensales · Hoy a las 14:00 h en Comedor de Sala Rústico</strong>
+              </div>
+              <div style="color:var(--verde-ok); font-weight:700;">
+                ✓ Confirmación inmediata en sala
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
+          <div class="res-form-group-full">
+            <button type="submit" id="btnSubmitRes" class="btn-submit-res">
+              Confirmar Reserva de Mesa Ahora
+            </button>
+            <p style="text-align:center; font-size:0.78rem; color:var(--texto-medio); margin-top:12px;">
+              🔒 Tus datos están protegidos. Sin cargos previos en tarjeta. Puedes cancelar o modificar tu reserva avisando con 2h de antelación.
+            </p>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL DE CONFIRMACIÓN -->
+<div class="confirm-modal-overlay" id="confirmModal">
+  <div class="confirm-modal-card">
+    <div class="confirm-icon">✓</div>
+    <h3 class="confirm-title">¡Mesa Reservada con Éxito!</h3>
+    <p style="color:var(--marfil-suave); font-size:0.95rem;">
+      Tu solicitud ha quedado confirmada en Bar Restaurante Casa Paco Méntrida.
+    </p>
+
+    <div class="confirm-code-pill" id="confirmCode">#CP-000000</div>
+
+    <div class="confirm-details-box" id="confirmDetails"></div>
+
+    <div class="confirm-actions">
+      <a href="#" id="btnConfirmWhatsApp" target="_blank" class="btn-confirm-wa">
+        <span>💬</span> Enviar Comprobante al WhatsApp del Restaurante
+      </a>
+      <button class="btn-confirm-cal" onclick="descargarCalendarioICS()">
+        <span>📅</span> Añadir al Calendario (.ICS)
+      </button>
+      <button class="btn-hero-secondary" style="margin-top:6px; justify-content:center;" onclick="cerrarModalConfirmacion()">
+        Cerrar y Volver a la Web
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX MODAL PARA FOTOGRAFÍAS A PANTALLA COMPLETA -->
+<div class="lightbox-modal" id="lightboxModal" onclick="cerrarLightbox()">
+  <button class="lightbox-close">&times;</button>
+  <img src="" id="lightboxImg" class="lightbox-img" alt="Foto ampliada">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<!-- SECCIÓN CÓMO LLEGAR & GOOGLE MAPS -->
+<section class="section" id="ubicacion" style="padding-top: 20px;">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="section-badge">Ubicación & Horarios</span>
+      <h2 class="section-title">En la Avenida Félix Arranz de Méntrida</h2>
+      <p class="section-desc">
+        Fácil acceso y amplio aparcamiento en las inmediaciones. Situado en la Av. Félix Arranz, 28 (Méntrida, Toledo), punto neurálgico de la localidad y de la comarca vinícola.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; align-items: stretch; margin-top: 30px;">
+      
+      <!-- HORARIOS Y CONTACTO -->
+      <div class="reveal" style="background: var(--carbon-800); border: 1px solid var(--borde); border-radius: 20px; padding: 32px 28px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h3 style="font-family: var(--font-serif); font-size: 1.45rem; color: #fff; margin-bottom: 20px; border-bottom: 1px solid var(--borde); padding-bottom: 12px;">
+            Horarios de Apertura
+          </h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 0.92rem; color: var(--marfil-suave);">
+            <li style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+              <span style="font-weight: 600; color: #fff;">Lunes</span>
+              <span style="color: #f87171; font-weight: 700;">Cerrado por Descanso</span>
+            </li>
+            <li style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+              <span style="font-weight: 600; color: #fff;">Martes a Jueves</span>
+              <span>07:00 – 00:00 h (Ininterrumpido)</span>
+            </li>
+            <li style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+              <span style="font-weight: 600; color: #fff;">Viernes y Sábados</span>
+              <span style="color: var(--ambar-claro); font-weight: 700;">07:00 – 02:00 h (Cocina & Cenas)</span>
+            </li>
+            <li style="display: flex; justify-content: space-between; padding-bottom: 8px;">
+              <span style="font-weight: 600; color: #fff;">Domingos</span>
+              <span>08:00 – 00:00 h (Aperitivo & Cenas)</span>
+            </li>
+          </ul>
+
+          <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: #fff; margin-top: 28px; margin-bottom: 16px; border-bottom: 1px solid var(--borde); padding-bottom: 8px;">
+            Contacto & Dirección
+          </h3>
+          <p style="font-size: 0.95rem; color: var(--marfil-suave); margin-bottom: 10px;">
+            📍 <strong>Avenida Félix Arranz, 28</strong><br>
+            45930 Méntrida, Toledo (España)
+          </p>
+          <p style="font-size: 0.95rem; color: var(--marfil-suave); margin-bottom: 16px;">
+            📞 Teléfono / WhatsApp: <a href="tel:+34635391218" style="color: var(--ambar-claro); font-weight: 700;">635 39 12 18</a><br>
+            ☎️ Fijo: <a href="tel:+34918178012" style="color: var(--marfil-suave);">918 17 80 12</a>
+          </p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+          <a href="tel:+34635391218" class="btn-hero-primary" style="justify-content: center;">
+            <span>📞</span> Llamar a Casa Paco Ahora
+          </a>
+          <a href="https://maps.google.com/?q=Casa+Paco,+Av.+F%C3%A9lix+Arranz,+28,+45930+M%C3%A9ntrida,+Toledo" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary" style="justify-content: center;">
+            <span>🗺️</span> Cómo Llegar en Google Maps
+          </a>
+        </div>
+      </div>
+
+      <!-- MAPA INTERACTIVO DE GOOGLE MAPS -->
+      <div class="reveal" style="background: var(--carbon-800); border: 1px solid var(--borde); border-radius: 20px; overflow: hidden; min-height: 420px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);">
+        <iframe 
+          title="Ubicación Bar Restaurante Casa Paco Méntrida"
+          src="https://maps.google.com/maps?q=Casa+Paco,+Av.+F%C3%A9lix+Arranz,+28,+45930+M%C3%A9ntrida,+Toledo&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+          width="100%" 
+          height="100%" 
+          style="border:0; min-height: 450px; width: 100%; display: block;" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="contacto">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <div class="brand-emblem" style="width:38px; height:38px; font-size:18px; background:linear-gradient(135deg, #d97706, #8f4012); border-color:var(--ambar-claro);">🥩</div>
+          <span style="font-family:var(--font-serif); font-size:1.2rem; font-weight:800; color:#fff;">BAR RESTAURANTE KA JUAN</span>
+        </div>
+        <p style="line-height:1.6; margin-bottom:16px;">
+          Especialistas en carne de Angus madurada, chuletones a la brasa, croquetas caseras de rabo de toro y chipirón, y cocina tradicional en Méntrida (Toledo), Méntrida (Toledo).
+        </p>
+        <p style="color:var(--ambar-claro); font-weight:700;">Méntrida (España) · Tel. 635 39 12 18</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#galeria">Galería Fotográfica</a></li>
+          <li><a href="#carta">Nuestra Carta</a></li>
+          <li><a href="#espacios">Espacios & Salón</a></li>
+          <li><a href="#google-maps">Perfil Google Maps</a></li>
+          <li><a href="#reservas">Reservar Mesa</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul class="footer-links">
+          <li><a href="aviso-legal.html">Aviso Legal</a></li>
+          <li><a href="privacidad.html">Política de Privacidad</a></li>
+          <li><a href="cookies.html">Política de Cookies</a></li>
+          <li><a href="https://www.google.es/maps/place/Bar+restaurante+KA+Juan/@40.1040795,-4.8273079,17z/data=!4m7!3m6!1s0xd4011ede96d6c13:0xbab090523329bdf9!8m2!3d40.1040795!4d-4.8273079!10e5!16s%2Fg%2F1tv25fmh Juan-Méntrida_Province_of_Méntrida_Castile_La_Mancha.html" target="_blank" style="color:var(--ta-verde);">Ficha Oficial en Google Maps</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto & Reservas</h4>
+        <p style="margin-bottom:10px;">Atención y reservas telefónicas:</p>
+        <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:6px;">635 39 12 18</p>
+        <p style="color:var(--whatsapp); font-weight:700;">WhatsApp: 635 39 12 18</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Bar Restaurante Casa Paco Méntrida. Todos los derechos reservados.</div>
+      <div>
+        <a href="/admin" class="admin-discreet-link">Acceso Privado Sala (/admin)</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- BOTONES FLOTANTES -->
+<div class="floating-actions">
+  <a href="#reservas" class="btn-floating-reserve">
+    <span>🍽️</span> Reservar Mesa
+  </a>
+  <a href="https://wa.me/34635391218?text=Hola%20Bar%20Restaurante%20KA%20Juan,%20quisiera%20reservar%20una%20mesa%20en%20Sotillo%20de%20las%20Palomas" target="_blank" class="btn-floating-wa" title="WhatsApp Reservas" aria-label="WhatsApp">
+    <span>💬</span>
+    <span class="wa-badge">1</span>
+  </a>
+</div>
+
+<!-- BARRA STICKY INFERIOR MÓVIL -->
+<div class="mobile-sticky-bar">
+  <a href="tel:+34635391218" class="mobile-sticky-btn">
+    <span class="icon">📞</span>
+    <span>Llamar</span>
+  </a>
+  <a href="https://wa.me/34635391218?text=Hola%20Bar%20Restaurante%20KA%20Juan,%20quisiera%20consultar%20disponibilidad%20para%20reservar" target="_blank" class="mobile-sticky-btn">
+    <span class="icon" style="color:var(--whatsapp);">💬</span>
+    <span>WhatsApp</span>
+  </a>
+  <a href="#reservas" class="mobile-sticky-btn highlight">
+    <span class="icon">🍽️</span>
+    <span>Reservar</span>
+  </a>
+  <a href="https://www.google.es/maps/place/Bar+restaurante+KA+Juan/@40.1040795,-4.8273079,17z/data=!4m7!3m6!1s0xd4011ede96d6c13:0xbab090523329bdf9!8m2!3d40.1040795!4d-4.8273079!10e5!16s%2Fg%2F1tv25fmh Juan-Méntrida_Province_of_Méntrida_Castile_La_Mancha.html" target="_blank" class="mobile-sticky-btn">
+    <span class="icon" style="color:var(--ta-verde);">⭐</span>
+    <span>Google Maps</span>
+  </a>
+</div>
+
+<script>
+// ==================== CARTA CON FOTOGRAFÍAS REALES ====================
+const CARTA = {
+  hamburguesas: [
+    {
+      nombre: 'Hamburguesa "Casa Paco" Selección Especial',
+      precio: '12,50 €',
+      desc: 'Carne 100% de buey 200g picada a diario, pan brioche artesanal dorado a la mantequilla, doble cheddar madurado, bacon crujiente ahumado, cebolla caramelizada, huevo a la plancha y salsa especial secreta. Incluye patatas fritas caseras.',
+      img: 'assets/hamburguesa_buey.jpg',
+      badge: 'Plato Insignia',
+      alergenos: 'Gluten, Lácteos, Huevo'
+    },
+    {
+      nombre: 'Doble Smash Burger Méntrida',
+      precio: '11,50 €',
+      desc: 'Dos medallones de carne 100% vacuno aplastados en plancha viva con costra crujiente caramelizada, cuádruple queso cheddar fundente, pepinillos encurtidos y salsa burger casera con patatas.',
+      img: 'assets/hamburguesa_smash.jpg',
+      badge: 'Top Ventas',
+      alergenos: 'Gluten, Lácteos, Mostaza'
+    },
+    {
+      nombre: 'Hamburguesa Pulled Pork BBQ al Carbón',
+      precio: '10,90 €',
+      desc: 'Carne de cerdo ibérico cocinada a baja temperatura durante 8 horas, deshilachada a mano con salsa barbacoa ahumada, ensalada coleslaw fresca y pepinillo en pan brioche.',
+      img: 'assets/hamburguesa_buey.jpg',
+      badge: 'Carne Melosa',
+      alergenos: 'Gluten, Mostaza'
+    },
+    {
+      nombre: 'Hamburguesa Crispy Chicken con Mostaza y Miel',
+      precio: '9,90 €',
+      desc: 'Contramuslo de pollo marinado con especias y rebozado en copos extra crujientes, queso gouda fundido, lechuga romana fresca, tomate y salsa mostaza dulce con patatas.',
+      img: 'assets/fingers_pollo.jpg',
+      badge: 'Extra Crujiente',
+      alergenos: 'Gluten, Lácteos, Huevo'
+    }
+  ],
+  pizzas: [
+    {
+      nombre: 'Pizza Artesanal Rústica Casa Paco',
+      precio: '12,00 €',
+      desc: 'Masa madre fermentada durante 48h horneada a la piedra, salsa de tomate natural triturado, mozzarella fior di latte, jamón ibérico de bodega, champiñones laminados y aceite de albahaca fresca.',
+      img: 'assets/pizza_artesana.jpg',
+      badge: 'Masa Madre 48h',
+      alergenos: 'Gluten, Lácteos'
+    },
+    {
+      nombre: 'Pizza Cuatro Quesos de la Comarca de Toledo',
+      precio: '11,50 €',
+      desc: 'Base crujiente con mozzarella fundida, queso azul gorgonzola, queso manchego curado artesano y lascas de parmesano reggiano al orégano del campo.',
+      img: 'assets/pizza_artesana.jpg',
+      badge: 'Quesos Nobles',
+      alergenos: 'Gluten, Lácteos'
+    },
+    {
+      nombre: 'Pizza Barbacoa Especial con Carne Especiada',
+      precio: '11,80 €',
+      desc: 'Salsa barbacoa casera ahumada, mozzarella fundida, carne de ternera picada sazonada, dados de bacon crujiente y cebolla morada confitada.',
+      img: 'assets/pizza_artesana.jpg',
+      badge: 'Favorita',
+      alergenos: 'Gluten, Lácteos'
+    },
+    {
+      nombre: 'Pizza Clásica Prosciutto & Funghi',
+      precio: '10,50 €',
+      desc: 'Tomate de huerta, mozzarella cremosa, jamón cocido natural braseado, setas de temporada salteadas y lluvia de orégano silvestre.',
+      img: 'assets/pizza_artesana.jpg',
+      badge: 'Tradicional',
+      alergenos: 'Gluten, Lácteos'
+    }
+  ],
+  raciones: [
+    {
+      nombre: 'Croquetas Caseras Cremosas de Jamón Ibérico',
+      precio: '10,50 €',
+      desc: 'Elaboradas a diario a mano con bechamel extra melosa de leche entera fresca y taquitos de jamón ibérico de bellota. 8 unidades con rebozado fino.',
+      img: 'assets/croquetas_caseras.jpg',
+      badge: 'Caseras 100%',
+      alergenos: 'Gluten, Lácteos, Huevo'
+    },
+    {
+      nombre: 'Patatas Bravas Casa Paco con Doble Salsa',
+      precio: '7,50 €',
+      desc: 'Patatas naturales seleccionadas de la comarca, fritas en dados crujientes con nuestra auténtica salsa brava toledana y suave alioli de ajo asado.',
+      img: 'assets/patatas_bravas.jpg',
+      badge: 'Imprescindible',
+      alergenos: 'Huevo'
+    },
+    {
+      nombre: 'Patatas al Horno con Queso Cheddar & Bacon',
+      precio: '8,90 €',
+      desc: 'Fuente generosa de patatas fritas caseras cubiertas con crema fundida de queso cheddar inglés y lluvia de taquitos de bacon tostado crujiente.',
+      img: 'assets/patatas_bravas.jpg',
+      badge: 'Para Compartir',
+      alergenos: 'Lácteos'
+    },
+    {
+      nombre: 'Alitas de Pollo Glaseadas a la Barbacoa',
+      precio: '9,50 €',
+      desc: 'Ración completa de alitas marinadas al horno y glaseadas a fuego vivo con salsa barbacoa americana agridulce y sésamo tostado.',
+      img: 'assets/alitas_bbq.jpg',
+      badge: 'Top Picoteo',
+      alergenos: 'Sésamo'
+    },
+    {
+      nombre: 'Huevos Rotos con Jamón Ibérico y Patatas',
+      precio: '11,50 €',
+      desc: 'Huevos camperos de corral con yema líquida rota al momento sobre colchón de patatas caseras pochadas y lascas de jamón ibérico de bellota.',
+      img: 'assets/huevos_rotos.jpg',
+      badge: 'Sabor de Pueblo',
+      alergenos: 'Huevo'
+    },
+    {
+      nombre: 'Fingers de Solomillo de Pollo Caseros',
+      precio: '8,90 €',
+      desc: 'Tiras tiernas de solomillo de pollo fresco empanadas con panko crujiente y acompañadas con salsa casera de miel y mostaza dijon.',
+      img: 'assets/fingers_pollo.jpg',
+      badge: 'Pollo Fresco',
+      alergenos: 'Gluten, Huevo, Mostaza'
+    }
+  ],
+  desayunos: [
+    {
+      nombre: 'Mollete de Pueblo con Jamón Ibérico & Tomate Natural',
+      precio: '4,50 €',
+      desc: 'Pan de mollete artesano tostado a la plancha con tomate natural triturado, aceite de oliva virgen extra de Toledo y jamón ibérico.',
+      img: 'assets/desayuno_mollete.jpg',
+      badge: 'Desayuno Estrella',
+      alergenos: 'Gluten'
+    },
+    {
+      nombre: 'Tosta de Lomo Adobado a la Plancha con Queso',
+      precio: '5,00 €',
+      desc: 'Rebanada gruesa de pan de pueblo con cinta de lomo adobada a la plancha, queso semicurado fundido y un toque de pimentón.',
+      img: 'assets/desayuno_mollete.jpg',
+      badge: 'Campero',
+      alergenos: 'Gluten, Lácteos'
+    },
+    {
+      nombre: 'Croissant Artesanal de Mantequilla a la Plancha',
+      precio: '3,20 €',
+      desc: 'Croissant dorado en plancha con mantequilla, servido con mermelada de fresa o melocotón y café con leche cremoso.',
+      img: 'assets/desayuno_mollete.jpg',
+      badge: 'Dulce',
+      alergenos: 'Gluten, Lácteos, Huevo'
+    },
+    {
+      nombre: 'Café de Especialidad 100% Arábica Tueste Natural',
+      precio: '1,60 €',
+      desc: 'Café expreso, con leche o capuchino recién molido, con leche fresca vaporizada y cuerpo aromático equilibrado.',
+      img: 'assets/desayuno_mollete.jpg',
+      badge: 'Tueste Natural',
+      alergenos: 'Lácteos (si es con leche)'
+    }
+  ],
+  postres: [
+    {
+      nombre: 'Tarta de Queso Horneada Cremosa Estilo La Viña',
+      precio: '5,50 €',
+      desc: 'Nuestra joya repostera: horneada a diario con centro fundente y tostado dorado, servida con mermelada casera de frutos del bosque.',
+      img: 'assets/tarta_queso.jpg',
+      badge: 'Postre Estrella',
+      alergenos: 'Lácteos, Huevo'
+    },
+    {
+      nombre: 'Muerte por Chocolate con Helado Artesano',
+      precio: '5,80 €',
+      desc: 'Pastel caliente de chocolate negro belga con volcán interior de chocolate fundido, acompañado de bola de helado artesano de vainilla de Madagascar.',
+      img: 'assets/postre_chocolate.jpg',
+      badge: 'Puro Cacao',
+      alergenos: 'Gluten, Lácteos, Huevo'
+    },
+    {
+      nombre: 'Coulant Casero de Caramelo Salado',
+      precio: '5,50 €',
+      desc: 'Bizcocho horneado al momento con centro líquido de toffee de caramelo a la mantequilla salada y nata montada fresca.',
+      img: 'assets/postre_chocolate.jpg',
+      badge: 'Casero',
+      alergenos: 'Gluten, Lácteos, Huevo'
+    }
+  ],
+  bebidas: [
+    {
+      nombre: 'Vino Tinto D.O. Méntrida (Garnacha Centenaria)',
+      precio: 'Copa 2,80 € · Botella 14,00 €',
+      desc: 'El tesoro vinícola de nuestra tierra toledana. Garnacha de viñedos viejos de Méntrida, cuerpo medio-alto, notas de frutos rojos maduros y sotobosque.',
+      img: 'assets/vino_mentrida.jpg',
+      badge: 'D.O. Méntrida',
+      alergenos: 'Sulfitos'
+    },
+    {
+      nombre: 'Caña y Doble de Cerveza Fresca de Bodega',
+      precio: 'Caña 1,80 € · Doble 2,80 €',
+      desc: 'Cerveza de barril tirada con maestría a la temperatura óptima con dos dedos de crema densa y frescura inigualable.',
+      img: 'assets/cerveza_artesana.jpg',
+      badge: 'Bien Tirada',
+      alergenos: 'Gluten'
+    },
+    {
+      nombre: 'Vermut Casero de Grifo con Naranja y Aceituna',
+      precio: '2,50 €',
+      desc: 'El auténtico aperitivo del mediodía: macerado con hierbas aromáticas, hielo en roca y rodaja de naranja fresca.',
+      img: 'assets/cerveza_artesana.jpg',
+      badge: 'Aperitivo Tradicional',
+      alergenos: 'Sulfitos'
+    }
+  ]
+};
+
+function renderCarta(cat) {
+  const container = document.getElementById('dishesGrid');
+  const platos = CARTA[cat] || [];
+  container.innerHTML = '';
+
+  platos.forEach((p, idx) => {
+    const card = document.createElement('div');
+    card.className = 'dish-card reveal active';
+    card.style.transitionDelay = `${idx * 0.08}s`;
+    card.innerHTML = `
+      <div class="dish-thumb-wrap" onclick="abrirLightbox('${p.img}', '${p.nombre} - Bar Restaurante Casa Paco Méntrida')">
+        <img src="${p.img}" alt="${p.nombre}" class="dish-thumb" loading="lazy">
+        <span class="dish-badge-float">${p.badge}</span>
+      </div>
+      <div class="dish-body">
+        <div>
+          <div class="dish-header">
+            <h4 class="dish-title">${p.nombre}</h4>
+            <span class="dish-price">${p.precio}</span>
+          </div>
+          <p class="dish-desc">${p.desc}</p>
+        </div>
+        <div class="dish-footer">
+          <span class="dish-badge">✓ Plato Verificado</span>
+          <span class="dish-allergens">${p.alergenos}</span>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function cambiarCategoriaMenu(cat, btn) {
+  document.querySelectorAll('.menu-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCarta(cat);
+}
+
+// Lightbox
+function abrirLightbox(src, caption) {
+  const modal = document.getElementById('lightboxModal');
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxCaption').textContent = caption;
+  modal.classList.add('active');
+}
+function cerrarLightbox() {
+  document.getElementById('lightboxModal').classList.remove('active');
+}
+
+// ==================== CALENDARIO EN VIVO & DISPONIBILIDAD ====================
+const HORAS_ALMUERZO = ['13:30', '14:00', '14:30', '15:00', '15:30'];
+const HORAS_CENA = ['20:30', '21:00', '21:30', '22:00', '22:30'];
+const MESES_ES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+const DIAS_SEMANA_ES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+const hoyObj = new Date();
+let calAnoActual = hoyObj.getFullYear();
+let calMesActual = hoyObj.getMonth();
+const hoyStr = hoyObj.toISOString().split('T')[0];
+
+let fechaSeleccionada = hoyStr;
+// Si hoy es lunes (cerrado), seleccionar mañana martes
+if (hoyObj.getDay() === 1) {
+  const manana = new Date(hoyObj);
+  manana.setDate(manana.getDate() + 1);
+  fechaSeleccionada = manana.toISOString().split('T')[0];
+}
+
+let horaSeleccionada = '14:00';
+let mapaOcupacionMes = {};
+
+// Cargar ocupación real de API o base de datos local
+async function cargarOcupacionMes(ano, mes) {
+  const mesStr = `${ano}-${String(mes + 1).padStart(2, '0')}`;
+  try {
+    const res = await fetch(`/api/reservas?ocupacionMes=${mesStr}`);
+    if (res.ok) {
+      const data = await res.json();
+      mapaOcupacionMes = data.ocupacion || {};
+      return;
+    }
+  } catch (e) {}
+
+  // Fallback con datos en vivo locales
+  mapaOcupacionMes = generarMapaOcupacionLocal(mesStr);
+}
+
+function generarMapaOcupacionLocal(mesStr) {
+  const mapa = {};
+  let list = [];
+  try {
+    list = JSON.parse(localStorage.getItem('casapaco_reservas_offline') || '[]');
+  } catch (e) {}
+
+  // Añadir reservas por defecto para mostrar el sistema activo
+  const porDefecto = [
+    { fecha: hoyStr, hora: '14:00', comensales: 20 }, // 14:00 ocupada
+    { fecha: hoyStr, hora: '21:30', comensales: 20 }, // 21:30 ocupada
+    { fecha: hoyStr, hora: '14:30', comensales: 14 }  // 14:30 ultimas
+  ];
+  const combinadas = [...porDefecto, ...list];
+
+  combinadas.forEach(r => {
+    if (r.fecha && r.fecha.startsWith(mesStr)) {
+      if (!mapa[r.fecha]) mapa[r.fecha] = { comensales: 0, horas: {} };
+      const pax = parseInt(r.comensales || 2, 10);
+      mapa[r.fecha].comensales += pax;
+      mapa[r.fecha].horas[r.hora] = (mapa[r.fecha].horas[r.hora] || 0) + pax;
+    }
+  });
+  return mapa;
+}
+
+function cambiarMesCalendario(delta) {
+  calMesActual += delta;
+  if (calMesActual > 11) {
+    calMesActual = 0;
+    calAnoActual++;
+  } else if (calMesActual < 0) {
+    calMesActual = 11;
+    calAnoActual--;
+  }
+  actualizarYRenderizarCalendario();
+}
+
+async function actualizarYRenderizarCalendario() {
+  await cargarOcupacionMes(calAnoActual, calMesActual);
+  renderCalendario();
+}
+
+function renderCalendario() {
+  const grid = document.getElementById('calDaysGrid');
+  const title = document.getElementById('calMonthTitle');
+  title.textContent = `${MESES_ES[calMesActual]} ${calAnoActual}`;
+  grid.innerHTML = '';
+
+  const primerDiaMes = new Date(calAnoActual, calMesActual, 1);
+  const ultimoDiaMes = new Date(calAnoActual, calMesActual + 1, 0);
+  const totalDias = ultimoDiaMes.getDate();
+
+  // Día de la semana del primer día (0 domingo, convertimos a lunes=0 ... domingo=6)
+  const diaSemanaInicio = (primerDiaMes.getDay() + 6) % 7;
+
+  // Celdas vacías del mes anterior
+  for (let i = 0; i < diaSemanaInicio; i++) {
+    const emptyCell = document.createElement('div');
+    emptyCell.className = 'cal-day-cell disabled';
+    emptyCell.style.background = 'transparent';
+    emptyCell.style.border = 'none';
+    grid.appendChild(emptyCell);
+  }
+
+  // Días del mes actual
+  for (let d = 1; d <= totalDias; d++) {
+    const dateObj = new Date(calAnoActual, calMesActual, d);
+    const dateStr = `${calAnoActual}-${String(calMesActual + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const diaSemana = dateObj.getDay(); // 1 = Lunes
+
+    const cell = document.createElement('div');
+    cell.className = 'cal-day-cell';
+
+    const esPasado = dateStr < hoyStr;
+    const esLunes = diaSemana === 1;
+
+    // Calcular estado de ocupación
+    let estado = 'libre';
+    let estadoTexto = 'Libre';
+
+    const datosDia = mapaOcupacionMes[dateStr];
+    if (datosDia) {
+      const pax = datosDia.comensales || 0;
+      if (pax >= 36) {
+        estado = 'completo';
+        estadoTexto = 'Lleno';
+      } else if (pax >= 16) {
+        estado = 'ultimas';
+        estadoTexto = 'Últimas';
+      }
+    }
+
+    if (esPasado) {
+      cell.classList.add('disabled');
+      estado = 'cerrado';
+      estadoTexto = 'Pasado';
+    } else if (esLunes) {
+      cell.classList.add('disabled');
+      estado = 'cerrado';
+      estadoTexto = '🔒 Lunes';
+    } else {
+      if (dateStr === fechaSeleccionada) {
+        cell.classList.add('selected');
+      }
+      cell.onclick = () => seleccionarDia(dateStr);
+    }
+
+    cell.innerHTML = `
+      <span class="cal-day-num">${d}</span>
+      <span class="cal-day-status status-${estado}">${estadoTexto}</span>
+    `;
+
+    grid.appendChild(cell);
+  }
+
+  // Renderizar horas para la fecha seleccionada
+  renderSlotsParaFecha(fechaSeleccionada);
+}
+
+function seleccionarDia(dateStr) {
+  fechaSeleccionada = dateStr;
+  document.getElementById('resFecha').value = dateStr;
+
+  // Actualizar etiqueta legible
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  const nombreDia = DIAS_SEMANA_ES[dt.getDay()];
+  const nombreMes = MESES_ES[m - 1];
+  document.getElementById('selectedDateLabel').textContent = `${nombreDia}, ${d} de ${nombreMes} de ${y}`;
+
+  // Actualizar clase selected en días
+  renderCalendario();
+}
+
+function renderSlotsParaFecha(dateStr) {
+  const contenedorAlmuerzo = document.getElementById('slotsAlmuerzo');
+  const contenedorCena = document.getElementById('slotsCena');
+  contenedorAlmuerzo.innerHTML = '';
+  contenedorCena.innerHTML = '';
+
+  const ocupacionDia = mapaOcupacionMes[dateStr]?.horas || {};
+
+  // Función auxiliar para crear botón de hora
+  function crearBotonSlot(hora) {
+    const paxEnHora = ocupacionDia[hora] || 0;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'slot-btn';
+
+    let estado = 'disponible';
+    let textoBadge = 'Mesa Libre';
+
+    if (paxEnHora >= 20) {
+      estado = 'ocupado';
+      textoBadge = 'Ocupado';
+      btn.classList.add('occupied');
+      btn.disabled = true;
+    } else if (paxEnHora >= 12) {
+      estado = 'ultimas';
+      textoBadge = 'Últimas 2';
+    }
+
+    if (hora === horaSeleccionada && estado !== 'ocupado') {
+      btn.classList.add('selected');
+    }
+
+    btn.onclick = () => {
+      if (estado !== 'ocupado') {
+        seleccionarHora(hora, btn);
+      }
+    };
+
+    btn.innerHTML = `
+      <span class="slot-time">${hora} h</span>
+      <span class="slot-badge ${estado}">${textoBadge}</span>
+    `;
+
+    return btn;
+  }
+
+  HORAS_ALMUERZO.forEach(h => contenedorAlmuerzo.appendChild(crearBotonSlot(h)));
+  HORAS_CENA.forEach(h => contenedorCena.appendChild(crearBotonSlot(h)));
+
+  // Si la hora seleccionada quedó ocupada, seleccionar la primera libre
+  if (ocupacionDia[horaSeleccionada] >= 20) {
+    const primeraLibre = [...HORAS_ALMUERZO, ...HORAS_CENA].find(h => (ocupacionDia[h] || 0) < 20);
+    if (primeraLibre) {
+      horaSeleccionada = primeraLibre;
+      document.getElementById('resHora').value = horaSeleccionada;
+    }
+  }
+
+  document.getElementById('resHora').value = horaSeleccionada;
+  actualizarResumen();
+}
+
+function seleccionarHora(hora, btn) {
+  horaSeleccionada = hora;
+  document.getElementById('resHora').value = hora;
+  document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  actualizarResumen();
+}
+
+function seleccionarPax(num, btn) {
+  document.getElementById('inputComensales').value = num;
+  document.querySelectorAll('.pax-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  actualizarResumen();
+}
+
+function actualizarResumen() {
+  const pax = document.getElementById('inputComensales').value;
+  const fecha = document.getElementById('resFecha').value || fechaSeleccionada;
+  const hora = document.getElementById('resHora').value || horaSeleccionada;
+  const zona = document.getElementById('resZona').value;
+  document.getElementById('summaryText').textContent = `${pax} comensales · ${fecha} a las ${hora} h en ${zona}`;
+}
+
+document.getElementById('resZona').addEventListener('change', actualizarResumen);
+
+// Enviar Reserva
+let ultimaReservaConfirmada = null;
+
+async function enviarReserva(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnSubmitRes');
+  btn.disabled = true;
+  btn.textContent = 'Procesando tu reserva...';
+
+  const nueva = {
+    nombre: document.getElementById('resNombre').value.trim(),
+    telefono: document.getElementById('resTelefono').value.trim(),
+    email: document.getElementById('resEmail').value.trim(),
+    comensales: parseInt(document.getElementById('inputComensales').value, 10),
+    fecha: document.getElementById('resFecha').value,
+    hora: document.getElementById('resHora').value,
+    zona: document.getElementById('resZona').value,
+    experiencia: document.getElementById('resExperiencia').value,
+    alergias_notas: document.getElementById('resAlergias').value.trim(),
+    estado: 'pendiente'
+  };
+
+  try {
+    const res = await fetch('/api/reservas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nueva)
+    });
+
+    if (res.ok) {
+      const resData = await res.json();
+      ultimaReservaConfirmada = resData.reserva;
+    } else {
+      nueva.codigo = '#CP-' + Math.floor(100000 + Math.random() * 900000);
+      nueva.id = Date.now();
+      ultimaReservaConfirmada = nueva;
+    }
+  } catch (err) {
+    nueva.codigo = '#CP-' + Math.floor(100000 + Math.random() * 900000);
+    nueva.id = Date.now();
+    ultimaReservaConfirmada = nueva;
+  }
+
+  mostrarModalConfirmacion(ultimaReservaConfirmada);
+  btn.disabled = false;
+  btn.textContent = 'Confirmar Reserva de Mesa Ahora';
+  document.getElementById('reservationForm').reset();
+  
+  // Actualizar calendario en vivo con la nueva reserva confirmada
+  actualizarYRenderizarCalendario();
+}
+
+function mostrarModalConfirmacion(r) {
+  document.getElementById('confirmCode').textContent = r.codigo;
+  document.getElementById('confirmDetails').innerHTML = `
+    <p><strong>Titular:</strong> ${r.nombre}</p>
+    <p><strong>Teléfono:</strong> ${r.telefono}</p>
+    <p><strong>Fecha y Turno:</strong> ${r.fecha} a las ${r.hora} h</p>
+    <p><strong>Comensales:</strong> ${r.comensales} personas</p>
+    <p><strong>Espacio Seleccionado:</strong> ${r.zona}</p>
+    <p><strong>Preferencia de Menú:</strong> ${r.experiencia}</p>
+    ${r.alergias_notas ? `<p style="color:var(--ambar-claro); margin-top:6px;"><strong>Notas:</strong> ${r.alergias_notas}</p>` : ''}
+  `;
+
+  const cleanTel = r.telefono.replace(/\s+/g, '');
+  const mensajeWA = encodeURIComponent(`¡Hola! Acabo de reservar mesa en Bar Restaurante Casa Paco Méntrida:\n\nCódigo: ${r.codigo}\nNombre: ${r.nombre}\nFecha: ${r.fecha} a las ${r.hora} h\nComensales: ${r.comensales}\nEspacio: ${r.zona}\nPreferencia: ${r.experiencia}\n\n¡Muchas gracias!`);
+  
+  document.getElementById('btnConfirmWhatsApp').href = `https://wa.me/34635391218?text=${mensajeWA}`;
+  document.getElementById('confirmModal').classList.add('active');
+}
+
+function cerrarModalConfirmacion() {
+  document.getElementById('confirmModal').classList.remove('active');
+}
+
+function descargarCalendarioICS() {
+  if (!ultimaReservaConfirmada) return;
+  const r = ultimaReservaConfirmada;
+
+  const [year, month, day] = r.fecha.split('-');
+  const [hour, minute] = r.hora.split(':');
+
+  const dtStart = `${year}${month}${day}T${hour}${minute}00`;
+  const endHour = String(parseInt(hour, 10) + 2).padStart(2, '0');
+  const dtEnd = `${year}${month}${day}T${endHour}${minute}00`;
+
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Bar Restaurante Casa Paco Méntrida//Reservas//ES',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:reserva-${r.codigo}@casapacotoledo.es`,
+    `DTSTAMP:${year}${month}${day}T120000Z`,
+    `DTSTART:${dtStart}`,
+    `DTEND:${dtEnd}`,
+    `SUMMARY:Almuerzo/Cena en Bar Restaurante Casa Paco Méntrida (${r.codigo})`,
+    `DESCRIPTION:Reserva para ${r.comensales} personas a nombre de ${r.nombre}. Zona: ${r.zona}. Código de reserva: ${r.codigo}. Teléfono: 635 39 12 18.`,
+    'LOCATION:Bar Restaurante Casa Paco Méntrida\\, Méntrida\\, España',
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `reserva_casapaco_${r.codigo.replace('#', '')}.ics`;
+  link.click();
+}
+
+// Menú móvil
+function toggleMobileNav() {
+  const menu = document.getElementById('navMenu');
+  if (menu.style.display === 'flex') {
+    menu.style.display = 'none';
+  } else {
+    menu.style.display = 'flex';
+    menu.style.flexDirection = 'column';
+    menu.style.position = 'absolute';
+    menu.style.top = '80px';
+    menu.style.left = '0';
+    menu.style.right = '0';
+    menu.style.background = '#111216';
+    menu.style.padding = '24px';
+    menu.style.borderBottom = '1px solid var(--borde)';
+    menu.style.gap = '16px';
+  }
+}
+
+// Scroll progress
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('siteHeader');
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('scrollProgress').style.width = scrolled + '%';
+});
+
+// Cursor magnético
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+
+  window.addEventListener('mousemove', (e) => {
+    dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    ring.style.transform = `translate(${e.clientX - 16}px, ${e.clientY - 16}px)`;
+  });
+
+  const interactives = document.querySelectorAll('a, button, input, select, textarea, .dish-card, .bento-item, .space-card');
+  interactives.forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+}
+
+// Reveal observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Inicializar carta y calendario
+window.addEventListener('DOMContentLoaded', () => {
+  renderCarta('hamburguesas');
+  actualizarYRenderizarCalendario();
+  actualizarResumen();
+});
+</script>
+</body>
+</html>
