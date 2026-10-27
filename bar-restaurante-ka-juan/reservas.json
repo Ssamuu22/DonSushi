@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "codigo": "#KJ-928104",
+    "nombre": "Fernando Ramos",
+    "telefono": "605 98 12 34",
+    "email": "fernando.ramos@gmail.com",
+    "fecha": "2026-10-27",
+    "hora": "14:30",
+    "comensales": 4,
+    "zona": "Comedor de Sala Rústico",
+    "experiencia": "Cena & Carnes Angus a la Brasa",
+    "alergias_notas": "Chuletón de Angus al punto y croquetas caseras de rabo de toro. 1 comensal celiaco.",
+    "estado": "confirmada",
+    "creadoEl": "2026-10-27T12:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "codigo": "#KJ-481920",
+    "nombre": "Lucía Sotomayor",
+    "telefono": "633 44 55 66",
+    "email": "lucia.sotomayor@hotmail.com",
+    "fecha": "2026-10-27",
+    "hora": "21:30",
+    "comensales": 2,
+    "zona": "Terraza Sierra de San Vicente",
+    "experiencia": "Tapeo Tradicional & Raciones",
+    "alergias_notas": "Mesa exterior con vistas a la Iglesia si el tiempo lo permite. Ración de saquitos de carrillera y torrijas.",
+    "estado": "pendiente",
+    "creadoEl": "2026-10-27T14:15:00.000Z"
+  },
+  {
+    "id": 3,
+    "codigo": "#KJ-715492",
+    "nombre": "Javier Morales",
+    "telefono": "619 22 33 44",
+    "email": "j.morales@construcciones.es",
+    "fecha": "2026-10-28",
+    "hora": "14:00",
+    "comensales": 6,
+    "zona": "Comedor de Sala Rústico",
+    "experiencia": "Comida / Almuerzo de Temporada",
+    "alergias_notas": "Comida de amigos de ruta por la Sierra de San Vicente. Encargo de chuletones madurados.",
+    "estado": "confirmada",
+    "creadoEl": "2026-10-27T15:20:00.000Z"
+  },
+  {
+    "id": 4,
+    "codigo": "#KJ-390158",
+    "nombre": "Carmen Herranz",
+    "telefono": "654 11 22 33",
+    "email": "carmen.herranz@yahoo.es",
+    "fecha": "2026-10-28",
+    "hora": "21:00",
+    "comensales": 3,
+    "zona": "Zona de Barra & Tapeo",
+    "experiencia": "Tapeo Tradicional & Raciones",
+    "alergias_notas": "Tapeo variado, croquetas de chipirón y vino de la zona.",
+    "estado": "pendiente",
+    "creadoEl": "2026-10-27T16:00:00.000Z"
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "name": "bar-restaurante-ka-juan",
+  "version": "1.0.0",
+  "description": "Sitio web oficial de Bar Restaurante KA Juan (Sotillo de las Palomas, Toledo). Especialistas en carne de Angus madurada, chuletones, tapas tradicionales, sistema interactivo de reservas en tiempo real con calendario de ocupación y panel de control privado.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "restaurante",
+    "ka-juan",
+    "sotillo-de-las-palomas",
+    "toledo",
+    "sierra-de-san-vicente",
+    "angus",
+    "brasa",
+    "chuleton",
+    "croquetas",
+    "tapas",
+    "reservas",
+    "supabase",
+    "vercel"
+  ],
+  "author": "Bar Restaurante KA Juan",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}
