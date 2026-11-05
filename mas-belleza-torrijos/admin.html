@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>+Belleza Torrijos · Panel de Gestión de Citas y Cabina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+:root {
+  --turquesa: #0d9488;
+  --turquesa-dark: #0f766e;
+  --turquesa-deep: #115e59;
+  --turquesa-light: #f0fdfa;
+  --turquesa-glow: rgba(13, 148, 136, 0.22);
+  --menta: #7fc8a9;
+  --menta-suave: #e8f5ee;
+  --menta-dark: #4d9370;
+  --dorado: #c89b53;
+  --carbon: #0f172a;
+  --texto-medio: #475569;
+  --texto-suave: #64748b;
+  --fondo: #f8fafc;
+  --blanco: #ffffff;
+  --borde: #e2e8f0;
+  --amarillo: #d97706;
+  --amarillo-bg: #fef3c7;
+  --verde-ok: #059669;
+  --verde-ok-bg: #d1fae5;
+  --rojo: #dc2626;
+  --rojo-bg: #fee2e2;
+  --whatsapp: #25d366;
+  --whatsapp-hover: #128c7e;
+  --sombra: 0 10px 25px -5px rgba(13, 148, 136, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --sombra-lg: 0 20px 25px -5px rgba(13, 148, 136, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background: var(--fondo);
+  color: var(--carbon);
+  min-height: 100vh;
+  padding: 24px 16px;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* Header */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--blanco);
+  padding: 20px 28px;
+  border-radius: 20px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  margin-bottom: 24px;
+}
+
+.brand-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.brand-logo-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--turquesa), var(--turquesa-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 24px;
+  border: 2px solid var(--menta);
+  box-shadow: 0 4px 12px var(--turquesa-glow);
+}
+.brand-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--carbon);
+  letter-spacing: -0.02em;
+}
+.brand-sub {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--verde-ok);
+  display: inline-block;
+  box-shadow: 0 0 8px var(--verde-ok);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--turquesa), var(--turquesa-dark));
+  color: #fff;
+  box-shadow: 0 4px 14px var(--turquesa-glow);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+.btn-outline {
+  background: var(--blanco);
+  border-color: var(--borde);
+  color: var(--carbon);
+}
+.btn-outline:hover {
+  background: var(--turquesa-light);
+  border-color: var(--turquesa);
+  color: var(--turquesa-dark);
+}
+.btn-danger {
+  background: var(--rojo-bg);
+  color: var(--rojo);
+  border-color: rgba(220, 38, 38, 0.2);
+}
+.btn-danger:hover {
+  background: var(--rojo);
+  color: #fff;
+}
+.btn-whatsapp {
+  background: #25d366;
+  color: #fff;
+  font-size: 0.82rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+.btn-whatsapp:hover {
+  background: #1eb956;
+}
+
+/* KPI Cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--blanco);
+  padding: 20px 24px;
+  border-radius: 16px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--turquesa);
+}
+.kpi-card.pendientes::before { background: var(--amarillo); }
+.kpi-card.confirmadas::before { background: var(--verde-ok); }
+.kpi-card.historico::before { background: var(--menta-dark); }
+
+.kpi-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+  margin-bottom: 6px;
+}
+.kpi-val {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--carbon);
+  line-height: 1.1;
+  font-family: 'Playfair Display', serif;
+}
+.kpi-sub {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+/* Filtros y Búsqueda */
+.controls-bar {
+  background: var(--blanco);
+  padding: 18px 24px;
+  border-radius: 16px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.filter-chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--texto-medio);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-chip.active {
+  background: var(--turquesa);
+  color: #fff;
+  border-color: var(--turquesa);
+  box-shadow: 0 2px 8px var(--turquesa-glow);
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 8px 14px;
+  min-width: 260px;
+}
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.9rem;
+  width: 100%;
+  color: var(--carbon);
+}
+
+/* Tabla de Citas */
+.table-wrap {
+  background: var(--blanco);
+  border-radius: 18px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.92rem;
+}
+thead th {
+  background: var(--fondo);
+  padding: 16px 20px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+  border-bottom: 1px solid var(--borde);
+}
+tbody td {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--borde);
+  vertical-align: middle;
+}
+tbody tr:hover {
+  background: var(--turquesa-light);
+}
+
+.code-badge {
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--turquesa-light);
+  color: var(--turquesa-dark);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccfbf1;
+}
+
+.client-name {
+  font-weight: 700;
+  color: var(--carbon);
+}
+.client-meta {
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+
+.service-tag {
+  font-weight: 600;
+  color: var(--turquesa-deep);
+  display: inline-block;
+}
+.notes-tag {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 3px;
+}
+
+.datetime-pill {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.datetime-pill .date {
+  font-weight: 600;
+  color: var(--carbon);
+}
+.datetime-pill .time {
+  font-size: 0.82rem;
+  color: var(--turquesa-dark);
+  font-weight: 700;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.status-badge.confirmada {
+  background: var(--verde-ok-bg);
+  color: var(--verde-ok);
+}
+.status-badge.pendiente {
+  background: var(--amarillo-bg);
+  color: var(--amarillo);
+}
+.status-badge.cancelada {
+  background: var(--rojo-bg);
+  color: var(--rojo);
+}
+
+.actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--borde);
+  background: var(--blanco);
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--texto-medio);
+}
+.btn-icon:hover {
+  background: var(--turquesa-light);
+  color: var(--turquesa);
+  border-color: var(--turquesa);
+}
+
+/* Empty State */
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--texto-suave);
+}
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-box {
+  background: var(--blanco);
+  width: 100%;
+  max-width: 520px;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--sombra-lg);
+  border: 1px solid var(--borde);
+  animation: modalIn 0.25s ease-out;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--turquesa-dark);
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--carbon);
+}
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--borde);
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-control:focus {
+  border-color: var(--turquesa);
+  box-shadow: 0 0 0 3px var(--turquesa-glow);
+}
+
+/* Login Modal */
+#loginModal .modal-box {
+  max-width: 400px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="brand-meta">
+      <div class="brand-logo-badge">+B</div>
+      <div>
+        <h1 class="brand-title">+Belleza · Agenda de Cabina</h1>
+        <div class="brand-sub">
+          <span class="status-dot"></span>
+          <span>Plaza del Cristo, 10 · Torrijos (Toledo)</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" onclick="cargarCitas()">
+        🔄 Actualizar
+      </button>
+      <button class="btn btn-outline" onclick="exportarCSV()">
+        📥 Exportar CSV
+      </button>
+      <button class="btn btn-primary" onclick="abrirModalNueva()">
+        ➕ Nueva Cita
+      </button>
+      <button class="btn btn-danger" onclick="cerrarSesion()">
+        Cerrar Sesión
+      </button>
+    </div>
+  </header>
+
+  <!-- KPI Cards -->
+  <section class="kpi-grid">
+    <div class="kpi-card" id="cardHoy">
+      <div class="kpi-label">Citas para Hoy</div>
+      <div class="kpi-val" id="valHoy">0</div>
+      <div class="kpi-sub" id="subHoy">Atención en cabina</div>
+    </div>
+    <div class="kpi-card pendientes" id="cardPendientes">
+      <div class="kpi-label">Pendientes</div>
+      <div class="kpi-val" id="valPendientes">0</div>
+      <div class="kpi-sub">Requieren confirmación</div>
+    </div>
+    <div class="kpi-card confirmadas" id="cardConfirmadas">
+      <div class="kpi-label">Confirmadas</div>
+      <div class="kpi-val" id="valConfirmadas">0</div>
+      <div class="kpi-sub">En agenda firme</div>
+    </div>
+    <div class="kpi-card historico" id="cardTotal">
+      <div class="kpi-label">Total Registradas</div>
+      <div class="kpi-val" id="valTotal">0</div>
+      <div class="kpi-sub">Histórico activo</div>
+    </div>
+  </section>
+
+  <!-- Controles y Filtros -->
+  <section class="controls-bar">
+    <div class="filter-group">
+      <span class="filter-chip active" data-filtro="todos" onclick="setFiltro(this, 'todos')">Todas</span>
+      <span class="filter-chip" data-filtro="hoy" onclick="setFiltro(this, 'hoy')">Hoy</span>
+      <span class="filter-chip" data-filtro="manana" onclick="setFiltro(this, 'manana')">Mañana</span>
+      <span class="filter-chip" data-filtro="pendientes" onclick="setFiltro(this, 'pendientes')">Pendientes</span>
+      <span class="filter-chip" data-filtro="confirmadas" onclick="setFiltro(this, 'confirmadas')">Confirmadas</span>
+    </div>
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar por cliente, teléfono, servicio o código..." oninput="filtrarTabla()">
+    </div>
+  </section>
+
+  <!-- Tabla de Citas -->
+  <main class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Cliente & Contacto</th>
+          <th>Tratamiento / Servicio</th>
+          <th>Fecha & Hora</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="citasTbody">
+        <tr>
+          <td colspan="6" class="empty-state">Cargando citas del centro...</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<!-- Modal Nueva Cita Manual -->
+<div class="modal-overlay" id="modalNueva">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Agendar Nueva Cita en Cabina</h3>
+      <button class="btn-icon" onclick="cerrarModalNueva()">✕</button>
+    </div>
+    <form id="formNuevaCita" onsubmit="guardarNuevaCita(event)">
+      <div class="form-group">
+        <label>Nombre y Apellidos</label>
+        <input type="text" id="mNombre" class="form-control" required placeholder="Ej: Marta Gómez">
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" id="mTelefono" class="form-control" required placeholder="625 00 11 22">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="mEmail" class="form-control" placeholder="cliente@correo.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tratamiento / Servicio</label>
+        <select id="mServicio" class="form-control" required>
+          <option value="Higiene Facial Profunda Detox & Extracción">Higiene Facial Profunda Detox & Extracción</option>
+          <option value="Radiofrecuencia Facial Efecto Lifting">Radiofrecuencia Facial Efecto Lifting</option>
+          <option value="Mesoterapia Virtual & Ac. Hialurónico">Mesoterapia Virtual & Ác. Hialurónico</option>
+          <option value="Manicura Semipermanente Rusa & Refuerzo">Manicura Semipermanente Rusa & Refuerzo</option>
+          <option value="Uñas Acrílicas / Gel (Puesta Nueva)">Uñas Acrílicas / Gel (Puesta Nueva)</option>
+          <option value="Spa Pedicure Completa">Spa Pedicure Completa</option>
+          <option value="Lifting de Pestañas con Tinte & Queratina">Lifting de Pestañas con Tinte & Queratina</option>
+          <option value="Diseño y Depilación de Cejas">Diseño y Depilación de Cejas</option>
+          <option value="Depilación con Cera Completa">Depilación con Cera Completa</option>
+          <option value="Radiofrecuencia Corporal Reafirmante">Radiofrecuencia Corporal Reafirmante</option>
+          <option value="Presoterapia Drenante">Presoterapia Drenante</option>
+          <option value="Sesión Rayos UVA Bronceado">Sesión Rayos UVA Bronceado</option>
+        </select>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+        <div class="form-group">
+          <label>Fecha</label>
+          <input type="date" id="mFecha" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Hora</label>
+          <input type="time" id="mHora" class="form-control" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas de Cabina / Piel</label>
+        <textarea id="mNotas" class="form-control" rows="2" placeholder="Sensibilidad cutánea, color preferido, alergias..."></textarea>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="cerrarModalNueva()">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar Cita</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Autenticación -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-box">
+    <div style="margin-bottom:16px;">
+      <div class="brand-logo-badge" style="margin: 0 auto 12px; width:64px; height:64px; font-size:28px;">+B</div>
+      <h3 class="modal-title">+Belleza Torrijos</h3>
+      <p style="font-size:0.85rem; color:var(--texto-suave); margin-top:4px;">Introduce la clave del centro para acceder al panel de gestión</p>
+    </div>
+    <form id="formLogin" onsubmit="ejecutarLogin(event)">
+      <div class="form-group" style="text-align:left;">
+        <label>Contraseña de Acceso</label>
+        <input type="password" id="loginPass" class="form-control" required placeholder="Clave del centro..." autofocus>
+      </div>
+      <div id="loginError" style="color:var(--rojo); font-size:0.82rem; margin-bottom:12px; display:none;"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px;">
+        Entrar al Panel
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+let todasLasCitas = [];
+let filtroActual = 'todos';
+
+// Formato fecha local YYYY-MM-DD
+function getFechaLocal(offsetDias = 0) {
+  const d = new Date(Date.now() + (offsetDias * 86400000));
+  return d.toISOString().split('T')[0];
+}
+
+// Comprobar token al cargar
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('belleza_admin_token');
+  if (!token) {
+    abrirModalLogin();
+  } else {
+    cargarCitas();
+  }
+
+  // Prellenar fecha de hoy en modal
+  document.getElementById('mFecha').value = getFechaLocal(0);
+});
+
+function abrirModalLogin() {
+  document.getElementById('loginModal').classList.add('active');
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  setTimeout(() => document.getElementById('loginPass').focus(), 100);
+}
+
+async function ejecutarLogin(e) {
+  e.preventDefault();
+  const pass = document.getElementById('loginPass').value.trim();
+  const errorEl = document.getElementById('loginError');
+  errorEl.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pass })
+    });
+    const data = await res.json();
+    if (res.ok && data.token) {
+      localStorage.setItem('belleza_admin_token', data.token);
+      document.getElementById('loginModal').classList.remove('active');
+      cargarCitas();
+    } else {
+      errorEl.textContent = data.error || 'Contraseña incorrecta';
+      errorEl.style.display = 'block';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Error al conectar con el servidor';
+    errorEl.style.display = 'block';
+  }
+}
+
+function cerrarSesion() {
+  localStorage.removeItem('belleza_admin_token');
+  location.reload();
+}
+
+async function cargarCitas() {
+  const token = localStorage.getItem('belleza_admin_token');
+  if (!token) {
+    abrirModalLogin();
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/reservas', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (res.status === 401) {
+      localStorage.removeItem('belleza_admin_token');
+      abrirModalLogin();
+      return;
+    }
+
+    if (!res.ok) throw new Error('Error al obtener citas');
+    todasLasCitas = await res.json();
+    actualizarKPIs();
+    renderTabla();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('citasTbody').innerHTML = `
+      <tr><td colspan="6" class="empty-state" style="color:var(--rojo);">
+        ⚠️ No se pudieron cargar las citas. Verifica la conexión o el token.
+      </td></tr>
+    `;
+  }
+}
+
+function actualizarKPIs() {
+  const hoyStr = getFechaLocal(0);
+  const citasHoy = todasLasCitas.filter(c => c.fecha === hoyStr && c.estado !== 'cancelada');
+  const pendientes = todasLasCitas.filter(c => c.estado === 'pendiente');
+  const confirmadas = todasLasCitas.filter(c => c.estado === 'confirmada');
+
+  document.getElementById('valHoy').textContent = citasHoy.length;
+  document.getElementById('valPendientes').textContent = pendientes.length;
+  document.getElementById('valConfirmadas').textContent = confirmadas.length;
+  document.getElementById('valTotal').textContent = todasLasCitas.length;
+}
+
+function setFiltro(el, filtro) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  filtroActual = filtro;
+  renderTabla();
+}
+
+function filtrarTabla() {
+  renderTabla();
+}
+
+function renderTabla() {
+  const tbody = document.getElementById('citasTbody');
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const hoyStr = getFechaLocal(0);
+  const mananaStr = getFechaLocal(1);
+
+  let filtradas = todasLasCitas.filter(c => {
+    // Filtro por chip
+    if (filtroActual === 'hoy' && c.fecha !== hoyStr) return false;
+    if (filtroActual === 'manana' && c.fecha !== mananaStr) return false;
+    if (filtroActual === 'pendientes' && c.estado !== 'pendiente') return false;
+    if (filtroActual === 'confirmadas' && c.estado !== 'confirmada') return false;
+
+    // Filtro búsqueda texto
+    if (search) {
+      const match = (c.nombre && c.nombre.toLowerCase().includes(search)) ||
+                    (c.telefono && c.telefono.toLowerCase().includes(search)) ||
+                    (c.codigo && c.codigo.toLowerCase().includes(search)) ||
+                    (c.servicio && c.servicio.toLowerCase().includes(search)) ||
+                    (c.notas && c.notas.toLowerCase().includes(search));
+      if (!match) return false;
+    }
+    return true;
+  });
+
+  if (filtradas.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty-state">
+          <div class="empty-icon">🌸</div>
+          <div>No hay citas que coincidan con los filtros seleccionados</div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = filtradas.map(c => {
+    const estadoClass = c.estado || 'pendiente';
+    const telLimpio = (c.telefono || '').replace(/\D/g, '');
+    const telConPrefijo = telLimpio.startsWith('34') ? telLimpio : `34${telLimpio}`;
+    const mensajeWsp = encodeURIComponent(`¡Hola ${c.nombre}! Te escribimos desde el Centro de Estética +Belleza de Torrijos para confirmar tu cita de ${c.servicio} el ${c.fecha} a las ${c.hora} h. Tu código de cita es ${c.codigo}. ¡Te esperamos!`);
+
+    return `
+      <tr>
+        <td>
+          <span class="code-badge">${c.codigo}</span>
+        </td>
+        <td>
+          <div class="client-name">${c.nombre}</div>
+          <div class="client-meta">📞 ${c.telefono} ${c.email ? '· ✉️ ' + c.email : ''}</div>
+        </td>
+        <td>
+          <div class="service-tag">${c.servicio}</div>
+          ${c.notas ? `<div class="notes-tag" title="${c.notas}">📝 ${c.notas}</div>` : ''}
+        </td>
+        <td>
+          <div class="datetime-pill">
+            <span class="date">${c.fecha}</span>
+            <span class="time">${c.hora} h</span>
+          </div>
+        </td>
+        <td>
+          <span class="status-badge ${estadoClass}">● ${c.estado}</span>
+        </td>
+        <td>
+          <div class="actions-cell">
+            <a href="https://wa.me/${telConPrefijo}?text=${mensajeWsp}" target="_blank" class="btn btn-whatsapp" title="Enviar WhatsApp con recordatorio">
+              💬 WhatsApp
+            </a>
+            ${c.estado !== 'confirmada' ? `
+              <button class="btn-icon" title="Confirmar Cita" onclick="cambiarEstado('${c.id || c.codigo}', 'confirmada')">
+                ✅
+              </button>
+            ` : `
+              <button class="btn-icon" title="Poner en Pendiente" onclick="cambiarEstado('${c.id || c.codigo}', 'pendiente')">
+                ⏳
+              </button>
+            `}
+            <button class="btn-icon" title="Cancelar Cita" onclick="cambiarEstado('${c.id || c.codigo}', 'cancelada')">
+              🚫
+            </button>
+            <button class="btn-icon" title="Eliminar de agenda" onclick="eliminarCita('${c.id || c.codigo}')">
+              🗑️
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function cambiarEstado(id, nuevoEstado) {
+  const token = localStorage.getItem('belleza_admin_token');
+  try {
+    const res = await fetch('/api/reservas', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ id, estado: nuevoEstado })
+    });
+    if (res.ok) {
+      cargarCitas();
+    } else {
+      alert('No se pudo actualizar el estado de la cita');
+    }
+  } catch (err) {
+    alert('Error al conectar con la API');
+  }
+}
+
+async function eliminarCita(id) {
+  if (!confirm('¿Seguro que deseas eliminar esta cita permanentemente?')) return;
+  const token = localStorage.getItem('belleza_admin_token');
+  try {
+    const res = await fetch(`/api/reservas?id=${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (res.ok) {
+      cargarCitas();
+    } else {
+      alert('No se pudo eliminar la cita');
+    }
+  } catch (err) {
+    alert('Error al conectar con la API');
+  }
+}
+
+function abrirModalNueva() {
+  document.getElementById('modalNueva').classList.add('active');
+}
+function cerrarModalNueva() {
+  document.getElementById('modalNueva').classList.remove('active');
+}
+
+async function guardarNuevaCita(e) {
+  e.preventDefault();
+  const token = localStorage.getItem('belleza_admin_token');
+  const datos = {
+    nombre: document.getElementById('mNombre').value.trim(),
+    telefono: document.getElementById('mTelefono').value.trim(),
+    email: document.getElementById('mEmail').value.trim(),
+    servicio: document.getElementById('mServicio').value,
+    fecha: document.getElementById('mFecha').value,
+    hora: document.getElementById('mHora').value,
+    notas: document.getElementById('mNotas').value.trim(),
+    estado: 'confirmada'
+  };
+
+  try {
+    const res = await fetch('/api/reservas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(datos)
+    });
+    if (res.ok) {
+      cerrarModalNueva();
+      document.getElementById('formNuevaCita').reset();
+      cargarCitas();
+    } else {
+      const err = await res.json();
+      alert('Error: ' + (err.error || 'No se pudo guardar la cita'));
+    }
+  } catch (err) {
+    alert('Error de conexión');
+  }
+}
+
+function exportarCSV() {
+  if (!todasLasCitas.length) return alert('No hay citas para exportar');
+  const headers = ['Código', 'Cliente', 'Teléfono', 'Email', 'Servicio', 'Fecha', 'Hora', 'Estado', 'Notas'];
+  const rows = todasLasCitas.map(c => [
+    `"${c.codigo || ''}"`,
+    `"${c.nombre || ''}"`,
+    `"${c.telefono || ''}"`,
+    `"${c.email || ''}"`,
+    `"${c.servicio || ''}"`,
+    `"${c.fecha || ''}"`,
+    `"${c.hora || ''}"`,
+    `"${c.estado || ''}"`,
+    `"${(c.notas || '').replace(/"/g, '""')}"`
+  ]);
+
+  const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `citas_mas_belleza_torrijos_${getFechaLocal(0)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

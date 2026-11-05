@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/admin.htlm", "destination": "/admin", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/api/reservas/(.*)", "destination": "/api/reservas?codigo=$1" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}
