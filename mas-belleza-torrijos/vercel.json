@@ -6,9 +6,6 @@
   ],
   "rewrites": [
     { "source": "/api/reservas/(.*)", "destination": "/api/reservas?codigo=$1" },
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/aviso-legal", "destination": "/aviso-legal.html" },
-    { "source": "/privacidad", "destination": "/privacidad.html" },
-    { "source": "/cookies", "destination": "/cookies.html" }
+    { "source": "/admin", "destination": "/admin.html" }
   ]
 }
